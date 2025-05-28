@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,8 @@ import BookMeeting from "./pages/BookMeeting";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import VipConcierge from "./components/VipConcierge";
+import StickyNewsletter from "./components/StickyNewsletter";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,8 @@ const App = () => (
             </Routes>
           </main>
           <Footer />
+          <VipConcierge />
+          <StickyNewsletter />
         </div>
       </BrowserRouter>
     </TooltipProvider>
