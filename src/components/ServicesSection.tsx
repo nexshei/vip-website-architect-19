@@ -1,5 +1,4 @@
-
-import { Users, Book, Clock, Map-Pin } from 'lucide-react';
+import { Users, Book, Clock, MapPin } from 'lucide-react';
 
 const ServicesSection = () => {
   const services = [
@@ -22,7 +21,7 @@ const ServicesSection = () => {
       features: ["Diplomatic protocol", "Corporate events", "Cultural sensitivity", "International standards"]
     },
     {
-      icon: Map-Pin,
+      icon: MapPin,
       title: "Luxury Event Management",
       description: "End-to-end event planning and execution services that transform your vision into reality, creating unforgettable experiences with meticulous attention to detail.",
       features: ["Full event planning", "Vendor coordination", "Timeline management", "Quality assurance"]

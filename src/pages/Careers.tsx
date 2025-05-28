@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useToast } from '@/hooks/use-toast';
-import { Users, Book, Clock, Map-Pin } from 'lucide-react';
+import { Users, Book, Clock, MapPin } from 'lucide-react';
 
 const Careers = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +58,7 @@ const Careers = () => {
     },
     {
       title: "VIP Security Specialist",
-      icon: Map-Pin,
+      icon: MapPin,
       type: "Full-time",
       location: "Nairobi",
       description: "Provide discrete security services for high-profile clients and events, ensuring safety while maintaining an elegant and unobtrusive presence.",
