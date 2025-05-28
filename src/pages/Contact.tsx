@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Map-Pin, Mail, Clock, Users } from 'lucide-react';
+import { MapPin, Mail, Clock, Users } from 'lucide-react';
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +29,7 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: Map-Pin,
+      icon: MapPin,
       title: "Our Location",
       details: ["Golden Court, Silicon Valley Estate", "Eastern Bypass, Nairobi", "Kenya"]
     },
@@ -101,7 +101,7 @@ const Contact = () => {
               <CardContent className="p-0">
                 <div className="bg-gradient-luxury h-64 rounded-lg flex items-center justify-center">
                   <div className="text-center text-luxury-white">
-                    <Map-Pin className="mx-auto mb-4 text-luxury-gold" size={48} />
+                    <MapPin className="mx-auto mb-4 text-luxury-gold" size={48} />
                     <h3 className="text-xl font-playfair font-semibold mb-2">Visit Our Office</h3>
                     <p className="text-luxury-white/80">
                       Golden Court, Silicon Valley Estate<br />

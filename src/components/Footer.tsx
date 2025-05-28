@@ -1,6 +1,5 @@
-
 import { Link } from 'react-router-dom';
-import { Map-Pin, Mail, Clock, Users } from 'lucide-react';
+import { MapPin, Mail, Clock, Users } from 'lucide-react';
 
 const Footer = () => {
   const quickLinks = [
@@ -36,7 +35,7 @@ const Footer = () => {
 
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <Map-Pin className="text-luxury-gold" size={20} />
+                <MapPin className="text-luxury-gold" size={20} />
                 <span className="text-luxury-white/80">Golden Court, Silicon Valley Estate, Eastern Bypass, Nairobi</span>
               </div>
               <div className="flex items-center space-x-3">
