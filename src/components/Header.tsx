@@ -1,15 +1,14 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, home } from 'lucide-react';
+import { Menu, Home } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
-    { name: 'Home', path: '/', icon: home },
+    { name: 'Home', path: '/', icon: Home },
     { name: 'Services', path: '/#services' },
     { name: 'About', path: '/#about' },
     { name: 'Careers', path: '/careers' },
