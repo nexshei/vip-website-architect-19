@@ -103,7 +103,7 @@ const Footer = () => {
         <div className="border-t border-luxury-gold/20 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-luxury-white/60 text-sm">
-              © 2024 Sir Ole VVIP Protocol Ltd. All rights reserved.
+              © 2025 Sir Ole VVIP Protocol Ltd. All rights reserved.
             </p>
             <p className="text-luxury-white/60 text-sm mt-4 md:mt-0">
               Elevating Excellence Since Inception
