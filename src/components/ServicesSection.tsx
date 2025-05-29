@@ -1,185 +1,29 @@
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Calendar, Users, MapPin, Clock, Star, Shield } from 'lucide-react';
+import { Calendar, Users, MapPin, Clock, Star, Shield } from 'lucide-react';
 
 const ServicesSection = () => {
-  const [selectedService, setSelectedService] = useState(null);
-
   const services = [
     {
       id: 'vip-events',
       title: 'VIP Event Planning',
       description: 'Exclusive event planning with premium vendor coordination',
       icon: Calendar,
-      overview: 'Transform your vision into an unforgettable VIP experience with our comprehensive event planning services.',
-      includedServices: [
-        'Complete event design and concept development',
-        'Premium venue selection and booking',
-        'Luxury vendor coordination and management',
-        'Custom entertainment and speaker arrangements',
-        'High-end catering and beverage services',
-        'Professional photography and videography',
-        'VIP guest management and concierge services'
-      ],
-      process: [
-        'Initial consultation and vision planning',
-        'Concept development and proposal',
-        'Vendor selection and coordination',
-        'Timeline creation and management',
-        'Event execution and oversight',
-        'Post-event follow-up and analysis'
-      ]
     },
     {
       id: 'concierge',
       title: 'Personal Concierge',
       description: '24/7 luxury lifestyle management and personal assistance',
       icon: Users,
-      overview: 'Experience unparalleled personal service with our dedicated concierge team available around the clock.',
-      includedServices: [
-        'Travel planning and luxury accommodations',
-        'Restaurant reservations at exclusive venues',
-        'Personal shopping and styling services',
-        'Home management and household coordination',
-        'Transportation arrangements and chauffeur services',
-        'Entertainment and cultural event bookings',
-        'Emergency assistance and support'
-      ],
-      process: [
-        'Personal preferences assessment',
-        'Service customization and setup',
-        'Ongoing lifestyle management',
-        'Regular check-ins and adjustments',
-        'Priority request handling',
-        'Relationship maintenance with vendors'
-      ]
     },
     {
       id: 'corporate',
       title: 'Corporate Solutions',
       description: 'High-end corporate event management and executive services',
       icon: MapPin,
-      overview: 'Elevate your corporate presence with sophisticated business events and executive-level support services.',
-      includedServices: [
-        'Board meeting and conference planning',
-        'Executive retreat coordination',
-        'Corporate hospitality and client entertainment',
-        'Product launch and company milestone events',
-        'Team building and corporate training events',
-        'International business travel coordination',
-        'Corporate gift and award programs'
-      ],
-      process: [
-        'Corporate needs assessment',
-        'Strategic planning and budget development',
-        'Stakeholder coordination and communication',
-        'Vendor management and quality assurance',
-        'Event execution and real-time management',
-        'Performance analysis and reporting'
-      ]
     }
   ];
-
-  const handleLearnMore = (service) => {
-    setSelectedService(service);
-  };
-
-  const handleBack = () => {
-    setSelectedService(null);
-  };
-
-  if (selectedService) {
-    return (
-      <section className="py-20 bg-gradient-to-br from-luxury-black to-gray-900">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <Button 
-            onClick={handleBack}
-            variant="outline"
-            className="mb-8 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Services
-          </Button>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <selectedService.icon className="w-16 h-16 text-luxury-gold mx-auto mb-6" />
-              <h1 className="text-4xl md:text-5xl font-playfair font-bold text-luxury-white mb-4">
-                {selectedService.title}
-              </h1>
-              <p className="text-xl text-luxury-white/80">
-                {selectedService.overview}
-              </p>
-            </div>
-
-            <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-luxury-white/10 mb-8">
-                <TabsTrigger value="overview" className="text-luxury-white data-[state=active]:bg-luxury-gold data-[state=active]:text-luxury-black">
-                  Overview
-                </TabsTrigger>
-                <TabsTrigger value="services" className="text-luxury-white data-[state=active]:bg-luxury-gold data-[state=active]:text-luxury-black">
-                  Included Services
-                </TabsTrigger>
-                <TabsTrigger value="process" className="text-luxury-white data-[state=active]:bg-luxury-gold data-[state=active]:text-luxury-black">
-                  Our Process
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="overview" className="space-y-6">
-                <Card className="bg-luxury-white/5 border-luxury-gold/20">
-                  <CardContent className="p-8">
-                    <p className="text-luxury-white/90 text-lg leading-relaxed">
-                      {selectedService.overview}
-                    </p>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="services" className="space-y-4">
-                {selectedService.includedServices.map((service, index) => (
-                  <Card key={index} className="bg-luxury-white/5 border-luxury-gold/20">
-                    <CardContent className="p-6">
-                      <div className="flex items-center space-x-3">
-                        <Star className="w-5 h-5 text-luxury-gold flex-shrink-0" />
-                        <p className="text-luxury-white/90">{service}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </TabsContent>
-
-              <TabsContent value="process" className="space-y-4">
-                {selectedService.process.map((step, index) => (
-                  <Card key={index} className="bg-luxury-white/5 border-luxury-gold/20">
-                    <CardContent className="p-6">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-8 h-8 bg-luxury-gold text-luxury-black rounded-full flex items-center justify-center font-bold flex-shrink-0">
-                          {index + 1}
-                        </div>
-                        <p className="text-luxury-white/90">{step}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </TabsContent>
-            </Tabs>
-
-            <div className="text-center mt-12">
-              <Button 
-                size="lg"
-                className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold px-8 py-4"
-              >
-                Book Consultation
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="py-20 bg-gradient-to-br from-luxury-black to-gray-900">
@@ -205,7 +49,6 @@ const ServicesSection = () => {
               </CardHeader>
               <CardContent className="text-center">
                 <Button 
-                  onClick={() => handleLearnMore(service)}
                   variant="outline" 
                   className="border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black"
                 >
