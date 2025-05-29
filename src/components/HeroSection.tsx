@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -22,6 +21,13 @@ const HeroSection = () => {
     "/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png",
     "/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png"
   ];
+
+  const scrollToPortfolio = () => {
+    const portfolioSection = document.getElementById('portfolio');
+    if (portfolioSection) {
+      portfolioSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -112,11 +118,14 @@ const HeroSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
               </Button>
             </Link>
-            <Link to="/services" className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all duration-300 hover:scale-105 backdrop-blur-sm">
-                Explore Excellence
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              onClick={scrollToPortfolio}
+              className="w-full sm:w-auto border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+            >
+              Discover Excellence
+            </Button>
           </div>
 
           {/* Mobile-Optimized Trust Indicators */}
@@ -137,13 +146,16 @@ const HeroSection = () => {
 
           {/* Mobile-Optimized Scroll Indicator */}
           <div className="animate-bounce">
-            <a href="#portfolio" className="inline-flex flex-col items-center text-luxury-white/70 hover:text-luxury-gold transition-all duration-300 group">
+            <button 
+              onClick={scrollToPortfolio}
+              className="inline-flex flex-col items-center text-luxury-white/70 hover:text-luxury-gold transition-all duration-300 group"
+            >
               <span className="text-xs sm:text-sm font-medium mb-2 group-hover:scale-110 transition-transform">Discover Excellence</span>
               <div className="relative">
                 <ChevronDown size={20} className="sm:w-6 sm:h-6 animate-pulse" />
                 <div className="absolute inset-0 bg-luxury-gold/30 rounded-full scale-0 group-hover:scale-150 transition-transform duration-500"></div>
               </div>
-            </a>
+            </button>
           </div>
         </div>
       </div>
