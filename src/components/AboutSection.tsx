@@ -10,6 +10,29 @@ const AboutSection = () => {
           <div className="w-24 h-1 bg-luxury-gold mx-auto mb-8"></div>
         </div>
 
+        {/* CEO Section */}
+        <div className="text-center mb-16">
+          <div className="relative inline-block">
+            <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/20 to-luxury-gold-light/20 rounded-full blur-2xl transform scale-110"></div>
+            <img 
+              src="/lovable-uploads/0edb32a5-ef4d-451a-b5dc-ce59d9fbbaca.png" 
+              alt="Dennis Olele - CEO of Sir Ole VVIP Protocol Ltd" 
+              className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 object-cover rounded-full border-4 border-luxury-gold shadow-2xl mx-auto mb-6 animate-scale-in"
+            />
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-playfair font-bold text-luxury-black mb-2">
+            Dennis Olele
+          </h3>
+          <p className="text-lg text-luxury-gold font-semibold mb-4 tracking-wide">
+            Chief Executive Officer & Founder
+          </p>
+          <div className="max-w-3xl mx-auto">
+            <p className="text-lg text-luxury-black/80 leading-relaxed italic">
+              "Visionary leader dedicated to redefining excellence in luxury protocol services. Under his leadership, Sir Ole VVIP Protocol Ltd has become synonymous with sophistication, precision, and unparalleled service delivery."
+            </p>
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 animate-fade-in">
             <p className="text-lg text-luxury-black/80 leading-relaxed">
