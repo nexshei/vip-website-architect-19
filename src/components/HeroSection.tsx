@@ -7,11 +7,20 @@ import { ChevronDown, Play, Pause } from 'lucide-react';
 const HeroSection = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const heroTexts = [
     "New Standard of Sophistication",
     "Pinnacle of Excellence",
     "Legacy of Distinction"
+  ];
+
+  const heroPhotos = [
+    "/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png",
+    "/lovable-uploads/f71bd9cd-c4c9-4a59-a24d-a6e49d984afe.png",
+    "/lovable-uploads/6e96cbc3-ee8c-4b1d-9a6b-90f007484103.png",
+    "/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png",
+    "/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png"
   ];
 
   useEffect(() => {
@@ -21,29 +30,46 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [heroTexts.length]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [heroPhotos.length]);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-luxury overflow-hidden">
-      {/* Video Background */}
+      {/* Sliding Photo Background */}
       <div className="absolute inset-0 z-0">
+        {heroPhotos.map((photo, index) => (
+          <div
+            key={photo}
+            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+              index === currentPhotoIndex 
+                ? 'opacity-40 scale-110' 
+                : 'opacity-0 scale-100'
+            }`}
+            style={{
+              backgroundImage: `url('${photo}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          />
+        ))}
+        
+        {/* Video Overlay (Optional) */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="w-full h-full object-cover opacity-30"
-          style={{ display: isVideoPlaying ? 'block' : 'none' }}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            isVideoPlaying ? 'opacity-20' : 'opacity-0'
+          }`}
         >
           <source src="/api/placeholder/video/luxury-event.mp4" type="video/mp4" />
         </video>
-        
-        {/* Fallback Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: "url('/api/placeholder/1920/1080')",
-            display: !isVideoPlaying ? 'block' : 'none'
-          }}
-        />
         
         {/* Video Controls */}
         <button
@@ -54,8 +80,11 @@ const HeroSection = () => {
         </button>
       </div>
 
+      {/* Dark Overlay for Better Text Readability */}
+      <div className="absolute inset-0 bg-luxury-black/40 z-1"></div>
+
       {/* Background Pattern Overlay */}
-      <div className="absolute inset-0 opacity-20 z-1">
+      <div className="absolute inset-0 opacity-10 z-2">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNENEFGMzciIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] repeat"></div>
       </div>
 
