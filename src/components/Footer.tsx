@@ -48,7 +48,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Users className="text-luxury-gold" size={20} />
-                <span className="text-luxury-white/80">+254-7-1206-3461</span>
+                <span className="text-luxury-white/80">+254712063461</span>
               </div>
             </div>
           </div>

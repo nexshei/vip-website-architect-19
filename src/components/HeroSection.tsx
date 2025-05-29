@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -52,7 +53,7 @@ const HeroSection = () => {
             key={photo}
             className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
               index === currentPhotoIndex 
-                ? 'opacity-40 scale-105 sm:scale-110' 
+                ? 'opacity-60 sm:opacity-40 scale-105 sm:scale-110' 
                 : 'opacity-0 scale-100'
             }`}
             style={{
@@ -87,8 +88,8 @@ const HeroSection = () => {
         </button>
       </div>
 
-      {/* Enhanced Dark Overlay for Better Text Readability */}
-      <div className="absolute inset-0 bg-luxury-black/50 sm:bg-luxury-black/40 z-1"></div>
+      {/* Reduced Dark Overlay for Better Mobile Visibility */}
+      <div className="absolute inset-0 bg-luxury-black/30 sm:bg-luxury-black/40 z-1"></div>
 
       {/* Background Pattern Overlay (Simplified for mobile) */}
       <div className="absolute inset-0 opacity-5 sm:opacity-10 z-2">
