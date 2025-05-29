@@ -52,9 +52,17 @@ const StickyNewsletter = () => {
       {/* Decorative top border with gradient */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-luxury-gold-dark via-luxury-gold to-luxury-gold-light"></div>
       
+      {/* Prominent Close button - positioned at top right */}
+      <button
+        onClick={handleDismiss}
+        className="absolute top-3 right-3 z-50 bg-luxury-gold/20 hover:bg-luxury-gold/30 text-luxury-gold hover:text-luxury-white transition-all duration-200 p-2 rounded-full backdrop-blur-sm border border-luxury-gold/30 hover:border-luxury-gold"
+      >
+        <X size={18} />
+      </button>
+      
       {/* Mobile-optimized layout */}
       <div className="container mx-auto px-4 py-4 sm:py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between max-w-6xl mx-auto gap-4 sm:gap-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between max-w-6xl mx-auto gap-4 sm:gap-6 pr-12 sm:pr-6">
           
           {/* Left section with icon and text */}
           <div className="flex items-center space-x-4 text-center sm:text-left">
@@ -76,7 +84,7 @@ const StickyNewsletter = () => {
             </div>
           </div>
 
-          {/* Right section with form and close button */}
+          {/* Right section with form */}
           <div className="flex items-center space-x-3 w-full sm:w-auto">
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <div className="relative w-full sm:w-auto">
@@ -97,14 +105,6 @@ const StickyNewsletter = () => {
                 Subscribe Now
               </Button>
             </form>
-
-            {/* Close button */}
-            <button
-              onClick={handleDismiss}
-              className="text-luxury-white/70 hover:text-luxury-gold transition-colors p-2 hover:bg-luxury-gold/10 rounded-lg ml-2"
-            >
-              <X size={20} />
-            </button>
           </div>
         </div>
 
