@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -10,16 +9,14 @@ const Header = () => {
 
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
-    { name: 'Services', path: '/#services' },
-    { name: 'About', path: '/#about' },
+    { name: 'Services', path: '/services' },
+    { name: 'About', path: '/about' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'Careers', path: '/careers' },
     { name: 'Contact', path: '/contact' }
   ];
 
   const isActive = (path: string) => {
-    if (path === '/') return location.pathname === '/';
-    if (path.startsWith('/#')) return location.pathname === '/' && location.hash === path.substring(1);
     return location.pathname === path;
   };
 
