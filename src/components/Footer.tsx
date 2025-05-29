@@ -1,11 +1,13 @@
+
 import { Link } from 'react-router-dom';
 import { MapPin, Mail, Clock, Users } from 'lucide-react';
 
 const Footer = () => {
   const quickLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Services', path: '/#services' },
-    { name: 'About Us', path: '/#about' },
+    { name: 'Services', path: '/services' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Gallery', path: '/gallery' },
     { name: 'Careers', path: '/careers' },
     { name: 'Contact', path: '/contact' },
     { name: 'Book Meeting', path: '/book-meeting' }
