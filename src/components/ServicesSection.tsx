@@ -1,80 +1,86 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, Users, MapPin, Clock, Star, Shield } from 'lucide-react';
+import { Users, Shield, Star } from 'lucide-react';
 
 const ServicesSection = () => {
   const services = [
     {
-      id: 'vip-events',
-      title: 'VIP Event Planning',
-      description: 'Exclusive event planning with premium vendor coordination',
-      icon: Calendar,
-    },
-    {
-      id: 'concierge',
-      title: 'Personal Concierge',
-      description: '24/7 luxury lifestyle management and personal assistance',
+      id: 'professional-ushering',
+      title: 'Professional Ushering',
+      description: 'Our expertly trained ushers provide seamless guidance and assistance, ensuring your guests feel welcomed and valued throughout the entire event experience.',
       icon: Users,
+      stats: '200+ Events',
+      rating: '99%',
+      badgeText: '99%'
     },
     {
-      id: 'corporate',
-      title: 'Corporate Solutions',
-      description: 'High-end corporate event management and executive services',
-      icon: MapPin,
+      id: 'vip-security',
+      title: 'VIP Security Services',
+      description: 'Discrete and professional security solutions tailored for high-profile individuals and events, providing peace of mind without compromising the experience.',
+      icon: Shield,
+      stats: '150+ Events',
+      rating: '100%',
+      badgeText: 'VIP'
     }
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-luxury-black to-gray-900">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold text-luxury-white mb-6">
-            Premium <span className="text-gradient-gold">Services</span>
+          <h2 className="text-5xl font-playfair font-bold text-black mb-4">
+            Our <span className="text-luxury-gold">Excellence</span>
           </h2>
-          <p className="text-xl text-luxury-white/80 max-w-3xl mx-auto">
-            Discover our comprehensive suite of luxury services designed to exceed your every expectation
+          <div className="w-16 h-1 bg-luxury-gold mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Comprehensive luxury services designed to elevate every aspect of your event experience
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {services.map((service) => (
-            <Card key={service.id} className="group bg-luxury-white/5 border-luxury-gold/20 hover:border-luxury-gold/50 transition-all duration-300 hover:scale-105">
-              <CardHeader className="text-center">
-                <service.icon className="w-12 h-12 text-luxury-gold mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <CardTitle className="text-luxury-white text-xl mb-2">{service.title}</CardTitle>
-                <CardDescription className="text-luxury-white/70">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {services.map((service, index) => (
+            <Card key={service.id} className={`relative overflow-hidden ${index === 0 ? 'border-2 border-luxury-gold' : 'border border-gray-200'} hover:shadow-lg transition-all duration-300`}>
+              {index === 0 && (
+                <div className="absolute top-4 right-4 bg-luxury-gold text-black px-3 py-1 rounded-full text-sm font-semibold">
+                  {service.badgeText}
+                </div>
+              )}
+              {index === 1 && (
+                <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  {service.badgeText}
+                </div>
+              )}
+              
+              <CardHeader className="text-center pb-4">
+                <div className="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-6 relative">
+                  <service.icon className="w-8 h-8 text-luxury-gold" />
+                </div>
+                <CardTitle className="text-2xl font-playfair text-black mb-4">{service.title}</CardTitle>
+                <CardDescription className="text-gray-600 text-base leading-relaxed">
                   {service.description}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="text-center">
+              
+              <CardContent className="text-center pt-0">
+                <div className="flex justify-between items-center mb-6 text-sm text-gray-500">
+                  <span>{service.stats}</span>
+                  <div className="flex items-center">
+                    <Star className="w-4 h-4 text-luxury-gold mr-1" />
+                    <span>{service.rating}</span>
+                  </div>
+                </div>
+                
                 <Button 
                   variant="outline" 
-                  className="border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black"
+                  className="border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-black px-8 py-2"
                 >
                   Learn More
+                  <span className="ml-2">→</span>
                 </Button>
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="flex flex-col items-center">
-            <Clock className="w-8 h-8 text-luxury-gold mb-3" />
-            <h3 className="text-luxury-white font-semibold mb-2">24/7 Support</h3>
-            <p className="text-luxury-white/70">Round-the-clock assistance</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <Shield className="w-8 h-8 text-luxury-gold mb-3" />
-            <h3 className="text-luxury-white font-semibold mb-2">Guaranteed Excellence</h3>
-            <p className="text-luxury-white/70">100% satisfaction promise</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <Star className="w-8 h-8 text-luxury-gold mb-3" />
-            <h3 className="text-luxury-white font-semibold mb-2">Premium Quality</h3>
-            <p className="text-luxury-white/70">Only the finest standards</p>
-          </div>
         </div>
       </div>
     </section>
