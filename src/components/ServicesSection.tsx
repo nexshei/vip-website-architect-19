@@ -326,11 +326,10 @@ const ServicesSection = () => {
             </div>
 
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 bg-luxury-white/10 mb-8">
+              <TabsList className="grid w-full grid-cols-3 bg-luxury-white/10 mb-8">
                 <TabsTrigger value="overview" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-luxury-black">Overview</TabsTrigger>
                 <TabsTrigger value="services" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-luxury-black">Services</TabsTrigger>
                 <TabsTrigger value="process" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-luxury-black">Process</TabsTrigger>
-                <TabsTrigger value="pricing" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-luxury-black">Pricing</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="space-y-6">
@@ -396,38 +395,17 @@ const ServicesSection = () => {
                   ))}
                 </div>
               </TabsContent>
-
-              <TabsContent value="pricing" className="space-y-6">
-                <h4 className="text-xl font-playfair font-bold text-luxury-gold mb-6">Investment & Timeline</h4>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-luxury-white/5 rounded-xl p-6">
-                    <h5 className="text-lg font-semibold text-luxury-gold mb-4">Pricing</h5>
-                    <p className="text-luxury-white/90 mb-4">{services[activeService].detailedInfo.pricing}</p>
-                    <p className="text-luxury-white/70 text-sm">
-                      Custom packages available based on specific requirements and event complexity.
-                    </p>
-                  </div>
-                  
-                  <div className="bg-luxury-white/5 rounded-xl p-6">
-                    <h5 className="text-lg font-semibold text-luxury-gold mb-4">Timeline</h5>
-                    <p className="text-luxury-white/90 mb-4">{services[activeService].detailedInfo.duration}</p>
-                    <p className="text-luxury-white/70 text-sm">
-                      Rush orders may be accommodated with additional coordination fees.
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="bg-luxury-gold/10 border border-luxury-gold/30 rounded-xl p-6">
-                  <h5 className="text-lg font-semibold text-luxury-gold mb-3">Ready to Get Started?</h5>
-                  <p className="text-luxury-white/90 mb-4">
-                    Contact us for a personalized consultation and custom quote for your specific needs.
-                  </p>
-                  <Button className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold">
-                    Request Consultation
-                  </Button>
-                </div>
-              </TabsContent>
             </Tabs>
+            
+            <div className="bg-luxury-gold/10 border border-luxury-gold/30 rounded-xl p-6 mt-8">
+              <h5 className="text-lg font-semibold text-luxury-gold mb-3">Ready to Get Started?</h5>
+              <p className="text-luxury-white/90 mb-4">
+                Contact us for a personalized consultation and custom quote for your specific needs.
+              </p>
+              <Button className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold">
+                Request Consultation
+              </Button>
+            </div>
           </div>
         )}
       </div>
