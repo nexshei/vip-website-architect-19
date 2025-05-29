@@ -112,6 +112,18 @@
     border-image: linear-gradient(45deg, #B8941F, #D4AF37, #F4E4A6) 1;
   }
 
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .perspective-2000 {
+    perspective: 2000px;
+  }
+
+  .transform-gpu {
+    transform-style: preserve-3d;
+  }
+
   .animate-slide-up {
     animation: slideUp 0.5s ease-out;
   }
@@ -122,6 +134,14 @@
 
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-3d-rotate {
+    animation: rotate3d 10s linear infinite;
+  }
+
+  .animate-parallax {
+    animation: parallax 8s ease-in-out infinite;
   }
 }
 
@@ -154,12 +174,36 @@
   }
 }
 
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
+@keyframes rotate3d {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
 }
 
-/* Custom scrollbar */
+@keyframes parallax {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+
+/* Enhanced smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* 3D Transform support */
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+/* Custom scrollbar with gold theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -171,8 +215,44 @@ html {
 ::-webkit-scrollbar-thumb {
   background: #D4AF37;
   border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #B8941F;
+}
+
+/* Scroll-triggered animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* 3D Hover Effects */
+.hover-3d {
+  transition: transform 0.3s ease;
+}
+
+.hover-3d:hover {
+  transform: perspective(1000px) rotateY(10deg) rotateX(5deg) translateZ(20px);
+}
+
+/* Parallax container */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-element {
+  transition: transform 0.1s ease-out;
 }
