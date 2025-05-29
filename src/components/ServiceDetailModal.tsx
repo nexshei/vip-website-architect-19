@@ -1,4 +1,3 @@
-
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -56,14 +55,6 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
             </div>
             <div className="flex items-center space-x-3">
               <Button 
-                onClick={() => window.open('tel:+254712063461', '_self')}
-                variant="outline" 
-                className="border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-black transition-all duration-300"
-              >
-                <Phone className="w-4 h-4 mr-2" />
-                Call Now
-              </Button>
-              <Button 
                 onClick={onClose}
                 variant="outline" 
                 className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-luxury-gold transition-all duration-300"
@@ -77,10 +68,9 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
 
         <div className="flex-1 overflow-y-auto">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-gray-900 mb-6">
+            <TabsList className="grid w-full grid-cols-2 bg-gray-900 mb-6">
               <TabsTrigger value="overview" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-black font-semibold">Overview</TabsTrigger>
               <TabsTrigger value="services" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-black font-semibold">Features</TabsTrigger>
-              <TabsTrigger value="process" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-black font-semibold">Process</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-6 space-y-8">
@@ -143,14 +133,6 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
                 >
                   Request This Service
                 </Button>
-                <Button 
-                  onClick={() => window.open('mailto:sirolevipprotocol@gmail.com', '_self')}
-                  variant="outline"
-                  className="border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-black font-semibold px-8 py-4 text-lg transition-all duration-300"
-                >
-                  <Mail className="w-5 h-5 mr-2" />
-                  Email Inquiry
-                </Button>
               </div>
             </TabsContent>
 
@@ -169,38 +151,6 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
                       </p>
                     </div>
                   ))}
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="process" className="mt-6">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-semibold text-luxury-gold">Our Professional Process</h3>
-                <div className="space-y-6">
-                  <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-lg border-l-4 border-luxury-gold">
-                    <h4 className="text-luxury-gold font-bold text-lg mb-3">1. Initial Consultation & Assessment</h4>
-                    <p className="text-gray-300 leading-relaxed">
-                      We begin with a comprehensive discussion of your requirements, expectations, and event specifics to ensure we fully understand your vision.
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-lg border-l-4 border-luxury-gold">
-                    <h4 className="text-luxury-gold font-bold text-lg mb-3">2. Custom Planning & Strategy Development</h4>
-                    <p className="text-gray-300 leading-relaxed">
-                      Our expert team develops a tailored service plan specific to your event needs, considering all logistical and protocol requirements.
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-lg border-l-4 border-luxury-gold">
-                    <h4 className="text-luxury-gold font-bold text-lg mb-3">3. Professional Execution & Monitoring</h4>
-                    <p className="text-gray-300 leading-relaxed">
-                      Seamless delivery of services with continuous monitoring, quality assurance, and real-time adjustments to ensure perfection.
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-lg border-l-4 border-luxury-gold">
-                    <h4 className="text-luxury-gold font-bold text-lg mb-3">4. Follow-up Support & Future Planning</h4>
-                    <p className="text-gray-300 leading-relaxed">
-                      Post-event analysis, feedback collection, and ongoing support for future requirements to build lasting partnerships.
-                    </p>
-                  </div>
                 </div>
               </div>
             </TabsContent>
