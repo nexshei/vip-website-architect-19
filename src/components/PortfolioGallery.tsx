@@ -49,6 +49,54 @@ const PortfolioGallery = () => {
       title: 'Master of Ceremonies',
       description: 'Professional MC services and event hosting for premium occasions',
       category: 'MC Services'
+    },
+    {
+      src: '/lovable-uploads/475bce6f-35e6-4346-8222-5a767e5436d8.png',
+      title: 'Military Protocol Excellence',
+      description: 'Professional military protocol and ceremonial guard services',
+      category: 'Military Protocol'
+    },
+    {
+      src: '/lovable-uploads/d084cfa3-6cee-48c5-9c3a-56d0feda1b64.png',
+      title: 'Cultural Celebrations',
+      description: 'Authentic cultural event coordination and guest experience management',
+      category: 'Cultural Events'
+    },
+    {
+      src: '/lovable-uploads/346ca5d4-e00c-4bf5-b69f-9323b41f5a0d.png',
+      title: 'Ceremonial Services',
+      description: 'Professional ceremonial coordination and protocol management',
+      category: 'Ceremonial'
+    },
+    {
+      src: '/lovable-uploads/a5e3f981-4aeb-4cda-9adf-1b029a56bb53.png',
+      title: 'Celebratory Events',
+      description: 'Joyful celebration coordination and guest entertainment services',
+      category: 'Celebrations'
+    },
+    {
+      src: '/lovable-uploads/af01b67f-4af7-452d-b158-b89ae3a59f89.png',
+      title: 'Professional Staff',
+      description: 'Expert hospitality team providing premium VIP services',
+      category: 'VIP Services'
+    },
+    {
+      src: '/lovable-uploads/6864805a-44c1-40a3-8732-fda9a70877a2.png',
+      title: 'Protocol Team',
+      description: 'Professional protocol officers ensuring seamless event execution',
+      category: 'Protocol Services'
+    },
+    {
+      src: '/lovable-uploads/fbad488a-e195-4543-ae37-1a3c1311b2f0.png',
+      title: 'Luxury Events',
+      description: 'Elegant venue setup and premium event coordination',
+      category: 'Luxury Events'
+    },
+    {
+      src: '/lovable-uploads/8e33446b-211d-488c-b275-c3708205f324.png',
+      title: 'Team Excellence',
+      description: 'Professional event management team delivering exceptional service',
+      category: 'Team Services'
     }
   ];
 
@@ -111,7 +159,6 @@ const PortfolioGallery = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/70 via-transparent to-transparent"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-luxury-white">
-                      <h3 className="text-2xl font-playfair font-bold mb-2">{image.title}</h3>
                       <p className="text-luxury-white/90 mb-2">{image.description}</p>
                       <span className="inline-block bg-luxury-gold text-luxury-black px-3 py-1 rounded-full text-sm font-semibold">
                         {image.category}
@@ -172,7 +219,6 @@ const PortfolioGallery = () => {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 className="text-luxury-white font-playfair font-bold mb-1">{image.title}</h3>
                   <span className="text-luxury-gold text-sm">{image.category}</span>
                 </div>
               </div>

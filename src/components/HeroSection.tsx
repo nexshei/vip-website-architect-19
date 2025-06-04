@@ -20,7 +20,15 @@ const HeroSection = () => {
     "/lovable-uploads/f71bd9cd-c4c9-4a59-a24d-a6e49d984afe.png",
     "/lovable-uploads/6e96cbc3-ee8c-4b1d-9a6b-90f007484103.png",
     "/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png",
-    "/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png"
+    "/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png",
+    "/lovable-uploads/475bce6f-35e6-4346-8222-5a767e5436d8.png",
+    "/lovable-uploads/d084cfa3-6cee-48c5-9c3a-56d0feda1b64.png",
+    "/lovable-uploads/346ca5d4-e00c-4bf5-b69f-9323b41f5a0d.png",
+    "/lovable-uploads/a5e3f981-4aeb-4cda-9adf-1b029a56bb53.png",
+    "/lovable-uploads/af01b67f-4af7-452d-b158-b89ae3a59f89.png",
+    "/lovable-uploads/6864805a-44c1-40a3-8732-fda9a70877a2.png",
+    "/lovable-uploads/fbad488a-e195-4543-ae37-1a3c1311b2f0.png",
+    "/lovable-uploads/8e33446b-211d-488c-b275-c3708205f324.png"
   ];
 
   const scrollToPortfolio = () => {
