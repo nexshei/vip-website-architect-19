@@ -7,7 +7,35 @@ const PortfolioGallery = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Full portfolio images - all photos are here for the gallery
+  // Carousel images - select photos that work well in the 3D carousel
+  const carouselImages = [
+    {
+      src: '/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png',
+      category: 'Cultural Events'
+    },
+    {
+      src: '/lovable-uploads/f71bd9cd-c4c9-4a59-a24d-a6e49d984afe.png',
+      category: 'Celebrations'
+    },
+    {
+      src: '/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png',
+      category: 'VIP Services'
+    },
+    {
+      src: '/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png',
+      category: 'Protocol Events'
+    },
+    {
+      src: '/lovable-uploads/379e1683-234b-486a-b76f-2db1512b9fbd.png',
+      category: 'Grand Events'
+    },
+    {
+      src: '/lovable-uploads/86c39f3e-19f5-4d04-bacc-36e8996ed3dc.png',
+      category: 'MC Services'
+    }
+  ];
+
+  // Full portfolio images - all photos for the masonry grid
   const portfolioImages = [
     {
       src: '/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png',
@@ -112,11 +140,11 @@ const PortfolioGallery = () => {
   ];
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % portfolioImages.length);
+    setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + portfolioImages.length) % portfolioImages.length);
+    setCurrentSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
   };
 
   useEffect(() => {
@@ -140,7 +168,7 @@ const PortfolioGallery = () => {
         {/* 3D Carousel */}
         <div className="relative h-96 md:h-[500px] mb-16 perspective-1000">
           <div className="relative w-full h-full">
-            {portfolioImages.map((image, index) => {
+            {carouselImages.map((image, index) => {
               const offset = index - currentSlide;
               const absOffset = Math.abs(offset);
               const isVisible = absOffset <= 2;
@@ -199,7 +227,7 @@ const PortfolioGallery = () => {
 
           {/* Slide Indicators */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
-            {portfolioImages.map((_, index) => (
+            {carouselImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
@@ -211,8 +239,8 @@ const PortfolioGallery = () => {
           </div>
         </div>
 
-        {/* Masonry Grid with proper image fitting */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Masonry Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {portfolioImages.map((image, index) => (
             <div
               key={index}

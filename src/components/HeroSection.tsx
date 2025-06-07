@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,14 +13,11 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Reduced photo array for better performance - only 6 photos for hero
+  // Only well-fitting photos for hero section
   const heroPhotos = [
     "/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png",
     "/lovable-uploads/f71bd9cd-c4c9-4a59-a24d-a6e49d984afe.png",
-    "/lovable-uploads/6e96cbc3-ee8c-4b1d-9a6b-90f007484103.png",
-    "/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png",
-    "/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png",
-    "/lovable-uploads/475bce6f-35e6-4346-8222-5a767e5436d8.png"
+    "/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png"
   ];
 
   const scrollToPortfolio = () => {
