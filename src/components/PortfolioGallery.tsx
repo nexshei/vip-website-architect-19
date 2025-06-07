@@ -136,6 +136,46 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/0b2ba6d2-0b2a-47d1-ad83-1d980e7f8ca5.png',
       category: 'Corporate Events'
+    },
+    {
+      src: '/lovable-uploads/95d1d61a-f1f0-41de-b404-177e8cf3fd7f.png',
+      category: 'Team Events'
+    },
+    {
+      src: '/lovable-uploads/03f2156b-c16e-4ebc-83bb-dd36e1cf2b16.png',
+      category: 'Protocol Services'
+    },
+    {
+      src: '/lovable-uploads/7a34500c-00df-44a9-8ddd-620a0c28e9a0.png',
+      category: 'Corporate Events'
+    },
+    {
+      src: '/lovable-uploads/c464b91a-5c61-4cd7-a20c-bae157a26ae7.png',
+      category: 'VIP Services'
+    },
+    {
+      src: '/lovable-uploads/897c00a2-efdb-4739-92d9-62579ae6ad26.png',
+      category: 'Protocol Events'
+    },
+    {
+      src: '/lovable-uploads/1adf323b-1cdc-4d6c-bc21-6ae1d1f6c81c.png',
+      category: 'Reception Events'
+    },
+    {
+      src: '/lovable-uploads/b9588c02-25ee-446c-82a2-41d012a7b093.png',
+      category: 'Ceremonial Events'
+    },
+    {
+      src: '/lovable-uploads/e8bd4f7e-3fb2-4c0d-9701-5dff8a0ea9cc.png',
+      category: 'Military Band'
+    },
+    {
+      src: '/lovable-uploads/26f1d483-21c0-43eb-8611-8890de1e38b1.png',
+      category: 'VIP Escort'
+    },
+    {
+      src: '/lovable-uploads/b4334caa-4e86-4534-be2f-fcc517023f73.png',
+      category: 'Diplomatic Events'
     }
   ];
 
