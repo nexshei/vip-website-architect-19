@@ -48,71 +48,76 @@ const StickyNewsletter = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-r from-luxury-black via-luxury-black-light to-luxury-black border-t-2 border-luxury-gold shadow-2xl animate-slide-up">
-      {/* Decorative top border with gradient */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-luxury-gold-dark via-luxury-gold to-luxury-gold-light"></div>
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-br from-luxury-black via-luxury-black-light to-luxury-black border-t-2 border-luxury-gold shadow-2xl animate-slide-up mobile-safe-area">
+      {/* Enhanced decorative top border with animated gradient */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-luxury-gold-dark via-luxury-gold to-luxury-gold-light animate-shimmer"></div>
       
-      {/* Prominent Close button - positioned at top right */}
+      {/* Close button - made larger and more prominent for mobile */}
       <button
         onClick={handleDismiss}
-        className="absolute top-3 right-3 z-50 bg-luxury-gold/20 hover:bg-luxury-gold/30 text-luxury-gold hover:text-luxury-white transition-all duration-200 p-2 rounded-full backdrop-blur-sm border border-luxury-gold/30 hover:border-luxury-gold"
+        className="absolute top-2 right-2 z-50 bg-luxury-gold/20 hover:bg-luxury-gold/40 active:bg-luxury-gold/50 text-luxury-gold hover:text-luxury-white transition-all duration-200 p-3 rounded-full backdrop-blur-sm border border-luxury-gold/40 hover:border-luxury-gold touch-target shadow-lg"
+        aria-label="Close newsletter popup"
       >
-        <X size={18} />
+        <X size={20} className="sm:w-5 sm:h-5" />
       </button>
       
-      {/* Mobile-optimized layout */}
-      <div className="container mx-auto px-4 py-4 sm:py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between max-w-6xl mx-auto gap-4 sm:gap-6 pr-12 sm:pr-6">
+      {/* Mobile-first optimized layout */}
+      <div className="container mx-auto px-3 py-4 sm:px-6 sm:py-6">
+        <div className="max-w-md mx-auto sm:max-w-6xl">
           
-          {/* Left section with icon and text */}
-          <div className="flex items-center space-x-4 text-center sm:text-left">
-            <div className="relative">
-              <div className="bg-gradient-to-r from-luxury-gold to-luxury-gold-light rounded-full p-3 shadow-lg">
-                <Crown className="text-luxury-black" size={24} />
+          {/* Header section - centered for mobile */}
+          <div className="text-center mb-4 sm:mb-0 sm:flex sm:items-center sm:justify-between sm:text-left pr-8 sm:pr-6">
+            
+            {/* Icon and text section */}
+            <div className="flex flex-col items-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+              <div className="relative flex-shrink-0">
+                <div className="bg-gradient-to-br from-luxury-gold to-luxury-gold-light rounded-full p-3 shadow-xl">
+                  <Crown className="text-luxury-black" size={28} />
+                </div>
+                <div className="absolute -top-1 -right-1">
+                  <Sparkles className="text-luxury-gold animate-pulse" size={18} />
+                </div>
               </div>
-              <div className="absolute -top-1 -right-1">
-                <Sparkles className="text-luxury-gold animate-pulse" size={16} />
+              <div className="text-center sm:text-left">
+                <h3 className="text-luxury-gold font-playfair font-bold text-xl sm:text-xl mb-1">
+                  Join the Inner Circle
+                </h3>
+                <p className="text-luxury-white/90 text-sm sm:text-base leading-relaxed max-w-xs sm:max-w-none">
+                  Get exclusive updates from <span className="text-luxury-gold font-semibold block sm:inline">Sir Ole VVIP Protocol</span>
+                </p>
               </div>
             </div>
-            <div className="flex-1">
-              <h3 className="text-luxury-gold font-playfair font-bold text-lg sm:text-xl mb-1">
-                Join the Inner Circle
-              </h3>
-              <p className="text-luxury-white/90 text-sm sm:text-base leading-relaxed">
-                Get exclusive updates from <span className="text-luxury-gold font-semibold">Sir Ole VVIP Protocol</span>
-              </p>
+
+            {/* Form section - full width on mobile */}
+            <div className="w-full sm:w-auto mt-4 sm:mt-0">
+              <form onSubmit={handleSubscribe} className="space-y-3 sm:flex sm:space-y-0 sm:space-x-3">
+                <div className="relative">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full sm:min-w-[280px] bg-luxury-white/15 border-luxury-gold/50 text-luxury-white placeholder:text-luxury-white/70 focus:border-luxury-gold focus:ring-luxury-gold/50 h-12 px-4 rounded-xl backdrop-blur-md text-base"
+                    required
+                  />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-luxury-gold/10 to-transparent pointer-events-none"></div>
+                </div>
+                <Button 
+                  type="submit"
+                  className="w-full sm:w-auto bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold px-6 py-3 h-12 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-luxury-gold/30 whitespace-nowrap rounded-xl touch-target"
+                >
+                  Subscribe Now
+                </Button>
+              </form>
             </div>
           </div>
 
-          {/* Right section with form */}
-          <div className="flex items-center space-x-3 w-full sm:w-auto">
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-              <div className="relative w-full sm:w-auto">
-                <Input
-                  type="email"
-                  placeholder="Enter your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full sm:min-w-[250px] bg-luxury-white/10 border-luxury-gold/40 text-luxury-white placeholder:text-luxury-white/70 focus:border-luxury-gold focus:ring-luxury-gold/50 h-12 px-4 rounded-lg backdrop-blur-sm"
-                  required
-                />
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-luxury-gold/5 to-transparent pointer-events-none"></div>
-              </div>
-              <Button 
-                type="submit"
-                className="w-full sm:w-auto bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold px-6 py-3 h-12 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-luxury-gold/30 whitespace-nowrap"
-              >
-                Subscribe Now
-              </Button>
-            </form>
+          {/* Bottom decorative elements - only visible on larger screens */}
+          <div className="hidden sm:flex justify-center mt-4 space-x-2">
+            <div className="w-2 h-2 bg-luxury-gold rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-luxury-gold/60 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+            <div className="w-2 h-2 bg-luxury-gold/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
           </div>
-        </div>
-
-        {/* Bottom decorative elements */}
-        <div className="hidden sm:flex justify-center mt-4 space-x-2">
-          <div className="w-2 h-2 bg-luxury-gold rounded-full animate-pulse"></div>
-          <div className="w-2 h-2 bg-luxury-gold/60 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-          <div className="w-2 h-2 bg-luxury-gold/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
       </div>
     </div>

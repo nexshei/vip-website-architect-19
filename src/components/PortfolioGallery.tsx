@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Expand } from 'lucide-react';
@@ -165,8 +164,8 @@ const PortfolioGallery = () => {
           </p>
         </div>
 
-        {/* 3D Carousel */}
-        <div className="relative h-96 md:h-[500px] mb-16 perspective-1000">
+        {/* Enhanced 3D Carousel with better mobile navigation */}
+        <div className="relative h-80 sm:h-96 md:h-[500px] mb-16 perspective-1000">
           <div className="relative w-full h-full">
             {carouselImages.map((image, index) => {
               const offset = index - currentSlide;
@@ -181,29 +180,30 @@ const PortfolioGallery = () => {
                   }`}
                   style={{
                     transform: `
-                      translateX(${offset * 300}px) 
-                      translateZ(${-absOffset * 100}px) 
-                      rotateY(${offset * 15}deg)
-                      scale(${1 - absOffset * 0.2})
+                      translateX(${offset * 250}px) 
+                      translateZ(${-absOffset * 80}px) 
+                      rotateY(${offset * 12}deg)
+                      scale(${1 - absOffset * 0.15})
                     `,
                     zIndex: 10 - absOffset,
                   }}
                 >
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer"
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer mx-4 sm:mx-8"
                        onClick={() => setSelectedImage(image.src)}>
                     <img
                       src={image.src}
                       alt={image.category}
                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/70 via-transparent to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-luxury-white">
-                      <span className="inline-block bg-luxury-gold text-luxury-black px-3 py-1 rounded-full text-sm font-semibold">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-luxury-white">
+                      <span className="inline-block bg-luxury-gold text-luxury-black px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-semibold">
                         {image.category}
                       </span>
                     </div>
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Expand className="text-luxury-white" size={24} />
+                      <Expand className="text-luxury-white" size={20} />
                     </div>
                   </div>
                 </div>
@@ -211,29 +211,32 @@ const PortfolioGallery = () => {
             })}
           </div>
 
-          {/* Navigation Buttons */}
+          {/* Enhanced Navigation Buttons - larger and more prominent for mobile */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-luxury-black/50 hover:bg-luxury-gold text-luxury-white hover:text-luxury-black p-3 rounded-full transition-all duration-300"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-luxury-black/70 hover:bg-luxury-gold active:bg-luxury-gold-dark text-luxury-white hover:text-luxury-black p-3 sm:p-3 rounded-full transition-all duration-300 touch-target shadow-lg backdrop-blur-sm"
+            aria-label="Previous image"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={24} className="sm:w-6 sm:h-6" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-luxury-black/50 hover:bg-luxury-gold text-luxury-white hover:text-luxury-black p-3 rounded-full transition-all duration-300"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-luxury-black/70 hover:bg-luxury-gold active:bg-luxury-gold-dark text-luxury-white hover:text-luxury-black p-3 sm:p-3 rounded-full transition-all duration-300 touch-target shadow-lg backdrop-blur-sm"
+            aria-label="Next image"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={24} className="sm:w-6 sm:h-6" />
           </button>
 
-          {/* Slide Indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
+          {/* Enhanced Slide Indicators */}
+          <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2 bg-luxury-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
             {carouselImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? 'bg-luxury-gold scale-125' : 'bg-luxury-white/50'
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 touch-target ${
+                  currentSlide === index ? 'bg-luxury-gold scale-125' : 'bg-luxury-white/60 hover:bg-luxury-white/80'
                 }`}
+                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
@@ -253,6 +256,7 @@ const PortfolioGallery = () => {
                   src={image.src}
                   alt={image.category}
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -272,21 +276,22 @@ const PortfolioGallery = () => {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
+      {/* Enhanced Lightbox Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-luxury-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-luxury-black/95 flex items-center justify-center p-4 mobile-safe-area"
           onClick={() => setSelectedImage(null)}
         >
           <div className="relative max-w-4xl max-h-full">
             <img
               src={selectedImage}
               alt="Portfolio Image"
-              className="w-full h-full object-contain rounded-lg"
+              className="w-full h-full object-contain rounded-lg shadow-2xl"
             />
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 text-luxury-white hover:text-luxury-gold text-3xl"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 text-luxury-white hover:text-luxury-gold text-2xl sm:text-3xl bg-luxury-black/50 rounded-full p-2 touch-target"
+              aria-label="Close image"
             >
               ×
             </button>
