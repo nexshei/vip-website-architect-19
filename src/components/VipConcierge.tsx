@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -100,14 +99,15 @@ const VipConcierge = () => {
             <CardHeader className="bg-gradient-luxury text-luxury-white relative">
               <button
                 onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 text-luxury-white hover:text-luxury-gold transition-colors"
+                className="absolute top-3 right-3 z-10 bg-luxury-white/20 hover:bg-luxury-white/30 text-luxury-white p-2 rounded-full transition-all duration-200 touch-target backdrop-blur-sm border border-luxury-white/40"
+                aria-label="Close modal"
               >
-                <X size={20} />
+                <X size={18} className="font-bold" />
               </button>
-              <CardTitle className="text-center">
+              <CardTitle className="text-center pr-12">
                 🎩 Your VIP Protocol Concierge
               </CardTitle>
-              <p className="text-center text-luxury-white/80 text-sm">
+              <p className="text-center text-luxury-white/80 text-sm pr-12">
                 Let's create something extraordinary together
               </p>
               

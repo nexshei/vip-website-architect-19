@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Expand } from 'lucide-react';
 
-const PortfolioGallery = () => {
+const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -35,7 +36,7 @@ const PortfolioGallery = () => {
   ];
 
   // Full portfolio images - all photos for the masonry grid
-  const portfolioImages = [
+  const allPortfolioImages = [
     {
       src: '/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png',
       category: 'Cultural Events'
@@ -137,6 +138,9 @@ const PortfolioGallery = () => {
       category: 'Corporate Events'
     }
   ];
+
+  // Limit to 8 images for homepage, show all for gallery page
+  const portfolioImages = isHomepage ? allPortfolioImages.slice(0, 8) : allPortfolioImages;
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
@@ -268,12 +272,16 @@ const PortfolioGallery = () => {
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <Button className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold px-8 py-4 text-lg">
-            View All Projects
-          </Button>
-        </div>
+        {/* Call to Action - only show on homepage */}
+        {isHomepage && (
+          <div className="text-center mt-16">
+            <Link to="/gallery">
+              <Button className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold px-8 py-4 text-lg">
+                View All Projects
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Enhanced Lightbox Modal */}
