@@ -1,3 +1,4 @@
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -41,7 +42,7 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl w-full h-full sm:h-[85vh] bg-black text-white overflow-hidden p-0 sm:p-6">
+      <DialogContent className="max-w-6xl w-full h-full sm:h-[85vh] bg-black text-white overflow-hidden p-0 sm:p-6 [&>button]:hidden">
         {/* Mobile-optimized header */}
         <DialogHeader className="border-b border-gray-800 p-4 sm:p-6 sm:pb-6 relative">
           {/* Close button - positioned absolutely for better visibility */}
