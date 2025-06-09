@@ -1,4 +1,3 @@
-
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -44,8 +43,18 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl w-full h-full sm:h-[85vh] bg-black text-white overflow-hidden p-0 sm:p-6">
         {/* Mobile-optimized header */}
-        <DialogHeader className="border-b border-gray-800 p-4 sm:p-6 sm:pb-6">
-          <div className="flex items-start justify-between gap-3">
+        <DialogHeader className="border-b border-gray-800 p-4 sm:p-6 sm:pb-6 relative">
+          {/* Close button - positioned absolutely for better visibility */}
+          <Button 
+            onClick={onClose}
+            variant="ghost" 
+            size="icon"
+            className="absolute top-4 right-4 z-50 text-white hover:bg-gray-800 hover:text-luxury-gold transition-all duration-300 h-10 w-10 bg-gray-900/80 border border-gray-600"
+          >
+            <X className="w-6 h-6" />
+          </Button>
+          
+          <div className="flex items-start justify-between gap-3 pr-12">
             <div className="flex items-start space-x-3 flex-1 min-w-0">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-luxury-gold to-yellow-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
                 <service.icon className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
@@ -55,16 +64,6 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
                 <p className="text-gray-400 text-sm sm:text-lg">Comprehensive Service Details & Information</p>
               </div>
             </div>
-            
-            {/* Close button - mobile friendly */}
-            <Button 
-              onClick={onClose}
-              variant="ghost" 
-              size="icon"
-              className="text-gray-300 hover:bg-gray-800 hover:text-luxury-gold transition-all duration-300 flex-shrink-0 h-10 w-10"
-            >
-              <X className="w-5 h-5" />
-            </Button>
           </div>
           
           {/* Back button - full width on mobile */}
@@ -94,9 +93,19 @@ const ServiceDetailModal = ({ service, isOpen, onClose, onRequestService }: Serv
 
         <div className="flex-1 overflow-y-auto p-4 sm:p-0">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-gray-900 mb-4 sm:mb-6 mx-0">
-              <TabsTrigger value="overview" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-black font-semibold text-sm sm:text-base">Overview</TabsTrigger>
-              <TabsTrigger value="services" className="data-[state=active]:bg-luxury-gold data-[state=active]:text-black font-semibold text-sm sm:text-base">Features</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-gray-900 mb-4 sm:mb-6 mx-0 h-12">
+              <TabsTrigger 
+                value="overview" 
+                className="data-[state=active]:bg-luxury-gold data-[state=active]:text-black font-semibold text-sm sm:text-base h-full flex items-center justify-center"
+              >
+                Overview
+              </TabsTrigger>
+              <TabsTrigger 
+                value="services" 
+                className="data-[state=active]:bg-luxury-gold data-[state=active]:text-black font-semibold text-sm sm:text-base h-full flex items-center justify-center"
+              >
+                Features
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-4 sm:mt-6 space-y-6 sm:space-y-8">
