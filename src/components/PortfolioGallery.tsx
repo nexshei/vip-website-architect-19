@@ -32,6 +32,14 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/86c39f3e-19f5-4d04-bacc-36e8996ed3dc.png',
       category: 'MC Services'
+    },
+    {
+      src: '/lovable-uploads/2259eca1-3ecc-488d-815f-6fd0e5318d30.png',
+      category: 'Event Hosting'
+    },
+    {
+      src: '/lovable-uploads/fe39ac21-24c0-4edd-9bff-f4253732d3a8.png',
+      category: 'Elegant Venues'
     }
   ];
 
@@ -176,6 +184,46 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/b4334caa-4e86-4534-be2f-fcc517023f73.png',
       category: 'Diplomatic Events'
+    },
+    {
+      src: '/lovable-uploads/2259eca1-3ecc-488d-815f-6fd0e5318d30.png',
+      category: 'Event Hosting'
+    },
+    {
+      src: '/lovable-uploads/c7198820-b469-4c13-ba3e-a7c42300fc77.png',
+      category: 'Corporate Events'
+    },
+    {
+      src: '/lovable-uploads/529a494b-d0dd-4063-871f-cc8d450b1874.png',
+      category: 'VIP Events'
+    },
+    {
+      src: '/lovable-uploads/8d99ee18-e14c-4acd-8975-2f03e81cc1f0.png',
+      category: 'Team Events'
+    },
+    {
+      src: '/lovable-uploads/fe39ac21-24c0-4edd-9bff-f4253732d3a8.png',
+      category: 'Elegant Venues'
+    },
+    {
+      src: '/lovable-uploads/1a67ea66-46e9-460f-bc7d-e7c9c7bb1d52.png',
+      category: 'Team Coordination'
+    },
+    {
+      src: '/lovable-uploads/4c3b614e-7c5f-45b7-81b7-2f2cdd08e7ad.png',
+      category: 'Special Events'
+    },
+    {
+      src: '/lovable-uploads/5d8c0a64-fcfc-4dfa-b275-f4c06abdc1ca.png',
+      category: 'MC Services'
+    },
+    {
+      src: '/lovable-uploads/69f2eb95-52a8-4b00-8482-3996df94b114.png',
+      category: 'Celebrations'
+    },
+    {
+      src: '/lovable-uploads/a4fe64fe-a291-4afd-a0ce-0c85442bd3b8.png',
+      category: 'Cultural Events'
     }
   ];
 
