@@ -40,6 +40,14 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/fe39ac21-24c0-4edd-9bff-f4253732d3a8.png',
       category: 'Elegant Venues'
+    },
+    {
+      src: '/lovable-uploads/6c7a207d-bb6c-460a-8b97-47aaedc82ece.png',
+      category: 'VIP Protocol'
+    },
+    {
+      src: '/lovable-uploads/9e748710-7fa9-4148-bce9-cccefca96666.png',
+      category: 'Luxury Events'
     }
   ];
 
@@ -224,6 +232,26 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/a4fe64fe-a291-4afd-a0ce-0c85442bd3b8.png',
       category: 'Cultural Events'
+    },
+    {
+      src: '/lovable-uploads/6c7a207d-bb6c-460a-8b97-47aaedc82ece.png',
+      category: 'VIP Protocol'
+    },
+    {
+      src: '/lovable-uploads/adb82355-1802-4cf7-a5dd-17f512f3c8aa.png',
+      category: 'MC Services'
+    },
+    {
+      src: '/lovable-uploads/97e67e72-f29f-481a-8f83-299b395d8072.png',
+      category: 'Event Hosting'
+    },
+    {
+      src: '/lovable-uploads/9e748710-7fa9-4148-bce9-cccefca96666.png',
+      category: 'Luxury Events'
+    },
+    {
+      src: '/lovable-uploads/028f216e-ee0a-4bab-8d16-1a8fc8afdd5d.png',
+      category: 'Professional Events'
     }
   ];
 
