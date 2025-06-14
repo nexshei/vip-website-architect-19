@@ -15,12 +15,16 @@ const HeroSection = () => {
 
   // Updated hero photos collection with new uploaded images
   const heroPhotos = [
-    "/lovable-uploads/7be2478c-b06d-4746-b9d6-29f8e52f81d0.png",
-    "/lovable-uploads/ee7a6193-1f30-4989-8cff-282b321a3743.png",
-    "/lovable-uploads/e7899310-a0ce-4005-92c5-79cd2f70a0a9.png",
-    "/lovable-uploads/576e1f4e-0b3b-461b-a621-3af96cca3f56.png",
-    "/lovable-uploads/d2f683ba-8245-4134-89e7-c46323932c9b.png",
-    "/lovable-uploads/8d9cf3b8-96f9-4eb7-b095-1b7bca13cd24.png"
+    "/lovable-uploads/75e48251-d547-46e0-acdf-c1d0f9e947bb.png",
+    "/lovable-uploads/ea237fe3-d93e-4dce-8c62-9016887df293.png",
+    "/lovable-uploads/9fe70d24-7d0b-495f-bead-1a7b569498b9.png",
+    "/lovable-uploads/d9db18e2-d613-4c8d-b9a7-5eac7a6c8eca.png",
+    "/lovable-uploads/d10ce3f4-f1cb-401c-aa22-bc9d8c5ee4d9.png",
+    "/lovable-uploads/b3d6b925-5f60-4ae8-a23e-82e8910ff58c.png",
+    "/lovable-uploads/1843554f-55bd-4c73-b1ca-dadfb095de97.png",
+    "/lovable-uploads/11376f90-1835-4ac2-9221-efc856a4885b.png",
+    "/lovable-uploads/5bc82768-41e9-434b-a9f5-17bc454fed8b.png",
+    "/lovable-uploads/c61c62fe-e540-4aca-aab2-d39a3a68e0d6.png"
   ];
 
   const scrollToPortfolio = () => {
