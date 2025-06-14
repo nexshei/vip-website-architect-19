@@ -51,47 +51,27 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     }
   ];
 
-  // Full portfolio images - all photos for the masonry grid (removed last 7 images)
+  // Full portfolio images - all photos for the masonry grid (removed specified images)
   const allPortfolioImages = [
     {
       src: '/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png',
       category: 'Cultural Events'
     },
     {
-      src: '/lovable-uploads/f71bd9cd-c4c9-4a59-a24d-a6e49d984afe.png',
-      category: 'Celebrations'
-    },
-    {
       src: '/lovable-uploads/6e96cbc3-ee8c-4b1d-9a6b-90f007484103.png',
       category: 'Luxury Events'
-    },
-    {
-      src: '/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png',
-      category: 'VIP Services'
     },
     {
       src: '/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png',
       category: 'Protocol Events'
     },
     {
-      src: '/lovable-uploads/379e1683-234b-486a-b76f-2db1512b9fbd.png',
-      category: 'Grand Events'
-    },
-    {
       src: '/lovable-uploads/86c39f3e-19f5-4d04-bacc-36e8996ed3dc.png',
       category: 'MC Services'
     },
     {
-      src: '/lovable-uploads/475bce6f-35e6-4346-8222-5a767e5436d8.png',
-      category: 'Military Protocol'
-    },
-    {
       src: '/lovable-uploads/d084cfa3-6cee-48c5-9c3a-56d0feda1b64.png',
       category: 'Cultural Events'
-    },
-    {
-      src: '/lovable-uploads/346ca5d4-e00c-4bf5-b69f-9323b41f5a0d.png',
-      category: 'Ceremonial'
     },
     {
       src: '/lovable-uploads/a5e3f981-4aeb-4cda-9adf-1b029a56bb53.png',
@@ -146,10 +126,6 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       category: 'Award Ceremonies'
     },
     {
-      src: '/lovable-uploads/de818ffe-268b-45c3-8731-d7dddd82ed54.png',
-      category: 'Award Events'
-    },
-    {
       src: '/lovable-uploads/0b2ba6d2-0b2a-47d1-ad83-1d980e7f8ca5.png',
       category: 'Corporate Events'
     },
@@ -202,16 +178,8 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       category: 'Corporate Events'
     },
     {
-      src: '/lovable-uploads/529a494b-d0dd-4063-871f-cc8d450b1874.png',
-      category: 'VIP Events'
-    },
-    {
       src: '/lovable-uploads/8d99ee18-e14c-4acd-8975-2f03e81cc1f0.png',
       category: 'Team Events'
-    },
-    {
-      src: '/lovable-uploads/fe39ac21-24c0-4edd-9bff-f4253732d3a8.png',
-      category: 'Elegant Venues'
     }
   ];
 
