@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,40 +14,14 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Extended hero photos collection - added new event images
+  // Reduced hero photos collection for better performance - only showing key images
   const heroPhotos = [
     "/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png",
     "/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png",
     "/lovable-uploads/3c79f6f7-1682-4d4f-954c-ea88a6d0cb8e.png",
     "/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png",
     "/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png",
-    "/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png",
-    "/lovable-uploads/6ff20f4d-d952-4b11-92d2-2f27d64dcc6b.png",
-    "/lovable-uploads/7180f2a2-8891-4fbe-b526-982d6e0b1115.png",
-    "/lovable-uploads/b4119590-f054-4bc0-a7a4-918f72e228c4.png",
-    "/lovable-uploads/a31b9767-b414-4e49-8c46-114c537e874d.png",
-    "/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png",
-    "/lovable-uploads/90867b2a-97b6-45dd-9957-212c10041118.png",
-    "/lovable-uploads/ed8ef56f-af69-4845-8d6d-f82dc85bd2ec.png",
-    "/lovable-uploads/2c464c3c-77bd-401b-9eb1-551ce786b145.png",
-    "/lovable-uploads/9b257c2a-c3de-4707-8212-a13c99b9cce7.png",
-    "/lovable-uploads/3d39933e-766d-4f71-b99f-200eda86b8d9.png",
-    "/lovable-uploads/c0f0c868-ff27-41b0-9da0-2920d4a91c4f.png",
-    "/lovable-uploads/0db3978f-fddb-459e-b8bb-85802bf3c090.png",
-    "/lovable-uploads/349eca6a-8be0-41b8-b658-6812782f24bd.png",
-    "/lovable-uploads/ebe0fd91-a90a-4892-918e-0ba9efc3f528.png",
-    "/lovable-uploads/3f9c5810-d649-4491-b362-4c8c4e225b10.png",
-    "/lovable-uploads/17424ed7-79a7-4d95-aca3-6ee75c76a993.png",
-    "/lovable-uploads/3f496f60-258f-43f1-9bc8-45a2caf5c12c.png",
-    "/lovable-uploads/6c652822-67dd-4e67-bda3-699b33f9443b.png",
-    "/lovable-uploads/603a03a5-c27b-4781-a1d6-4a19cc5e1f82.png",
-    "/lovable-uploads/9d6016dd-51b9-4c53-9522-b10dc988cdf6.png",
-    "/lovable-uploads/ee21f0eb-6c46-4895-806e-880518233329.png",
-    "/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png",
-    "/lovable-uploads/81855db5-1e20-411a-8d6c-abce0c628a01.png",
-    "/lovable-uploads/68a145e1-eade-4a21-a6b2-36e303f8c208.png",
-    "/lovable-uploads/f47d4502-0c8b-4ba8-becc-584a00a22418.png",
-    "/lovable-uploads/02da9a98-f3d5-4a34-9909-5c798ce596c4.png"
+    "/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png"
   ];
 
   const scrollToPortfolio = () => {
@@ -66,21 +41,21 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
-    }, 4000);
+    }, 5000); // Slower transition for better performance
     return () => clearInterval(interval);
   }, [heroPhotos.length]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-luxury overflow-hidden">
-      {/* Optimized Sliding Photo Background with Mobile-Friendly Sizing */}
+      {/* Optimized Sliding Photo Background with better performance */}
       <div className="absolute inset-0 z-0">
         {heroPhotos.map((photo, index) => (
           <div
             key={photo}
-            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               index === currentPhotoIndex 
-                ? 'opacity-50 sm:opacity-40 scale-105' 
-                : 'opacity-0 scale-100'
+                ? 'opacity-40' 
+                : 'opacity-0'
             }`}
             style={{
               backgroundImage: `url('${photo}')`,
@@ -93,12 +68,7 @@ const HeroSection = () => {
       </div>
 
       {/* Dark Overlay for Better Text Visibility */}
-      <div className="absolute inset-0 bg-luxury-black/40 sm:bg-luxury-black/50 z-1"></div>
-
-      {/* Background Pattern Overlay */}
-      <div className="absolute inset-0 opacity-5 sm:opacity-10 z-2">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNENEFGMzciIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] repeat"></div>
-      </div>
+      <div className="absolute inset-0 bg-luxury-black/50 z-1"></div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-5xl mx-auto animate-fade-in">
@@ -165,15 +135,9 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Decorative Elements */}
+      {/* Simplified decorative elements for better performance */}
       <div className="hidden sm:block absolute top-20 left-10 w-32 h-32 border-2 border-luxury-gold/30 rounded-full animate-pulse"></div>
       <div className="hidden sm:block absolute bottom-32 right-10 w-24 h-24 border-2 border-luxury-gold/40 rounded-full animate-pulse delay-1000"></div>
-      <div className="hidden md:block absolute top-1/2 left-4 w-16 h-16 border border-luxury-gold/20 rounded-full animate-spin" style={{ animationDuration: '20s' }}></div>
-      <div className="hidden lg:block absolute bottom-1/4 right-1/4 w-8 h-8 bg-luxury-gold/20 rounded-full animate-ping delay-2000"></div>
-      
-      {/* Mobile decorative elements */}
-      <div className="sm:hidden absolute top-24 right-4 w-16 h-16 border border-luxury-gold/20 rounded-full animate-pulse"></div>
-      <div className="sm:hidden absolute bottom-24 left-4 w-12 h-12 border border-luxury-gold/30 rounded-full animate-pulse delay-1000"></div>
     </section>
   );
 };
