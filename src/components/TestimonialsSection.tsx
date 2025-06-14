@@ -1,22 +1,21 @@
-
 import { Star } from 'lucide-react';
 
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      name: "Sarah Martinez",
+      name: "James Mwangi",
       role: "CEO, Tech Innovations",
       content: "Absolutely flawless execution. Every detail was perfect, and the VIP treatment exceeded all our expectations.",
       rating: 5
     },
     {
-      name: "Michael Chen",
+      name: "Mary Kibe",
       role: "Event Director",
       content: "The level of sophistication and attention to detail is unmatched. They transformed our vision into reality.",
       rating: 5
     },
     {
-      name: "Emma Thompson",
+      name: "Anthony Njenga",
       role: "Marketing Executive",
       content: "Professional, reliable, and truly exceptional service. Our guests were amazed by the luxury experience.",
       rating: 5
