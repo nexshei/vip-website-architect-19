@@ -64,7 +64,7 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-luxury overflow-hidden">
-      {/* Optimized Sliding Photo Background */}
+      {/* Optimized Sliding Photo Background with Mobile-Friendly Sizing */}
       <div className="absolute inset-0 z-0">
         {heroPhotos.map((photo, index) => (
           <div
@@ -76,8 +76,8 @@ const HeroSection = () => {
             }`}
             style={{
               backgroundImage: `url('${photo}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center center',
+              backgroundSize: window.innerWidth < 640 ? 'cover' : 'cover',
+              backgroundPosition: window.innerWidth < 640 ? 'center top' : 'center center',
               backgroundRepeat: 'no-repeat'
             }}
           />
