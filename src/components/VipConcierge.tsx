@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -99,6 +100,45 @@ const VipConcierge = () => {
                 type="date" 
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="eventType" className="text-luxury-black font-medium">Event Type</Label>
+              <Select>
+                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                  <SelectValue placeholder="Select event type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="corporate">Corporate Event</SelectItem>
+                  <SelectItem value="wedding">Wedding</SelectItem>
+                  <SelectItem value="diplomatic">Diplomatic Function</SelectItem>
+                  <SelectItem value="private">Private Celebration</SelectItem>
+                  <SelectItem value="government">Government Function</SelectItem>
+                  <SelectItem value="international">International Conference</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="serviceType" className="text-luxury-black font-medium">Service Type</Label>
+              <Select>
+                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                  <SelectValue placeholder="Select service type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="vip-protocol">VIP Protocol Management</SelectItem>
+                  <SelectItem value="diplomatic-protocol">Diplomatic Protocol Services</SelectItem>
+                  <SelectItem value="corporate-protocol">Corporate Protocol Services</SelectItem>
+                  <SelectItem value="event-coordination">Event Coordination & Management</SelectItem>
+                  <SelectItem value="security-management">Security & Logistics Management</SelectItem>
+                  <SelectItem value="hospitality">Premium Hospitality Services</SelectItem>
+                  <SelectItem value="consultation">Protocol Consultation</SelectItem>
+                  <SelectItem value="training">Protocol Training & Development</SelectItem>
+                  <SelectItem value="full-service">Full-Service Protocol Package</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
