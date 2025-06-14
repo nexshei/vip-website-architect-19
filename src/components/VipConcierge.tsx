@@ -1,129 +1,22 @@
-
-import { useState } from 'react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { X, Phone, Mail, MapPin } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-// ADD VALIDATION IMPORTS
-import { 
-  validateTextField,
-  validateEmail,
-  validatePhone,
-  canSubmit
-} from '@/utils/validation';
+import { useState } from 'react';
+import ContactInfo from './vip-concierge/ContactInfo';
+import EventDetails from './vip-concierge/EventDetails';
+import ServiceDetails from './vip-concierge/ServiceDetails';
+import Requirements from './vip-concierge/Requirements';
+import ContactSection from './vip-concierge/ContactSection';
+import { useVipConciergeForm } from './vip-concierge/useVipConciergeForm';
 
 const VipConcierge = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
-  // Controlled form state
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [eventDate, setEventDate] = useState('');
-  const [eventType, setEventType] = useState('');
-  const [serviceType, setServiceType] = useState('');
-  const [location, setLocation] = useState('');
-  const [protocolOfficers, setProtocolOfficers] = useState('');
-  const [requirements, setRequirements] = useState('');
-
-  // NEW: Save errors for each field
-  const [formErrors, setFormErrors] = useState<{[k: string]: string}>({});
-
-  const resetForm = () => {
-    setFullName('');
-    setEmail('');
-    setPhone('');
-    setEventDate('');
-    setEventType('');
-    setServiceType('');
-    setLocation('');
-    setProtocolOfficers('');
-    setRequirements('');
-    setFormErrors({});
-  };
-
-  // NEW: Validate all fields
-  function validateAllFields() {
-    const errors: {[k: string]: string} = {};
-    if (!validateTextField(fullName, 70)) errors.fullName = "Full name is required (max 70 chars)";
-    if (!validateEmail(email)) errors.email = "Invalid email address";
-    if (!validatePhone(phone)) errors.phone = "Please use a valid Kenyan phone number";
-    if (location && !validateTextField(location, 120)) errors.location = "Location: max 120 chars";
-    if (eventType && !validateTextField(eventType, 40)) errors.eventType = "Event type: max 40 chars";
-    if (serviceType && !validateTextField(serviceType, 40)) errors.serviceType = "Service type: max 40 chars";
-    if (protocolOfficers && !['1-5','5-10','10-20',''].includes(protocolOfficers)) errors.protocolOfficers = "Select a valid range";
-    if (requirements && !validateTextField(requirements, 500)) errors.requirements = "Requirements: max 500 chars";
-    return errors;
-  }
-
-  // NEW: use a key for rate limit
-  const FORM_KEY = "vip_concierge";
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const errors = validateAllFields();
-    setFormErrors(errors);
-    if (Object.keys(errors).length > 0) {
-      toast({
-        title: "Validation Error",
-        description: Object.values(errors).join(', '),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Rate limit
-    if (!canSubmit(FORM_KEY, 12000)) {
-      toast({
-        title: "Slow down!",
-        description: "You can only submit a request every 12 seconds. Please wait before trying again.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-
-    const { error } = await supabase.from('vvip_service_requests').insert([
-      {
-        full_name: fullName,
-        email,
-        phone,
-        event_date: eventDate || null,
-        event_type: eventType || null,
-        service_type: serviceType || null,
-        location: location || null,
-        protocol_officers: protocolOfficers || null,
-        requirements: requirements || null,
-      }
-    ]);
-
-    setIsLoading(false);
-
-    if (error) {
-      toast({
-        title: "Error submitting request",
-        description: error.message,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "Service Request Submitted!",
-      description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
-    });
-
-    setIsOpen(false);
-    resetForm();
-  };
+  const {
+    state,
+    isLoading,
+    formErrors,
+    handleChange,
+    handleSubmit,
+  } = useVipConciergeForm(setIsOpen);
 
   if (!isOpen) {
     return (
@@ -157,241 +50,39 @@ const VipConcierge = () => {
             Let us know how we can assist you with our premium protocol services.
           </p>
         </div>
-
         <form onSubmit={handleSubmit} className="p-6 space-y-6" noValidate>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
-              <Input 
-                id="fullName"
-                required
-                value={fullName}
-                onChange={e => {
-                  setFullName(e.target.value);
-                  setFormErrors({ ...formErrors, fullName: undefined });
-                }}
-                maxLength={70}
-                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                aria-invalid={!!formErrors.fullName}
-                aria-describedby={formErrors.fullName && "vip-form-fullname-error"}
-              />
-              {formErrors.fullName && (
-                <div id="vip-form-fullname-error" className="text-sm text-destructive mt-1">
-                  {formErrors.fullName}
-                </div>
-              )}
-            </div>
-            <div>
-              <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
-              <Input 
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={e => {
-                  setEmail(e.target.value);
-                  setFormErrors({ ...formErrors, email: undefined });
-                }}
-                maxLength={254}
-                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                aria-invalid={!!formErrors.email}
-                aria-describedby={formErrors.email && "vip-form-email-error"}
-              />
-              {formErrors.email && (
-                <div id="vip-form-email-error" className="text-sm text-destructive mt-1">
-                  {formErrors.email}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="phone" className="text-luxury-black font-medium">Phone Number</Label>
-              <Input 
-                id="phone"
-                type="tel"
-                required
-                value={phone}
-                onChange={e => {
-                  setPhone(e.target.value);
-                  setFormErrors({ ...formErrors, phone: undefined });
-                }}
-                maxLength={15}
-                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                aria-invalid={!!formErrors.phone}
-                aria-describedby={formErrors.phone && "vip-form-phone-error"}
-              />
-              {formErrors.phone && (
-                <div id="vip-form-phone-error" className="text-sm text-destructive mt-1">
-                  {formErrors.phone}
-                </div>
-              )}
-            </div>
-            <div>
-              <Label htmlFor="eventDate" className="text-luxury-black font-medium">Preferred Event Date</Label>
-              <Input 
-                id="eventDate"
-                type="date"
-                value={eventDate}
-                onChange={e => setEventDate(e.target.value)}
-                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-              />
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="eventType" className="text-luxury-black font-medium">Event Type</Label>
-              <Select value={eventType} onValueChange={val => {
-                setEventType(val);
-                setFormErrors({...formErrors, eventType: undefined});
-              }}>
-                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                  <SelectValue placeholder="Select event type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="corporate">Corporate Event</SelectItem>
-                  <SelectItem value="wedding">Wedding</SelectItem>
-                  <SelectItem value="diplomatic">Diplomatic Function</SelectItem>
-                  <SelectItem value="private">Private Celebration</SelectItem>
-                  <SelectItem value="government">Government Function</SelectItem>
-                  <SelectItem value="international">International Conference</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-              {formErrors.eventType && (
-                <div className="text-sm text-destructive mt-1">{formErrors.eventType}</div>
-              )}
-            </div>
-            <div>
-              <Label htmlFor="serviceType" className="text-luxury-black font-medium">Service Type</Label>
-              <Select value={serviceType} onValueChange={val => {
-                setServiceType(val);
-                setFormErrors({...formErrors, serviceType: undefined});
-              }}>
-                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                  <SelectValue placeholder="Select service type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="vvip-protocol">VVIP Protocol Management</SelectItem>
-                  <SelectItem value="diplomatic-protocol">Diplomatic Protocol Services</SelectItem>
-                  <SelectItem value="corporate-protocol">Corporate Protocol Services</SelectItem>
-                  <SelectItem value="event-coordination">Event Coordination & Management</SelectItem>
-                  <SelectItem value="security-management">Security & Logistics Management</SelectItem>
-                  <SelectItem value="hospitality">Premium Hospitality Services</SelectItem>
-                  <SelectItem value="consultation">Protocol Consultation</SelectItem>
-                  <SelectItem value="training">Protocol Training & Development</SelectItem>
-                  <SelectItem value="full-service">Full-Service Protocol Package</SelectItem>
-                </SelectContent>
-              </Select>
-              {formErrors.serviceType && (
-                <div className="text-sm text-destructive mt-1">{formErrors.serviceType}</div>
-              )}
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="location" className="text-luxury-black font-medium">Location / Venue</Label>
-              <Input 
-                id="location"
-                value={location}
-                onChange={e => {
-                  setLocation(e.target.value);
-                  setFormErrors({ ...formErrors, location: undefined });
-                }}
-                maxLength={120}
-                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                aria-invalid={!!formErrors.location}
-                aria-describedby={formErrors.location && "vip-form-location-error"}
-              />
-              {formErrors.location && (
-                <div id="vip-form-location-error" className="text-sm text-destructive mt-1">
-                  {formErrors.location}
-                </div>
-              )}
-            </div>
-            <div>
-              <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
-              <Select value={protocolOfficers} onValueChange={val => {
-                setProtocolOfficers(val);
-                setFormErrors({...formErrors, protocolOfficers: undefined});
-              }}>
-                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                  <SelectValue placeholder="Select range" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1-5">1-5</SelectItem>
-                  <SelectItem value="5-10">5-10</SelectItem>
-                  <SelectItem value="10-20">10-20</SelectItem>
-                </SelectContent>
-              </Select>
-              {formErrors.protocolOfficers && (
-                <div className="text-sm text-destructive mt-1">{formErrors.protocolOfficers}</div>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="requirements" className="text-luxury-black font-medium">Service Requirements</Label>
-            <Textarea 
-              id="requirements"
-              rows={4}
-              placeholder="Please describe your specific requirements, expected number of guests, and any special considerations..."
-              value={requirements}
-              onChange={e => {
-                setRequirements(e.target.value);
-                setFormErrors({...formErrors, requirements: undefined});
-              }}
-              maxLength={500}
-              className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
-              aria-invalid={!!formErrors.requirements}
-              aria-describedby={formErrors.requirements && "vip-form-requirements-error"}
-            />
-            {formErrors.requirements && (
-              <div id="vip-form-requirements-error" className="text-sm text-destructive mt-1">
-                {formErrors.requirements}
-              </div>
-            )}
-          </div>
-
-          <Button 
-            type="submit" 
+          <ContactInfo
+            state={state}
+            formErrors={formErrors}
+            handleChange={handleChange}
+          />
+          <EventDetails
+            state={state}
+            formErrors={formErrors}
+            handleChange={handleChange}
+          />
+          <ServiceDetails
+            state={state}
+            formErrors={formErrors}
+            handleChange={handleChange}
+          />
+          <Requirements
+            state={state}
+            formErrors={formErrors}
+            handleChange={handleChange}
+          />
+          <Button
+            type="submit"
             disabled={isLoading}
             className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 transition-all duration-300"
           >
             {isLoading ? 'Submitting Request...' : 'Submit Service Request'}
           </Button>
         </form>
-
-        <div className="p-6 border-t border-luxury-black/10">
-          <h3 className="text-xl font-playfair font-bold text-luxury-black mb-4">Contact Us</h3>
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-luxury-black/80">
-              <Phone className="h-5 w-5" />
-              <a href="tel:0712063461" className="hover:text-luxury-gold transition-colors">
-                0712063461
-              </a>
-            </div>
-            <div className="flex items-center gap-2 text-luxury-black/80">
-              <Mail className="h-5 w-5" />
-              <a href="mailto:sirolevvipprotocol@gmail.com" className="hover:text-luxury-gold transition-colors">
-                sirolevvipprotocol@gmail.com
-              </a>
-            </div>
-            <div className="flex items-center gap-2 text-luxury-black/80">
-              <MapPin className="h-5 w-5" />
-              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors">
-                Golden Court, Silicon Valley Estate, Eastern Bypass, Nairobi
-              </a>
-            </div>
-          </div>
-        </div>
+        <ContactSection />
       </div>
     </div>
   );
 };
 
 export default VipConcierge;
-
