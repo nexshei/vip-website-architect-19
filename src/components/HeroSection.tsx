@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,11 +14,10 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Extended hero photos collection with all existing and new uploaded images (removed 5th and 7th items, added new images)
+  // Extended hero photos collection with all existing and new uploaded images (removed 3rd, 5th and 7th items, added new images)
   const heroPhotos = [
     "/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png",
     "/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png",
-    "/lovable-uploads/ebbab88b-0596-40bf-b0b7-2f7812c15cde.png",
     "/lovable-uploads/3c79f6f7-1682-4d4f-954c-ea88a6d0cb8e.png",
     "/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png",
     "/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png",
