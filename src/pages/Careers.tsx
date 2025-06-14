@@ -58,14 +58,14 @@ const Careers = () => {
       ]
     },
     {
-      title: "VIP Security Specialist",
+      title: "VVIP Security Specialist",
       icon: MapPin,
       type: "Full-time",
       location: "Nairobi",
       description: "Provide discrete security services for high-profile clients and events, ensuring safety while maintaining an elegant and unobtrusive presence.",
       requirements: [
         "Certified security training and relevant licenses",
-        "5+ years experience in executive protection or VIP security",
+        "5+ years experience in executive protection or VVIP security",
         "Physical fitness and professional appearance",
         "Excellent situational awareness and crisis management skills",
         "Ability to work under pressure while maintaining professionalism"

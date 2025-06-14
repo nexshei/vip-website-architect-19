@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     },
     {
       src: '/lovable-uploads/ebbab88b-0596-40bf-b0b7-2f7812c15cde.png',
-      category: 'VIP Protocol'
+      category: 'VVIP Protocol'
     },
     {
       src: '/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png',
@@ -43,7 +44,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     },
     {
       src: '/lovable-uploads/ebbab88b-0596-40bf-b0b7-2f7812c15cde.png',
-      category: 'VIP Protocol'
+      category: 'VVIP Protocol'
     },
     {
       src: '/lovable-uploads/3c79f6f7-1682-4d4f-954c-ea88a6d0cb8e.png',
@@ -63,7 +64,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     },
     {
       src: '/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png',
-      category: 'VIP Team Services'
+      category: 'VVIP Team Services'
     },
     {
       src: '/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png',
@@ -83,7 +84,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     },
     {
       src: '/lovable-uploads/a31b9767-b414-4e49-8c46-114c537e874d.png',
-      category: 'VIP Ceremonies'
+      category: 'VVIP Ceremonies'
     },
     {
       src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png',
@@ -91,7 +92,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     },
     {
       src: '/lovable-uploads/90867b2a-97b6-45dd-9957-212c10041118.png',
-      category: 'VIP Protocol Events'
+      category: 'VVIP Protocol Events'
     },
     {
       src: '/lovable-uploads/ed8ef56f-af69-4845-8d6d-f82dc85bd2ec.png',
@@ -156,7 +157,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
           </h2>
           <div className="w-24 h-1 bg-luxury-gold mx-auto mb-8"></div>
           <p className="text-xl text-luxury-black/70 max-w-3xl mx-auto">
-            Witness the excellence of our VIP protocol and event management services through these memorable moments
+            Witness the excellence of our VVIP protocol and event management services through these memorable moments
           </p>
         </div>
 

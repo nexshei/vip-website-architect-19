@@ -1,3 +1,4 @@
+
 import { Star } from 'lucide-react';
 
 const TestimonialsSection = () => {
@@ -5,7 +6,7 @@ const TestimonialsSection = () => {
     {
       name: "James Mwangi",
       role: "CEO, Tech Innovations",
-      content: "Absolutely flawless execution. Every detail was perfect, and the VIP treatment exceeded all our expectations.",
+      content: "Absolutely flawless execution. Every detail was perfect, and the VVIP treatment exceeded all our expectations.",
       rating: 5
     },
     {

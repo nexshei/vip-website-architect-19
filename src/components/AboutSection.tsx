@@ -36,7 +36,7 @@ const AboutSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 animate-fade-in">
             <p className="text-lg text-luxury-black/80 leading-relaxed">
-              At Sir Ole VVIP Protocol Ltd, we redefine the art of hospitality and protocol services. Our commitment to excellence has established us as Nairobi's premier provider of luxury protocol, ushering, VIP security, and event management services.
+              At Sir Ole VVIP Protocol Ltd, we redefine the art of hospitality and protocol services. Our commitment to excellence has established us as Nairobi's premier provider of luxury protocol, ushering, VVIP security, and event management services.
             </p>
             
             <p className="text-lg text-luxury-black/80 leading-relaxed">

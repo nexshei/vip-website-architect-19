@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { X, MessageCircle, Calendar, Users, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-const VipConcierge = () => {
+const VVIPConcierge = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ const VipConcierge = () => {
 
   const services = [
     'Professional Ushering',
-    'VIP Security',
+    'VVIP Security',
     'Protocol Management',
     'Event Planning',
     'Catering Coordination',
@@ -51,7 +52,7 @@ const VipConcierge = () => {
   const handleSubmit = () => {
     toast({
       title: "Thank you for your inquiry!",
-      description: "Your VIP Concierge will contact you within 2 hours to discuss your requirements.",
+      description: "Your VVIP Concierge will contact you within 2 hours to discuss your requirements.",
     });
     setIsOpen(false);
     setCurrentStep(1);
@@ -85,7 +86,7 @@ const VipConcierge = () => {
       >
         <MessageCircle size={24} />
         <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
-          VIP
+          VVIP
         </div>
         <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-luxury-black text-luxury-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300">
           Your Protocol Concierge
@@ -105,7 +106,7 @@ const VipConcierge = () => {
                 <X size={18} className="font-bold" />
               </button>
               <CardTitle className="text-center pr-12">
-                🎩 Your VIP Protocol Concierge
+                🎩 Your VVIP Protocol Concierge
               </CardTitle>
               <p className="text-center text-luxury-white/80 text-sm pr-12">
                 Let's create something extraordinary together
@@ -282,4 +283,4 @@ const VipConcierge = () => {
   );
 };
 
-export default VipConcierge;
+export default VVIPConcierge;

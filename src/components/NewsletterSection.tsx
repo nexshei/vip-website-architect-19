@@ -52,7 +52,7 @@ const NewsletterSection = () => {
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-luxury-white mb-4 sm:mb-6">
-            Be Our <span className="text-gradient-gold">VIP Insider</span>
+            Be Our <span className="text-gradient-gold">VVIP Insider</span>
           </h2>
           
           <p className="text-lg sm:text-xl text-luxury-white/90 mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed">
@@ -89,7 +89,7 @@ const NewsletterSection = () => {
             </form>
 
             <p className="text-luxury-white/70 text-sm mt-6 leading-relaxed">
-              Join our exclusive community and stay informed about upcoming VIP events and hospitality insights.
+              Join our exclusive community and stay informed about upcoming VVIP events and hospitality insights.
               <span className="block mt-1 text-luxury-gold">✨ No spam, only premium content</span>
             </p>
           </div>
