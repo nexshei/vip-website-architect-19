@@ -111,6 +111,20 @@ const BookMeeting = () => {
                 </div>
 
                 <div>
+                  <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
+                  <Select>
+                    <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                      <SelectValue placeholder="Select range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1-5">1-5</SelectItem>
+                      <SelectItem value="5-10">5-10</SelectItem>
+                      <SelectItem value="10-20">10-20</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
                   <Label htmlFor="vision" className="text-luxury-black font-medium">Describe Your Vision</Label>
                   <Textarea 
                     id="vision" 
