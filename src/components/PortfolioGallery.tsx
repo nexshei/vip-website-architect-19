@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,27 +7,15 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Extended carousel images with all existing and new uploaded photos
+  // Limited carousel images to 5 selected images
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
       category: 'Team Services'
     },
     {
-      src: '/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png',
-      category: 'Cultural Events'
-    },
-    {
       src: '/lovable-uploads/ebbab88b-0596-40bf-b0b7-2f7812c15cde.png',
       category: 'VIP Protocol'
-    },
-    {
-      src: '/lovable-uploads/3c79f6f7-1682-4d4f-954c-ea88a6d0cb8e.png',
-      category: 'Corporate Events'
-    },
-    {
-      src: '/lovable-uploads/39f351a6-b6df-4ed8-9267-ec7d84f67b55.png',
-      category: 'Event Hosting'
     },
     {
       src: '/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png',
@@ -39,72 +26,8 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       category: 'Award Ceremonies'
     },
     {
-      src: '/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png',
-      category: 'VIP Team Services'
-    },
-    {
-      src: '/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png',
-      category: 'Premium Events'
-    },
-    {
-      src: '/lovable-uploads/6ff20f4d-d952-4b11-92d2-2f27d64dcc6b.png',
-      category: 'Special Occasions'
-    },
-    {
-      src: '/lovable-uploads/7180f2a2-8891-4fbe-b526-982d6e0b1115.png',
-      category: 'Red Carpet Events'
-    },
-    {
-      src: '/lovable-uploads/b4119590-f054-4bc0-a7a4-918f72e228c4.png',
-      category: 'Award Presentations'
-    },
-    {
-      src: '/lovable-uploads/a31b9767-b414-4e49-8c46-114c537e874d.png',
-      category: 'VIP Ceremonies'
-    },
-    {
-      src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png',
-      category: 'Executive Meetings'
-    },
-    {
-      src: '/lovable-uploads/90867b2a-97b6-45dd-9957-212c10041118.png',
-      category: 'VIP Protocol Events'
-    },
-    {
-      src: '/lovable-uploads/ed8ef56f-af69-4845-8d6d-f82dc85bd2ec.png',
-      category: 'Elite Services'
-    },
-    {
-      src: '/lovable-uploads/2c464c3c-77bd-401b-9eb1-551ce786b145.png',
-      category: 'Professional Team'
-    },
-    {
-      src: '/lovable-uploads/9b257c2a-c3de-4707-8212-a13c99b9cce7.png',
-      category: 'Client Relations'
-    },
-    {
-      src: '/lovable-uploads/3d39933e-766d-4f71-b99f-200eda86b8d9.png',
-      category: 'Executive Services'
-    },
-    {
-      src: '/lovable-uploads/c0f0c868-ff27-41b0-9da0-2920d4a91c4f.png',
-      category: 'Premium Protocol'
-    },
-    {
-      src: '/lovable-uploads/0db3978f-fddb-459e-b8bb-85802bf3c090.png',
-      category: 'Event Management'
-    },
-    {
       src: '/lovable-uploads/349eca6a-8be0-41b8-b658-6812782f24bd.png',
       category: 'Luxury Venues'
-    },
-    {
-      src: '/lovable-uploads/ebe0fd91-a90a-4892-918e-0ba9efc3f528.png',
-      category: 'Fine Dining Events'
-    },
-    {
-      src: '/lovable-uploads/3f9c5810-d649-4491-b362-4c8c4e225b10.png',
-      category: 'Executive Consultations'
     }
   ];
 
