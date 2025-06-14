@@ -13,15 +13,13 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Extended hero photos collection with all existing and new uploaded images
+  // Extended hero photos collection with all existing and new uploaded images (removed 5th and 7th items)
   const heroPhotos = [
     "/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png",
     "/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png",
     "/lovable-uploads/ebbab88b-0596-40bf-b0b7-2f7812c15cde.png",
     "/lovable-uploads/3c79f6f7-1682-4d4f-954c-ea88a6d0cb8e.png",
-    "/lovable-uploads/39f351a6-b6df-4ed8-9267-ec7d84f67b55.png",
     "/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png",
-    "/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png",
     "/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png",
     "/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png",
     "/lovable-uploads/6ff20f4d-d952-4b11-92d2-2f27d64dcc6b.png",
@@ -81,8 +79,8 @@ const HeroSection = () => {
             }`}
             style={{
               backgroundImage: `url('${photo}')`,
-              backgroundSize: window.innerWidth < 640 ? 'cover' : 'cover',
-              backgroundPosition: window.innerWidth < 640 ? 'center top' : 'center center',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
               backgroundRepeat: 'no-repeat'
             }}
           />
@@ -109,7 +107,7 @@ const HeroSection = () => {
 
           {/* Subheadline */}
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-luxury-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in delay-300 px-4">
-            Where luxury meets logistics. Experience flawless VIP service that transforms every occasion into an unforgettable moment of excellence.
+            Where luxury meets logistics. Experience flawless VVIP service that transforms every occasion into an unforgettable moment of excellence.
           </p>
 
           {/* CTA Buttons */}
@@ -142,7 +140,7 @@ const HeroSection = () => {
             </div>
             <div className="flex items-center justify-center space-x-2 text-luxury-white/80">
               <div className="w-2 h-2 bg-luxury-gold rounded-full flex-shrink-0"></div>
-              <span className="text-sm font-medium">500+ VIP Events</span>
+              <span className="text-sm font-medium">500+ VVIP Events</span>
             </div>
           </div>
 

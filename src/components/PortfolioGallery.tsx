@@ -7,7 +7,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Updated carousel images including some new ones
+  // Updated carousel images including some new ones (removed 5th and 7th items)
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -18,20 +18,12 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       category: 'VVIP Protocol'
     },
     {
-      src: '/lovable-uploads/17424ed7-79a7-4d95-aca3-6ee75c76a993.png',
-      category: 'Corporate Events'
-    },
-    {
       src: '/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png',
       category: 'Award Ceremonies'
-    },
-    {
-      src: '/lovable-uploads/603a03a5-c27b-4781-a1d6-4a19cc5e1f82.png',
-      category: 'Special Events'
     }
   ];
 
-  // Extended portfolio images using all uploaded photos including new ones
+  // Extended portfolio images using all uploaded photos including new ones (removed 5th and 7th items)
   const allPortfolioImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -50,16 +42,8 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       category: 'Corporate Events'
     },
     {
-      src: '/lovable-uploads/39f351a6-b6df-4ed8-9267-ec7d84f67b55.png',
-      category: 'Event Hosting'
-    },
-    {
       src: '/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png',
       category: 'Luxury Events'
-    },
-    {
-      src: '/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png',
-      category: 'Award Ceremonies'
     },
     {
       src: '/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png',
