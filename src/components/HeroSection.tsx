@@ -13,25 +13,14 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Updated hero photos collection - removed same images as gallery
+  // Updated hero photos collection with new uploaded images
   const heroPhotos = [
-    "/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png",
-    "/lovable-uploads/f71bd9cd-c4c9-4a59-a24d-a6e49d984afe.png",
-    "/lovable-uploads/b497ba4d-222d-4316-97e0-44f8c7702e39.png",
-    "/lovable-uploads/2259eca1-3ecc-488d-815f-6fd0e5318d30.png",
-    "/lovable-uploads/c7198820-b469-4c13-ba3e-a7c42300fc77.png",
-    "/lovable-uploads/529a494b-d0dd-4063-871f-cc8d450b1874.png",
-    "/lovable-uploads/fe39ac21-24c0-4edd-9bff-f4253732d3a8.png",
-    "/lovable-uploads/1a67ea66-46e9-460f-bc7d-e7c9c7bb1d52.png",
-    "/lovable-uploads/4c3b614e-7c5f-45b7-81b7-2f2cdd08e7ad.png",
-    "/lovable-uploads/5d8c0a64-fcfc-4dfa-b275-f4c06abdc1ca.png",
-    "/lovable-uploads/69f2eb95-52a8-4b00-8482-3996df94b114.png",
-    "/lovable-uploads/a4fe64fe-a291-4afd-a0ce-0c85442bd3b8.png",
-    "/lovable-uploads/6c7a207d-bb6c-460a-8b97-47aaedc82ece.png",
-    "/lovable-uploads/adb82355-1802-4cf7-a5dd-17f512f3c8aa.png",
-    "/lovable-uploads/97e67e72-f29f-481a-8f83-299b395d8072.png",
-    "/lovable-uploads/9e748710-7fa9-4148-bce9-cccefca96666.png",
-    "/lovable-uploads/028f216e-ee0a-4bab-8d16-1a8fc8afdd5d.png"
+    "/lovable-uploads/7be2478c-b06d-4746-b9d6-29f8e52f81d0.png",
+    "/lovable-uploads/ee7a6193-1f30-4989-8cff-282b321a3743.png",
+    "/lovable-uploads/e7899310-a0ce-4005-92c5-79cd2f70a0a9.png",
+    "/lovable-uploads/576e1f4e-0b3b-461b-a621-3af96cca3f56.png",
+    "/lovable-uploads/d2f683ba-8245-4134-89e7-c46323932c9b.png",
+    "/lovable-uploads/8d9cf3b8-96f9-4eb7-b095-1b7bca13cd24.png"
   ];
 
   const scrollToPortfolio = () => {
