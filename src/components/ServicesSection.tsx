@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Shield, Clock, Calendar, Star } from 'lucide-react';
+import { Users, Shield, Clock, Calendar, Star, Mic, Utensils, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ServiceDetailModal from './ServiceDetailModal';
@@ -106,6 +106,78 @@ const ServicesSection = () => {
         'Detailed timeline management and execution',
         'Rigorous quality assurance and contingency planning'
       ]
+    },
+    {
+      id: 'mc-services',
+      title: 'MC Services',
+      description: 'Professional masters of ceremony who bring charisma, eloquence, and seamless flow to your events, ensuring every moment is perfectly orchestrated and engaging.',
+      icon: Mic,
+      stats: '180+ Events',
+      rating: '96%',
+      color: 'border-luxury-gold bg-luxury-gold/5',
+      badge: 'MC',
+      features: [
+        'Charismatic hosting',
+        'Script writing',
+        'Crowd engagement',
+        'Multilingual services'
+      ],
+      testimonial: "Kept our guests entertained throughout the event",
+      detailDescription: 'Our professional MCs bring energy, charisma, and seamless coordination to your events, ensuring smooth transitions and engaging entertainment that keeps your guests captivated.',
+      keyFeatures: [
+        'Experienced and charismatic event hosts',
+        'Custom script writing and event planning',
+        'Expert crowd engagement and entertainment',
+        'Multilingual hosting capabilities'
+      ]
+    },
+    {
+      id: 'cutlery-catering',
+      title: 'Cutlery & Catering Services',
+      description: 'Premium catering solutions with exquisite cutlery and tableware, delivering culinary excellence that complements the sophistication of your luxury events.',
+      icon: Utensils,
+      stats: '250+ Events',
+      rating: '95%',
+      color: 'border-gray-300 bg-gray-50/5',
+      badge: 'PREMIUM',
+      features: [
+        'Gourmet cuisine',
+        'Premium cutlery',
+        'Table styling',
+        'Dietary accommodations'
+      ],
+      testimonial: "Exquisite cuisine and presentation",
+      detailDescription: 'Our catering services combine gourmet cuisine with premium cutlery and elegant table styling, creating a complete dining experience that reflects the luxury of your event.',
+      keyFeatures: [
+        'Gourmet cuisine crafted by expert chefs',
+        'Premium cutlery and elegant tableware',
+        'Professional table styling and setup',
+        'Comprehensive dietary accommodation options'
+      ]
+    },
+    {
+      id: 'bridal-coordination',
+      title: 'Bridal Party Coordination',
+      description: 'Specialized coordination services for bridal parties, ensuring every detail of your special day is perfectly orchestrated from ceremony to reception.',
+      icon: Heart,
+      stats: '120+ Weddings',
+      rating: '99%',
+      color: 'border-luxury-gold bg-luxury-gold/5',
+      badge: 'BRIDAL',
+      features: [
+        'Wedding coordination',
+        'Bridal party management',
+        'Timeline orchestration',
+        'Vendor liaison'
+      ],
+      testimonial: "Made our wedding day absolutely perfect",
+      detailDescription: 'Specialized bridal party coordination ensuring your wedding day flows seamlessly, with expert management of all bridal party activities, timelines, and vendor coordination.',
+      keyFeatures: [
+        'Complete wedding day coordination and planning',
+        'Professional bridal party management and guidance',
+        'Detailed timeline orchestration and execution',
+        'Expert vendor liaison and communication'
+      ]
     }
   ];
 
@@ -131,7 +203,7 @@ const ServicesSection = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {services.map((service, index) => (
               <Card key={service.id} className={`relative overflow-hidden ${service.color} hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2`}>
                 <div className="absolute top-4 right-4 bg-luxury-gold text-black px-3 py-1 rounded-full text-sm font-semibold">

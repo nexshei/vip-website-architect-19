@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useToast } from '@/hooks/use-toast';
-import { Users, Book, Clock, MapPin } from 'lucide-react';
+import { Users, Book, Clock, MapPin, Mic, Utensils, Heart } from 'lucide-react';
 
 const Careers = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -68,6 +69,48 @@ const Careers = () => {
         "Physical fitness and professional appearance",
         "Excellent situational awareness and crisis management skills",
         "Ability to work under pressure while maintaining professionalism"
+      ]
+    },
+    {
+      title: "Master of Ceremonies (MC)",
+      icon: Mic,
+      type: "Full-time / Freelance",
+      location: "Nairobi",
+      description: "Lead events as a charismatic and professional MC, ensuring smooth flow and engaging entertainment throughout luxury events and celebrations.",
+      requirements: [
+        "Bachelor's degree in Communications, Theater Arts, or related field",
+        "3+ years experience in event hosting or public speaking",
+        "Exceptional verbal communication and presentation skills",
+        "Charismatic personality with strong stage presence",
+        "Ability to engage diverse audiences and adapt to different event types"
+      ]
+    },
+    {
+      title: "Catering Coordinator",
+      icon: Utensils,
+      type: "Full-time",
+      location: "Nairobi",
+      description: "Manage premium catering services, coordinate with chefs and service staff, and ensure exceptional culinary experiences at luxury events.",
+      requirements: [
+        "Diploma in Hospitality Management, Culinary Arts, or related field",
+        "4+ years experience in catering or food service management",
+        "Knowledge of food safety regulations and dietary requirements",
+        "Strong organizational and vendor management skills",
+        "Experience with high-end catering and event coordination"
+      ]
+    },
+    {
+      title: "Bridal Coordinator",
+      icon: Heart,
+      type: "Full-time / Part-time",
+      location: "Nairobi",
+      description: "Specialize in wedding coordination, managing bridal parties, and ensuring every detail of the special day is perfectly executed with elegance and grace.",
+      requirements: [
+        "Certificate in Wedding Planning or Event Management",
+        "2+ years experience in wedding coordination or bridal services",
+        "Exceptional attention to detail and organizational skills",
+        "Strong interpersonal skills and ability to work under pressure",
+        "Knowledge of wedding traditions and cultural customs"
       ]
     }
   ];
