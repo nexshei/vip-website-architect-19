@@ -13,7 +13,7 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Extended hero photos collection with all existing and new uploaded images (removed 5th and 7th items)
+  // Extended hero photos collection with all existing and new uploaded images (removed 5th and 7th items, added new images)
   const heroPhotos = [
     "/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png",
     "/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png",
@@ -41,7 +41,11 @@ const HeroSection = () => {
     "/lovable-uploads/3f496f60-258f-43f1-9bc8-45a2caf5c12c.png",
     "/lovable-uploads/6c652822-67dd-4e67-bda3-699b33f9443b.png",
     "/lovable-uploads/603a03a5-c27b-4781-a1d6-4a19cc5e1f82.png",
-    "/lovable-uploads/9d6016dd-51b9-4c53-9522-b10dc988cdf6.png"
+    "/lovable-uploads/9d6016dd-51b9-4c53-9522-b10dc988cdf6.png",
+    "/lovable-uploads/ee21f0eb-6c46-4895-806e-880518233329.png",
+    "/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png",
+    "/lovable-uploads/81855db5-1e20-411a-8d6c-abce0c628a01.png",
+    "/lovable-uploads/68a145e1-eade-4a21-a6b2-36e303f8c208.png"
   ];
 
   const scrollToPortfolio = () => {

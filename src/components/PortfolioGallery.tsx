@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Updated carousel images including some new ones (removed 5th and 7th items)
+  // Updated carousel images including some new ones (removed 5th and 7th items, added new images)
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -20,10 +21,14 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png',
       category: 'Award Ceremonies'
+    },
+    {
+      src: '/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png',
+      category: 'Red Carpet Events'
     }
   ];
 
-  // Extended portfolio images using all uploaded photos including new ones (removed 5th and 7th items)
+  // Extended portfolio images using all uploaded photos including new ones (removed 5th and 7th items, added new images)
   const allPortfolioImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -131,6 +136,22 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     },
     {
       src: '/lovable-uploads/9d6016dd-51b9-4c53-9522-b10dc988cdf6.png',
+      category: 'Cultural Events'
+    },
+    {
+      src: '/lovable-uploads/ee21f0eb-6c46-4895-806e-880518233329.png',
+      category: 'Executive Meetings'
+    },
+    {
+      src: '/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png',
+      category: 'Red Carpet Events'
+    },
+    {
+      src: '/lovable-uploads/81855db5-1e20-411a-8d6c-abce0c628a01.png',
+      category: 'Special Occasions'
+    },
+    {
+      src: '/lovable-uploads/68a145e1-eade-4a21-a6b2-36e303f8c208.png',
       category: 'Cultural Events'
     }
   ];
