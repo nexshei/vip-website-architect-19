@@ -8,6 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { X, Phone, Mail, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+// ADD VALIDATION IMPORTS
+import { 
+  validateTextField,
+  validateEmail,
+  validatePhone,
+  canSubmit
+} from '@/utils/validation';
 
 const VipConcierge = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +32,9 @@ const VipConcierge = () => {
   const [protocolOfficers, setProtocolOfficers] = useState('');
   const [requirements, setRequirements] = useState('');
 
+  // NEW: Save errors for each field
+  const [formErrors, setFormErrors] = useState<{[k: string]: string}>({});
+
   const resetForm = () => {
     setFullName('');
     setEmail('');
@@ -35,10 +45,50 @@ const VipConcierge = () => {
     setLocation('');
     setProtocolOfficers('');
     setRequirements('');
+    setFormErrors({});
   };
+
+  // NEW: Validate all fields
+  function validateAllFields() {
+    const errors: {[k: string]: string} = {};
+    if (!validateTextField(fullName, 70)) errors.fullName = "Full name is required (max 70 chars)";
+    if (!validateEmail(email)) errors.email = "Invalid email address";
+    if (!validatePhone(phone)) errors.phone = "Please use a valid Kenyan phone number";
+    if (location && !validateTextField(location, 120)) errors.location = "Location: max 120 chars";
+    if (eventType && !validateTextField(eventType, 40)) errors.eventType = "Event type: max 40 chars";
+    if (serviceType && !validateTextField(serviceType, 40)) errors.serviceType = "Service type: max 40 chars";
+    if (protocolOfficers && !['1-5','5-10','10-20',''].includes(protocolOfficers)) errors.protocolOfficers = "Select a valid range";
+    if (requirements && !validateTextField(requirements, 500)) errors.requirements = "Requirements: max 500 chars";
+    return errors;
+  }
+
+  // NEW: use a key for rate limit
+  const FORM_KEY = "vip_concierge";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const errors = validateAllFields();
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      toast({
+        title: "Validation Error",
+        description: Object.values(errors).join(', '),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Rate limit
+    if (!canSubmit(FORM_KEY, 12000)) {
+      toast({
+        title: "Slow down!",
+        description: "You can only submit a request every 12 seconds. Please wait before trying again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     const { error } = await supabase.from('vvip_service_requests').insert([
@@ -108,7 +158,7 @@ const VipConcierge = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6" noValidate>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
@@ -116,9 +166,20 @@ const VipConcierge = () => {
                 id="fullName"
                 required
                 value={fullName}
-                onChange={e => setFullName(e.target.value)}
+                onChange={e => {
+                  setFullName(e.target.value);
+                  setFormErrors({ ...formErrors, fullName: undefined });
+                }}
+                maxLength={70}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                aria-invalid={!!formErrors.fullName}
+                aria-describedby={formErrors.fullName && "vip-form-fullname-error"}
               />
+              {formErrors.fullName && (
+                <div id="vip-form-fullname-error" className="text-sm text-destructive mt-1">
+                  {formErrors.fullName}
+                </div>
+              )}
             </div>
             <div>
               <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
@@ -127,9 +188,20 @@ const VipConcierge = () => {
                 type="email"
                 required
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => {
+                  setEmail(e.target.value);
+                  setFormErrors({ ...formErrors, email: undefined });
+                }}
+                maxLength={254}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                aria-invalid={!!formErrors.email}
+                aria-describedby={formErrors.email && "vip-form-email-error"}
               />
+              {formErrors.email && (
+                <div id="vip-form-email-error" className="text-sm text-destructive mt-1">
+                  {formErrors.email}
+                </div>
+              )}
             </div>
           </div>
 
@@ -141,9 +213,20 @@ const VipConcierge = () => {
                 type="tel"
                 required
                 value={phone}
-                onChange={e => setPhone(e.target.value)}
+                onChange={e => {
+                  setPhone(e.target.value);
+                  setFormErrors({ ...formErrors, phone: undefined });
+                }}
+                maxLength={15}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                aria-invalid={!!formErrors.phone}
+                aria-describedby={formErrors.phone && "vip-form-phone-error"}
               />
+              {formErrors.phone && (
+                <div id="vip-form-phone-error" className="text-sm text-destructive mt-1">
+                  {formErrors.phone}
+                </div>
+              )}
             </div>
             <div>
               <Label htmlFor="eventDate" className="text-luxury-black font-medium">Preferred Event Date</Label>
@@ -160,7 +243,10 @@ const VipConcierge = () => {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="eventType" className="text-luxury-black font-medium">Event Type</Label>
-              <Select value={eventType} onValueChange={setEventType}>
+              <Select value={eventType} onValueChange={val => {
+                setEventType(val);
+                setFormErrors({...formErrors, eventType: undefined});
+              }}>
                 <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
                   <SelectValue placeholder="Select event type" />
                 </SelectTrigger>
@@ -174,10 +260,16 @@ const VipConcierge = () => {
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
+              {formErrors.eventType && (
+                <div className="text-sm text-destructive mt-1">{formErrors.eventType}</div>
+              )}
             </div>
             <div>
               <Label htmlFor="serviceType" className="text-luxury-black font-medium">Service Type</Label>
-              <Select value={serviceType} onValueChange={setServiceType}>
+              <Select value={serviceType} onValueChange={val => {
+                setServiceType(val);
+                setFormErrors({...formErrors, serviceType: undefined});
+              }}>
                 <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
                   <SelectValue placeholder="Select service type" />
                 </SelectTrigger>
@@ -193,6 +285,9 @@ const VipConcierge = () => {
                   <SelectItem value="full-service">Full-Service Protocol Package</SelectItem>
                 </SelectContent>
               </Select>
+              {formErrors.serviceType && (
+                <div className="text-sm text-destructive mt-1">{formErrors.serviceType}</div>
+              )}
             </div>
           </div>
 
@@ -202,13 +297,27 @@ const VipConcierge = () => {
               <Input 
                 id="location"
                 value={location}
-                onChange={e => setLocation(e.target.value)}
+                onChange={e => {
+                  setLocation(e.target.value);
+                  setFormErrors({ ...formErrors, location: undefined });
+                }}
+                maxLength={120}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                aria-invalid={!!formErrors.location}
+                aria-describedby={formErrors.location && "vip-form-location-error"}
               />
+              {formErrors.location && (
+                <div id="vip-form-location-error" className="text-sm text-destructive mt-1">
+                  {formErrors.location}
+                </div>
+              )}
             </div>
             <div>
               <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
-              <Select value={protocolOfficers} onValueChange={setProtocolOfficers}>
+              <Select value={protocolOfficers} onValueChange={val => {
+                setProtocolOfficers(val);
+                setFormErrors({...formErrors, protocolOfficers: undefined});
+              }}>
                 <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
                   <SelectValue placeholder="Select range" />
                 </SelectTrigger>
@@ -218,6 +327,9 @@ const VipConcierge = () => {
                   <SelectItem value="10-20">10-20</SelectItem>
                 </SelectContent>
               </Select>
+              {formErrors.protocolOfficers && (
+                <div className="text-sm text-destructive mt-1">{formErrors.protocolOfficers}</div>
+              )}
             </div>
           </div>
 
@@ -228,9 +340,20 @@ const VipConcierge = () => {
               rows={4}
               placeholder="Please describe your specific requirements, expected number of guests, and any special considerations..."
               value={requirements}
-              onChange={e => setRequirements(e.target.value)}
+              onChange={e => {
+                setRequirements(e.target.value);
+                setFormErrors({...formErrors, requirements: undefined});
+              }}
+              maxLength={500}
               className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
+              aria-invalid={!!formErrors.requirements}
+              aria-describedby={formErrors.requirements && "vip-form-requirements-error"}
             />
+            {formErrors.requirements && (
+              <div id="vip-form-requirements-error" className="text-sm text-destructive mt-1">
+                {formErrors.requirements}
+              </div>
+            )}
           </div>
 
           <Button 
@@ -271,3 +394,4 @@ const VipConcierge = () => {
 };
 
 export default VipConcierge;
+
