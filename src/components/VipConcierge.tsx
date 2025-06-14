@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -189,20 +188,20 @@ const VipConcierge = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-luxury-black/80">
               <Phone className="h-5 w-5" />
-              <a href="tel:+15551234567" className="hover:text-luxury-gold transition-colors">
-                +1 (555) 123-4567
+              <a href="tel:0712063461" className="hover:text-luxury-gold transition-colors">
+                0712063461
               </a>
             </div>
             <div className="flex items-center gap-2 text-luxury-black/80">
               <Mail className="h-5 w-5" />
-              <a href="mailto:info@example.com" className="hover:text-luxury-gold transition-colors">
-                info@example.com
+              <a href="mailto:sirolevipprotocol@gmail.com" className="hover:text-luxury-gold transition-colors">
+                sirolevipprotocol@gmail.com
               </a>
             </div>
             <div className="flex items-center gap-2 text-luxury-black/80">
               <MapPin className="h-5 w-5" />
               <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors">
-                123 Main Street, Cityville
+                Golden Court, Silicon Valley Estate, Eastern Bypass, Nairobi
               </a>
             </div>
           </div>
