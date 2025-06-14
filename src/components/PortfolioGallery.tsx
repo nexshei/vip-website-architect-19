@@ -7,7 +7,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Updated carousel images - replaced Award Ceremonies with Executive Meetings
+  // Updated carousel images - added new event images
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -24,10 +24,18 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png',
       category: 'Red Carpet Events'
+    },
+    {
+      src: '/lovable-uploads/f47d4502-0c8b-4ba8-becc-584a00a22418.png',
+      category: 'Luxury Events'
+    },
+    {
+      src: '/lovable-uploads/02da9a98-f3d5-4a34-9909-5c798ce596c4.png',
+      category: 'Wedding Ceremonies'
     }
   ];
 
-  // Extended portfolio images using all uploaded photos including new ones (removed 5th and 7th items, added new images)
+  // Extended portfolio images - added new event images
   const allPortfolioImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -152,6 +160,14 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/68a145e1-eade-4a21-a6b2-36e303f8c208.png',
       category: 'Cultural Events'
+    },
+    {
+      src: '/lovable-uploads/f47d4502-0c8b-4ba8-becc-584a00a22418.png',
+      category: 'Elegant Table Settings'
+    },
+    {
+      src: '/lovable-uploads/02da9a98-f3d5-4a34-9909-5c798ce596c4.png',
+      category: 'Wedding Ceremonies'
     }
   ];
 

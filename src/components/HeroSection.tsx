@@ -13,7 +13,7 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Extended hero photos collection - replaced award ceremonies image with corporate events image
+  // Extended hero photos collection - added new event images
   const heroPhotos = [
     "/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png",
     "/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png",
@@ -44,7 +44,9 @@ const HeroSection = () => {
     "/lovable-uploads/ee21f0eb-6c46-4895-806e-880518233329.png",
     "/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png",
     "/lovable-uploads/81855db5-1e20-411a-8d6c-abce0c628a01.png",
-    "/lovable-uploads/68a145e1-eade-4a21-a6b2-36e303f8c208.png"
+    "/lovable-uploads/68a145e1-eade-4a21-a6b2-36e303f8c208.png",
+    "/lovable-uploads/f47d4502-0c8b-4ba8-becc-584a00a22418.png",
+    "/lovable-uploads/02da9a98-f3d5-4a34-9909-5c798ce596c4.png"
   ];
 
   const scrollToPortfolio = () => {
