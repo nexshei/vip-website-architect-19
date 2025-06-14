@@ -16,6 +16,7 @@ const VVIPConcierge = () => {
     guestCount: '',
     date: '',
     location: '',
+    protocolOfficers: '',
     services: [],
     name: '',
     email: '',
@@ -32,6 +33,13 @@ const VVIPConcierge = () => {
     'Conference',
     'Product Launch',
     'Other'
+  ];
+
+  const protocolOfficerRanges = [
+    '1-10',
+    '20-30',
+    '40-50',
+    '50+'
   ];
 
   const services = [
@@ -61,6 +69,7 @@ const VVIPConcierge = () => {
       guestCount: '',
       date: '',
       location: '',
+      protocolOfficers: '',
       services: [],
       name: '',
       email: '',
@@ -176,6 +185,20 @@ const VVIPConcierge = () => {
                       onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                       className="mt-2"
                     />
+                  </div>
+
+                  <div>
+                    <Label className="text-luxury-black">Number of Protocol Officers Needed</Label>
+                    <Select onValueChange={(value) => setFormData(prev => ({ ...prev, protocolOfficers: value }))}>
+                      <SelectTrigger className="mt-2">
+                        <SelectValue placeholder="Select range" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {protocolOfficerRanges.map((range) => (
+                          <SelectItem key={range} value={range}>{range}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               )}

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -257,15 +256,27 @@ const Careers = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="cv" className="text-luxury-black font-medium">Upload CV</Label>
-                  <Input 
-                    id="cv" 
-                    type="file" 
-                    accept=".pdf,.doc,.docx"
-                    required 
-                    className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                  />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="cv" className="text-luxury-black font-medium">Upload CV</Label>
+                    <Input 
+                      id="cv" 
+                      type="file" 
+                      accept=".pdf,.doc,.docx"
+                      required 
+                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="professionalPhoto" className="text-luxury-black font-medium">Professional Photo</Label>
+                    <Input 
+                      id="professionalPhoto" 
+                      type="file" 
+                      accept=".jpg,.jpeg,.png"
+                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                    <p className="text-xs text-luxury-black/60 mt-1">Optional: Upload a professional headshot (JPG, PNG)</p>
+                  </div>
                 </div>
 
                 <div>
