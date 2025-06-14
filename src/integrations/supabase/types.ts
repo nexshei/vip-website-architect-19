@@ -9,6 +9,108 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      career_applications: {
+        Row: {
+          cover_letter: string | null
+          created_at: string | null
+          cv_url: string | null
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          position: string | null
+          professional_photo_url: string | null
+        }
+        Insert: {
+          cover_letter?: string | null
+          created_at?: string | null
+          cv_url?: string | null
+          email: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          position?: string | null
+          professional_photo_url?: string | null
+        }
+        Update: {
+          cover_letter?: string | null
+          created_at?: string | null
+          cv_url?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          position?: string | null
+          professional_photo_url?: string | null
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          message: string
+          name: string
+          subject: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          message: string
+          name: string
+          subject?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          subject?: string | null
+        }
+        Relationships: []
+      }
+      meeting_requests: {
+        Row: {
+          created_at: string | null
+          email: string
+          event_date: string | null
+          event_type: string | null
+          full_name: string
+          id: string
+          location: string | null
+          phone: string
+          protocol_officers: string | null
+          vision: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          event_date?: string | null
+          event_type?: string | null
+          full_name: string
+          id?: string
+          location?: string | null
+          phone: string
+          protocol_officers?: string | null
+          vision?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          event_date?: string | null
+          event_type?: string | null
+          full_name?: string
+          id?: string
+          location?: string | null
+          phone?: string
+          protocol_officers?: string | null
+          vision?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -66,6 +168,48 @@ export type Database = {
           subscription_tier?: string | null
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      vvip_service_requests: {
+        Row: {
+          created_at: string | null
+          email: string
+          event_date: string | null
+          event_type: string | null
+          full_name: string
+          id: string
+          location: string | null
+          phone: string
+          protocol_officers: string | null
+          requirements: string | null
+          service_type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          event_date?: string | null
+          event_type?: string | null
+          full_name: string
+          id?: string
+          location?: string | null
+          phone: string
+          protocol_officers?: string | null
+          requirements?: string | null
+          service_type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          event_date?: string | null
+          event_type?: string | null
+          full_name?: string
+          id?: string
+          location?: string | null
+          phone?: string
+          protocol_officers?: string | null
+          requirements?: string | null
+          service_type?: string | null
         }
         Relationships: []
       }

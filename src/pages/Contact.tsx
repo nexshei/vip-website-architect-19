@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,24 +6,49 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { MapPin, Mail, Clock, Users } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  // Controlled state for form
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+
+  const resetForm = () => {
+    setName('');
+    setEmail('');
+    setSubject('');
+    setMessage('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
+    const { error } = await supabase.from('contact_submissions').insert([
+      { name, email, subject: subject || null, message }
+    ]);
+
+    setIsLoading(false);
+
+    if (error) {
+      toast({
+        title: "Error submitting message",
+        description: error.message,
+        variant: "destructive"
+      });
+      return;
+    }
+
     toast({
       title: "Message Sent Successfully!",
       description: "Thank you for contacting Sir Ole VVIP Protocol. We will respond to your inquiry within 24 hours.",
     });
-    
-    setIsLoading(false);
+    resetForm();
   };
 
   const contactInfo = [
@@ -126,45 +150,50 @@ const Contact = () => {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="name" className="text-luxury-black font-medium">Name</Label>
-                      <Input 
-                        id="name" 
-                        required 
+                      <Input
+                        id="name"
+                        required
+                        value={name}
+                        onChange={e => setName(e.target.value)}
                         className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                       />
                     </div>
                     <div>
                       <Label htmlFor="email" className="text-luxury-black font-medium">Email</Label>
-                      <Input 
-                        id="email" 
-                        type="email" 
-                        required 
+                      <Input
+                        id="email"
+                        type="email"
+                        required
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                         className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                       />
                     </div>
                   </div>
-
                   <div>
                     <Label htmlFor="subject" className="text-luxury-black font-medium">Subject</Label>
-                    <Input 
-                      id="subject" 
-                      required 
+                    <Input
+                      id="subject"
+                      required
+                      value={subject}
+                      onChange={e => setSubject(e.target.value)}
                       className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                   </div>
-
                   <div>
                     <Label htmlFor="message" className="text-luxury-black font-medium">Message</Label>
-                    <Textarea 
-                      id="message" 
+                    <Textarea
+                      id="message"
                       rows={6}
                       required
                       placeholder="Tell us about your event or inquiry. Include details about dates, location, type of event, and any specific requirements..."
+                      value={message}
+                      onChange={e => setMessage(e.target.value)}
                       className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
                     />
                   </div>
-
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={isLoading}
                     className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105"
                   >

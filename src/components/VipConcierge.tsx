@@ -7,26 +7,72 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { X, Phone, Mail, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const VipConcierge = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  // Controlled form state
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventType, setEventType] = useState('');
+  const [serviceType, setServiceType] = useState('');
+  const [location, setLocation] = useState('');
+  const [protocolOfficers, setProtocolOfficers] = useState('');
+  const [requirements, setRequirements] = useState('');
+
+  const resetForm = () => {
+    setFullName('');
+    setEmail('');
+    setPhone('');
+    setEventDate('');
+    setEventType('');
+    setServiceType('');
+    setLocation('');
+    setProtocolOfficers('');
+    setRequirements('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
+    const { error } = await supabase.from('vvip_service_requests').insert([
+      {
+        full_name: fullName,
+        email,
+        phone,
+        event_date: eventDate || null,
+        event_type: eventType || null,
+        service_type: serviceType || null,
+        location: location || null,
+        protocol_officers: protocolOfficers || null,
+        requirements: requirements || null,
+      }
+    ]);
+
+    setIsLoading(false);
+
+    if (error) {
+      toast({
+        title: "Error submitting request",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     toast({
       title: "Service Request Submitted!",
       description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
     });
-    
-    setIsLoading(false);
+
     setIsOpen(false);
+    resetForm();
   };
 
   if (!isOpen) {
@@ -67,17 +113,21 @@ const VipConcierge = () => {
             <div>
               <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
               <Input 
-                id="fullName" 
-                required 
+                id="fullName"
+                required
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
             </div>
             <div>
               <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
               <Input 
-                id="email" 
-                type="email" 
-                required 
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
             </div>
@@ -87,17 +137,21 @@ const VipConcierge = () => {
             <div>
               <Label htmlFor="phone" className="text-luxury-black font-medium">Phone Number</Label>
               <Input 
-                id="phone" 
-                type="tel" 
-                required 
+                id="phone"
+                type="tel"
+                required
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
             </div>
             <div>
               <Label htmlFor="eventDate" className="text-luxury-black font-medium">Preferred Event Date</Label>
               <Input 
-                id="eventDate" 
-                type="date" 
+                id="eventDate"
+                type="date"
+                value={eventDate}
+                onChange={e => setEventDate(e.target.value)}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
             </div>
@@ -106,7 +160,7 @@ const VipConcierge = () => {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="eventType" className="text-luxury-black font-medium">Event Type</Label>
-              <Select>
+              <Select value={eventType} onValueChange={setEventType}>
                 <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
                   <SelectValue placeholder="Select event type" />
                 </SelectTrigger>
@@ -123,7 +177,7 @@ const VipConcierge = () => {
             </div>
             <div>
               <Label htmlFor="serviceType" className="text-luxury-black font-medium">Service Type</Label>
-              <Select>
+              <Select value={serviceType} onValueChange={setServiceType}>
                 <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
                   <SelectValue placeholder="Select service type" />
                 </SelectTrigger>
@@ -146,13 +200,15 @@ const VipConcierge = () => {
             <div>
               <Label htmlFor="location" className="text-luxury-black font-medium">Location / Venue</Label>
               <Input 
-                id="location" 
+                id="location"
+                value={location}
+                onChange={e => setLocation(e.target.value)}
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
             </div>
             <div>
               <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
-              <Select>
+              <Select value={protocolOfficers} onValueChange={setProtocolOfficers}>
                 <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
                   <SelectValue placeholder="Select range" />
                 </SelectTrigger>
@@ -168,9 +224,11 @@ const VipConcierge = () => {
           <div>
             <Label htmlFor="requirements" className="text-luxury-black font-medium">Service Requirements</Label>
             <Textarea 
-              id="requirements" 
+              id="requirements"
               rows={4}
               placeholder="Please describe your specific requirements, expected number of guests, and any special considerations..."
+              value={requirements}
+              onChange={e => setRequirements(e.target.value)}
               className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
             />
           </div>
@@ -195,7 +253,7 @@ const VipConcierge = () => {
             </div>
             <div className="flex items-center gap-2 text-luxury-black/80">
               <Mail className="h-5 w-5" />
-              <a href="mailto:sirolevipprotocol@gmail.com" className="hover:text-luxury-gold transition-colors">
+              <a href="mailto:sirolevvipprotocol@gmail.com" className="hover:text-luxury-gold transition-colors">
                 sirolevvipprotocol@gmail.com
               </a>
             </div>
@@ -213,4 +271,3 @@ const VipConcierge = () => {
 };
 
 export default VipConcierge;
-

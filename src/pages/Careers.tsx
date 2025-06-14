@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Book, Clock, MapPin, Mic, Utensils, Heart } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Careers = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -114,19 +115,59 @@ const Careers = () => {
     }
   ];
 
+  // Controlled state for form fields
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [position, setPosition] = useState('');
+  const [cv, setCv] = useState<File | null>(null);
+  const [professionalPhoto, setProfessionalPhoto] = useState<File | null>(null);
+  const [coverLetter, setCoverLetter] = useState('');
+
+  const resetForm = () => {
+    setFullName('');
+    setEmail('');
+    setPhone('');
+    setPosition('');
+    setCv(null);
+    setProfessionalPhoto(null);
+    setCoverLetter('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
+    // File fields (cv and photo) will not be stored (no storage bucket), so store filenames as placeholder/null
+    const { error } = await supabase.from('career_applications').insert([
+      {
+        full_name: fullName,
+        email,
+        phone,
+        position: position || null,
+        cv_url: cv ? cv.name : null,
+        professional_photo_url: professionalPhoto ? professionalPhoto.name : null,
+        cover_letter: coverLetter || null,
+      }
+    ]);
+
+    setIsLoading(false);
+
+    if (error) {
+      toast({
+        title: "Error submitting application",
+        description: error.message,
+        variant: "destructive"
+      });
+      return;
+    }
+
     toast({
       title: "Application Submitted Successfully!",
       description: "Thank you for your interest in joining Sir Ole VVIP Protocol. Our HR team will review your application and contact you soon.",
     });
-    
-    setIsLoading(false);
+
+    resetForm();
   };
 
   return (
@@ -212,18 +253,22 @@ const Careers = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
-                    <Input 
-                      id="fullName" 
-                      required 
+                    <Input
+                      id="fullName"
+                      required
+                      value={fullName}
+                      onChange={e => setFullName(e.target.value)}
                       className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                   </div>
                   <div>
                     <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      required 
+                    <Input
+                      id="email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
                       className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                   </div>
@@ -232,16 +277,18 @@ const Careers = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="phone" className="text-luxury-black font-medium">Phone Number</Label>
-                    <Input 
-                      id="phone" 
-                      type="tel" 
-                      required 
+                    <Input
+                      id="phone"
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={e => setPhone(e.target.value)}
                       className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                   </div>
                   <div>
                     <Label htmlFor="position" className="text-luxury-black font-medium">Position Applying For</Label>
-                    <Select required>
+                    <Select value={position} onValueChange={setPosition}>
                       <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
                         <SelectValue placeholder="Select position" />
                       </SelectTrigger>
@@ -259,20 +306,22 @@ const Careers = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="cv" className="text-luxury-black font-medium">Upload CV</Label>
-                    <Input 
-                      id="cv" 
-                      type="file" 
+                    <Input
+                      id="cv"
+                      type="file"
                       accept=".pdf,.doc,.docx"
-                      required 
+                      required
+                      onChange={e => setCv(e.target.files?.[0] || null)}
                       className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                   </div>
                   <div>
                     <Label htmlFor="professionalPhoto" className="text-luxury-black font-medium">Professional Photo</Label>
-                    <Input 
-                      id="professionalPhoto" 
-                      type="file" 
+                    <Input
+                      id="professionalPhoto"
+                      type="file"
                       accept=".jpg,.jpeg,.png"
+                      onChange={e => setProfessionalPhoto(e.target.files?.[0] || null)}
                       className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                     <p className="text-xs text-luxury-black/60 mt-1">Optional: Upload a professional headshot (JPG, PNG)</p>
@@ -281,10 +330,12 @@ const Careers = () => {
 
                 <div>
                   <Label htmlFor="coverLetter" className="text-luxury-black font-medium">Cover Letter / Message</Label>
-                  <Textarea 
-                    id="coverLetter" 
+                  <Textarea
+                    id="coverLetter"
                     rows={5}
                     placeholder="Tell us why you want to join Sir Ole VVIP Protocol and what unique qualities you would bring to our team..."
+                    value={coverLetter}
+                    onChange={e => setCoverLetter(e.target.value)}
                     className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
                   />
                 </div>
