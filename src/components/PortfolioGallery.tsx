@@ -7,7 +7,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Extended carousel images with new uploaded photos
+  // Extended carousel images with all existing and new uploaded photos
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -64,6 +64,34 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png',
       category: 'Executive Meetings'
+    },
+    {
+      src: '/lovable-uploads/90867b2a-97b6-45dd-9957-212c10041118.png',
+      category: 'VIP Protocol Events'
+    },
+    {
+      src: '/lovable-uploads/ed8ef56f-af69-4845-8d6d-f82dc85bd2ec.png',
+      category: 'Elite Services'
+    },
+    {
+      src: '/lovable-uploads/2c464c3c-77bd-401b-9eb1-551ce786b145.png',
+      category: 'Professional Team'
+    },
+    {
+      src: '/lovable-uploads/9b257c2a-c3de-4707-8212-a13c99b9cce7.png',
+      category: 'Client Relations'
+    },
+    {
+      src: '/lovable-uploads/3d39933e-766d-4f71-b99f-200eda86b8d9.png',
+      category: 'Executive Services'
+    },
+    {
+      src: '/lovable-uploads/c0f0c868-ff27-41b0-9da0-2920d4a91c4f.png',
+      category: 'Premium Protocol'
+    },
+    {
+      src: '/lovable-uploads/0db3978f-fddb-459e-b8bb-85802bf3c090.png',
+      category: 'Event Management'
     }
   ];
 
@@ -124,6 +152,34 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png',
       category: 'Executive Meetings'
+    },
+    {
+      src: '/lovable-uploads/90867b2a-97b6-45dd-9957-212c10041118.png',
+      category: 'VIP Protocol Events'
+    },
+    {
+      src: '/lovable-uploads/ed8ef56f-af69-4845-8d6d-f82dc85bd2ec.png',
+      category: 'Elite Services'
+    },
+    {
+      src: '/lovable-uploads/2c464c3c-77bd-401b-9eb1-551ce786b145.png',
+      category: 'Professional Team'
+    },
+    {
+      src: '/lovable-uploads/9b257c2a-c3de-4707-8212-a13c99b9cce7.png',
+      category: 'Client Relations'
+    },
+    {
+      src: '/lovable-uploads/3d39933e-766d-4f71-b99f-200eda86b8d9.png',
+      category: 'Executive Services'
+    },
+    {
+      src: '/lovable-uploads/c0f0c868-ff27-41b0-9da0-2920d4a91c4f.png',
+      category: 'Premium Protocol'
+    },
+    {
+      src: '/lovable-uploads/0db3978f-fddb-459e-b8bb-85802bf3c090.png',
+      category: 'Event Management'
     }
   ];
 
