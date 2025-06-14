@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Carousel images with new uploaded photos
+  // Extended carousel images with new uploaded photos
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -37,10 +36,38 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png',
       category: 'Award Ceremonies'
+    },
+    {
+      src: '/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png',
+      category: 'VIP Team Services'
+    },
+    {
+      src: '/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png',
+      category: 'Premium Events'
+    },
+    {
+      src: '/lovable-uploads/6ff20f4d-d952-4b11-92d2-2f27d64dcc6b.png',
+      category: 'Special Occasions'
+    },
+    {
+      src: '/lovable-uploads/7180f2a2-8891-4fbe-b526-982d6e0b1115.png',
+      category: 'Red Carpet Events'
+    },
+    {
+      src: '/lovable-uploads/b4119590-f054-4bc0-a7a4-918f72e228c4.png',
+      category: 'Award Presentations'
+    },
+    {
+      src: '/lovable-uploads/a31b9767-b414-4e49-8c46-114c537e874d.png',
+      category: 'VIP Ceremonies'
+    },
+    {
+      src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png',
+      category: 'Executive Meetings'
     }
   ];
 
-  // Full portfolio images using the new uploaded photos
+  // Extended portfolio images using all uploaded photos
   const allPortfolioImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -69,6 +96,34 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png',
       category: 'Award Ceremonies'
+    },
+    {
+      src: '/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png',
+      category: 'VIP Team Services'
+    },
+    {
+      src: '/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png',
+      category: 'Premium Events'
+    },
+    {
+      src: '/lovable-uploads/6ff20f4d-d952-4b11-92d2-2f27d64dcc6b.png',
+      category: 'Special Occasions'
+    },
+    {
+      src: '/lovable-uploads/7180f2a2-8891-4fbe-b526-982d6e0b1115.png',
+      category: 'Red Carpet Events'
+    },
+    {
+      src: '/lovable-uploads/b4119590-f054-4bc0-a7a4-918f72e228c4.png',
+      category: 'Award Presentations'
+    },
+    {
+      src: '/lovable-uploads/a31b9767-b414-4e49-8c46-114c537e874d.png',
+      category: 'VIP Ceremonies'
+    },
+    {
+      src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png',
+      category: 'Executive Meetings'
     }
   ];
 
