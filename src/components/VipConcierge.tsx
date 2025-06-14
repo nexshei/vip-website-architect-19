@@ -1,309 +1,191 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { X, MessageCircle, Calendar, Users, MapPin } from 'lucide-react';
+import { X, Phone, Mail, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-const VVIPConcierge = () => {
+const VipConcierge = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    eventType: '',
-    guestCount: '',
-    date: '',
-    location: '',
-    protocolOfficers: '',
-    services: [],
-    name: '',
-    email: '',
-    phone: ''
-  });
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const eventTypes = [
-    'Corporate Event',
-    'Diplomatic Function',
-    'Private Celebration',
-    'Wedding',
-    'Gala Dinner',
-    'Conference',
-    'Product Launch',
-    'Other'
-  ];
-
-  const protocolOfficerRanges = [
-    '1-10',
-    '20-30',
-    '40-50',
-    '50+'
-  ];
-
-  const services = [
-    'Professional Ushering',
-    'VVIP Security',
-    'Protocol Management',
-    'Event Planning',
-    'Catering Coordination',
-    'Transportation'
-  ];
-
-  const handleNext = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
     toast({
-      title: "Thank you for your inquiry!",
-      description: "Your VVIP Concierge will contact you within 2 hours to discuss your requirements.",
+      title: "Service Request Submitted!",
+      description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
     });
+    
+    setIsLoading(false);
     setIsOpen(false);
-    setCurrentStep(1);
-    setFormData({
-      eventType: '',
-      guestCount: '',
-      date: '',
-      location: '',
-      protocolOfficers: '',
-      services: [],
-      name: '',
-      email: '',
-      phone: ''
-    });
   };
 
-  const toggleService = (service: string) => {
-    setFormData(prev => ({
-      ...prev,
-      services: prev.services.includes(service)
-        ? prev.services.filter(s => s !== service)
-        : [...prev.services, service]
-    }));
-  };
+  if (!isOpen) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button
+          onClick={() => setIsOpen(true)}
+          className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+        >
+          Request VIP Service
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <>
-      {/* Floating Chat Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 group"
-      >
-        <MessageCircle size={24} />
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
-          VVIP
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-luxury-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="bg-gradient-luxury p-6 rounded-t-2xl">
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-playfair font-bold text-luxury-gold">VIP Service Request</h2>
+            <Button
+              onClick={() => setIsOpen(false)}
+              variant="ghost"
+              size="icon"
+              className="text-luxury-white hover:bg-luxury-white/20"
+            >
+              <X className="h-6 w-6" />
+            </Button>
+          </div>
+          <p className="text-luxury-white/80 mt-2">
+            Let us know how we can assist you with our premium protocol services.
+          </p>
         </div>
-        <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-luxury-black text-luxury-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300">
-          Your Protocol Concierge
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
+              <Input 
+                id="fullName" 
+                required 
+                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+              />
+            </div>
+            <div>
+              <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
+              <Input 
+                id="email" 
+                type="email" 
+                required 
+                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="phone" className="text-luxury-black font-medium">Phone Number</Label>
+              <Input 
+                id="phone" 
+                type="tel" 
+                required 
+                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+              />
+            </div>
+            <div>
+              <Label htmlFor="eventType" className="text-luxury-black font-medium">Type of Event</Label>
+              <Select required>
+                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                  <SelectValue placeholder="Select event type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="corporate">Corporate Event</SelectItem>
+                  <SelectItem value="wedding">Wedding</SelectItem>
+                  <SelectItem value="diplomatic">Diplomatic Function</SelectItem>
+                  <SelectItem value="private">Private Celebration</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="eventDate" className="text-luxury-black font-medium">Preferred Event Date</Label>
+              <Input 
+                id="eventDate" 
+                type="date" 
+                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+              />
+            </div>
+            <div>
+              <Label htmlFor="location" className="text-luxury-black font-medium">Location / Venue</Label>
+              <Input 
+                id="location" 
+                className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
+            <Select>
+              <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                <SelectValue placeholder="Select range" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1-5">1-5</SelectItem>
+                <SelectItem value="5-10">5-10</SelectItem>
+                <SelectItem value="10-20">10-20</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="requirements" className="text-luxury-black font-medium">Service Requirements</Label>
+            <Textarea 
+              id="requirements" 
+              rows={4}
+              placeholder="Please describe your specific requirements, expected number of guests, and any special considerations..."
+              className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
+            />
+          </div>
+
+          <Button 
+            type="submit" 
+            disabled={isLoading}
+            className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 transition-all duration-300"
+          >
+            {isLoading ? 'Submitting Request...' : 'Submit Service Request'}
+          </Button>
+        </form>
+
+        <div className="p-6 border-t border-luxury-black/10">
+          <h3 className="text-xl font-playfair font-bold text-luxury-black mb-4">Contact Us</h3>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-luxury-black/80">
+              <Phone className="h-5 w-5" />
+              <a href="tel:+15551234567" className="hover:text-luxury-gold transition-colors">
+                +1 (555) 123-4567
+              </a>
+            </div>
+            <div className="flex items-center gap-2 text-luxury-black/80">
+              <Mail className="h-5 w-5" />
+              <a href="mailto:info@example.com" className="hover:text-luxury-gold transition-colors">
+                info@example.com
+              </a>
+            </div>
+            <div className="flex items-center gap-2 text-luxury-black/80">
+              <MapPin className="h-5 w-5" />
+              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="hover:text-luxury-gold transition-colors">
+                123 Main Street, Cityville
+              </a>
+            </div>
+          </div>
         </div>
-      </button>
-
-      {/* Chat Modal */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <Card className="w-full max-w-md bg-luxury-white border-luxury-gold/20 shadow-2xl">
-            <CardHeader className="bg-gradient-luxury text-luxury-white relative">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-3 right-3 z-10 bg-luxury-white/20 hover:bg-luxury-white/30 text-luxury-white p-2 rounded-full transition-all duration-200 touch-target backdrop-blur-sm border border-luxury-white/40"
-                aria-label="Close modal"
-              >
-                <X size={18} className="font-bold" />
-              </button>
-              <CardTitle className="text-center pr-12">
-                🎩 Your VVIP Protocol Concierge
-              </CardTitle>
-              <p className="text-center text-luxury-white/80 text-sm pr-12">
-                Let's create something extraordinary together
-              </p>
-              
-              {/* Progress Bar */}
-              <div className="flex space-x-2 mt-4">
-                {[1, 2, 3].map((step) => (
-                  <div
-                    key={step}
-                    className={`flex-1 h-2 rounded-full ${
-                      step <= currentStep ? 'bg-luxury-gold' : 'bg-luxury-white/30'
-                    }`}
-                  />
-                ))}
-              </div>
-            </CardHeader>
-
-            <CardContent className="p-6">
-              {currentStep === 1 && (
-                <div className="space-y-4">
-                  <h3 className="font-playfair font-semibold text-luxury-black mb-4">
-                    Tell us about your event
-                  </h3>
-                  
-                  <div>
-                    <Label className="text-luxury-black">Event Type</Label>
-                    <Select onValueChange={(value) => setFormData(prev => ({ ...prev, eventType: value }))}>
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Select event type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {eventTypes.map((type) => (
-                          <SelectItem key={type} value={type}>{type}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-luxury-black">Expected Guests</Label>
-                      <Input
-                        type="number"
-                        placeholder="50"
-                        value={formData.guestCount}
-                        onChange={(e) => setFormData(prev => ({ ...prev, guestCount: e.target.value }))}
-                        className="mt-2"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-luxury-black">Event Date</Label>
-                      <Input
-                        type="date"
-                        value={formData.date}
-                        onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-                        className="mt-2"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="text-luxury-black">Location</Label>
-                    <Input
-                      placeholder="Nairobi, Kenya"
-                      value={formData.location}
-                      onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                      className="mt-2"
-                    />
-                  </div>
-
-                  <div>
-                    <Label className="text-luxury-black">Number of Protocol Officers Needed</Label>
-                    <Select onValueChange={(value) => setFormData(prev => ({ ...prev, protocolOfficers: value }))}>
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Select range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {protocolOfficerRanges.map((range) => (
-                          <SelectItem key={range} value={range}>{range}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              )}
-
-              {currentStep === 2 && (
-                <div className="space-y-4">
-                  <h3 className="font-playfair font-semibold text-luxury-black mb-4">
-                    Select your services
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 gap-3">
-                    {services.map((service) => (
-                      <label
-                        key={service}
-                        className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all ${
-                          formData.services.includes(service)
-                            ? 'border-luxury-gold bg-luxury-gold/10'
-                            : 'border-gray-200 hover:border-luxury-gold/50'
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={formData.services.includes(service)}
-                          onChange={() => toggleService(service)}
-                          className="sr-only"
-                        />
-                        <div className={`w-4 h-4 rounded border-2 mr-3 flex items-center justify-center ${
-                          formData.services.includes(service)
-                            ? 'border-luxury-gold bg-luxury-gold'
-                            : 'border-gray-300'
-                        }`}>
-                          {formData.services.includes(service) && (
-                            <div className="w-2 h-2 bg-white rounded-sm"></div>
-                          )}
-                        </div>
-                        <span className="text-sm font-medium text-luxury-black">{service}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {currentStep === 3 && (
-                <div className="space-y-4">
-                  <h3 className="font-playfair font-semibold text-luxury-black mb-4">
-                    Your contact details
-                  </h3>
-                  
-                  <div>
-                    <Label className="text-luxury-black">Full Name</Label>
-                    <Input
-                      placeholder="Your full name"
-                      value={formData.name}
-                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                      className="mt-2"
-                    />
-                  </div>
-
-                  <div>
-                    <Label className="text-luxury-black">Email</Label>
-                    <Input
-                      type="email"
-                      placeholder="your@email.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                      className="mt-2"
-                    />
-                  </div>
-
-                  <div>
-                    <Label className="text-luxury-black">Phone</Label>
-                    <Input
-                      type="tel"
-                      placeholder="+254 700 000 000"
-                      value={formData.phone}
-                      onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                      className="mt-2"
-                    />
-                  </div>
-                </div>
-              )}
-
-              <div className="flex justify-between mt-6 pt-4 border-t">
-                {currentStep > 1 && (
-                  <Button
-                    variant="outline"
-                    onClick={() => setCurrentStep(currentStep - 1)}
-                  >
-                    Previous
-                  </Button>
-                )}
-                
-                <Button
-                  onClick={currentStep === 3 ? handleSubmit : handleNext}
-                  className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black ml-auto"
-                >
-                  {currentStep === 3 ? 'Submit Request' : 'Next Step'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 
-export default VVIPConcierge;
+export default VipConcierge;
