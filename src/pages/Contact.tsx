@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { MapPin, Mail, Clock, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { validateTextField, validateEmail, canSubmit } from '@/utils/validation';
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,32 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Rate limit: one every 12 seconds by IP/session
+    if (!canSubmit('contact-form')) {
+      toast({
+        title: "Please wait before submitting again.",
+        description: "Slow down to protect against spam.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Server-like validation before DB insert
+    if (
+      !validateTextField(name, 64) ||
+      !validateTextField(subject, 128) ||
+      !validateTextField(message, 3000) ||
+      !validateEmail(email)
+    ) {
+      toast({
+        title: "Invalid Input",
+        description: "Please check your inputs for length and format.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     const { error } = await supabase.from('contact_submissions').insert([

@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { validateTextField, validateEmail, validatePhone, canSubmit } from '@/utils/validation';
 
 const BookMeeting = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +35,33 @@ const BookMeeting = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!canSubmit('bookmeeting-form')) {
+      toast({
+        title: "Please wait before submitting again.",
+        description: "Limit one submission every 12 seconds.",
+        variant: "destructive"
+      });
+      return;
+    }
+    // Validations
+    if (
+      !validateTextField(fullName, 80) ||
+      !validateEmail(email) ||
+      !validatePhone(phone) ||
+      (eventType && !validateTextField(eventType, 32)) ||
+      (location && !validateTextField(location, 100)) ||
+      (protocolOfficers && !validateTextField(protocolOfficers, 12)) ||
+      (vision && !validateTextField(vision, 2000))
+    ) {
+      toast({
+        title: "Invalid Input",
+        description: "Please check your entries for errors and excessive length.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     const { error } = await supabase.from('meeting_requests').insert([

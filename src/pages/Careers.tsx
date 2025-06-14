@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { useToast } from '@/hooks/use-toast';
 import { Users, Book, Clock, MapPin, Mic, Utensils, Heart } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { validateTextField, validateEmail, validatePhone, canSubmit } from '@/utils/validation';
 
 const Careers = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -136,17 +137,51 @@ const Careers = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!canSubmit('careers-form')) {
+      toast({
+        title: "Please wait before submitting again.",
+        description: "Limit one submission every 12 seconds.",
+        variant: "destructive"
+      });
+      return;
+    }
+    // Validation
+    if (
+      !validateTextField(fullName, 80) ||
+      !validateEmail(email) ||
+      !validatePhone(phone) ||
+      (position && !validateTextField(position, 48)) ||
+      (coverLetter && !validateTextField(coverLetter, 4000))
+    ) {
+      toast({
+        title: "Invalid Input",
+        description: "Please check your form for errors and avoid overlong text.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // File upload warning - feature not ready
+    if (cv || professionalPhoto) {
+      toast({
+        title: "File Upload Disabled",
+        description: "File uploads will soon be securely implemented. For now, attachments are disabled for your safety.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsLoading(true);
 
-    // File fields (cv and photo) will not be stored (no storage bucket), so store filenames as placeholder/null
     const { error } = await supabase.from('career_applications').insert([
       {
         full_name: fullName,
         email,
         phone,
         position: position || null,
-        cv_url: cv ? cv.name : null,
-        professional_photo_url: professionalPhoto ? professionalPhoto.name : null,
+        cv_url: null,
+        professional_photo_url: null,
         cover_letter: coverLetter || null,
       }
     ]);
