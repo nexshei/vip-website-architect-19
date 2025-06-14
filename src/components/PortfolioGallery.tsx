@@ -51,7 +51,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     }
   ];
 
-  // Full portfolio images - all photos for the masonry grid (removed specified images)
+  // Full portfolio images - all photos for the masonry grid (removed 4th, 5th and last photo)
   const allPortfolioImages = [
     {
       src: '/lovable-uploads/2329957a-d7b8-4f7d-972b-f79e1a8b71c1.png',
@@ -64,10 +64,6 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/708a5110-0565-429e-992d-87435f5589f7.png',
       category: 'Protocol Events'
-    },
-    {
-      src: '/lovable-uploads/86c39f3e-19f5-4d04-bacc-36e8996ed3dc.png',
-      category: 'MC Services'
     },
     {
       src: '/lovable-uploads/d084cfa3-6cee-48c5-9c3a-56d0feda1b64.png',
@@ -176,10 +172,6 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/c7198820-b469-4c13-ba3e-a7c42300fc77.png',
       category: 'Corporate Events'
-    },
-    {
-      src: '/lovable-uploads/8d99ee18-e14c-4acd-8975-2f03e81cc1f0.png',
-      category: 'Team Events'
     }
   ];
 
