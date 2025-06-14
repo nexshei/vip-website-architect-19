@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,7 +36,7 @@ const VipConcierge = () => {
           onClick={() => setIsOpen(true)}
           className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
         >
-          Request VIP Service
+          Request VVIP Service
         </Button>
       </div>
     );
@@ -46,7 +47,7 @@ const VipConcierge = () => {
       <div className="bg-luxury-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="bg-gradient-luxury p-6 rounded-t-2xl">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-playfair font-bold text-luxury-gold">VIP Service Request</h2>
+            <h2 className="text-2xl font-playfair font-bold text-luxury-gold">VVIP Service Request</h2>
             <Button
               onClick={() => setIsOpen(false)}
               variant="ghost"
@@ -127,7 +128,7 @@ const VipConcierge = () => {
                   <SelectValue placeholder="Select service type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="vip-protocol">VIP Protocol Management</SelectItem>
+                  <SelectItem value="vvip-protocol">VVIP Protocol Management</SelectItem>
                   <SelectItem value="diplomatic-protocol">Diplomatic Protocol Services</SelectItem>
                   <SelectItem value="corporate-protocol">Corporate Protocol Services</SelectItem>
                   <SelectItem value="event-coordination">Event Coordination & Management</SelectItem>
@@ -195,7 +196,7 @@ const VipConcierge = () => {
             <div className="flex items-center gap-2 text-luxury-black/80">
               <Mail className="h-5 w-5" />
               <a href="mailto:sirolevipprotocol@gmail.com" className="hover:text-luxury-gold transition-colors">
-                sirolevipprotocol@gmail.com
+                sirolevvipprotocol@gmail.com
               </a>
             </div>
             <div className="flex items-center gap-2 text-luxury-black/80">
@@ -212,3 +213,4 @@ const VipConcierge = () => {
 };
 
 export default VipConcierge;
+
