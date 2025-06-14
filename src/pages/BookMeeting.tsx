@@ -20,7 +20,7 @@ const BookMeeting = () => {
     
     toast({
       title: "Meeting Request Submitted!",
-      description: "Thank you for your interest. Our VIP consultation team will contact you within 24 hours to schedule your meeting.",
+      description: "Thank you for your interest. Our VVIP consultation team will contact you within 24 hours to schedule your meeting.",
     });
     
     setIsLoading(false);
@@ -33,7 +33,7 @@ const BookMeeting = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl sm:text-5xl font-playfair font-bold text-luxury-black mb-6">
-              Book Your <span className="text-gradient-gold">VIP Consultation</span>
+              Book Your <span className="text-gradient-gold">VVIP Consultation</span>
             </h1>
             <div className="w-24 h-1 bg-luxury-gold mx-auto mb-6"></div>
             <p className="text-xl text-luxury-black/70 max-w-2xl mx-auto">
@@ -125,7 +125,7 @@ const BookMeeting = () => {
                   disabled={isLoading}
                   className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105"
                 >
-                  {isLoading ? 'Submitting Request...' : 'Request VIP Consultation'}
+                  {isLoading ? 'Submitting Request...' : 'Request VVIP Consultation'}
                 </Button>
               </form>
             </div>
