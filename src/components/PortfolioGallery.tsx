@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Updated carousel images including some new ones (removed 5th and 7th items, added new images)
+  // Updated carousel images - replaced Award Ceremonies with Executive Meetings
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -19,8 +18,8 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       category: 'VVIP Protocol'
     },
     {
-      src: '/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png',
-      category: 'Award Ceremonies'
+      src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png',
+      category: 'Executive Meetings'
     },
     {
       src: '/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png',
