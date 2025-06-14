@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Limited carousel images to 5 selected images
+  // Updated carousel images including some new ones
   const carouselImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -19,20 +18,20 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       category: 'VVIP Protocol'
     },
     {
-      src: '/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png',
-      category: 'Luxury Events'
+      src: '/lovable-uploads/17424ed7-79a7-4d95-aca3-6ee75c76a993.png',
+      category: 'Corporate Events'
     },
     {
       src: '/lovable-uploads/c0d7cb75-3be2-4849-984d-aba7507a74a7.png',
       category: 'Award Ceremonies'
     },
     {
-      src: '/lovable-uploads/349eca6a-8be0-41b8-b658-6812782f24bd.png',
-      category: 'Luxury Venues'
+      src: '/lovable-uploads/603a03a5-c27b-4781-a1d6-4a19cc5e1f82.png',
+      category: 'Special Events'
     }
   ];
 
-  // Extended portfolio images using all uploaded photos
+  // Extended portfolio images using all uploaded photos including new ones
   const allPortfolioImages = [
     {
       src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png',
@@ -129,6 +128,26 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/3f9c5810-d649-4491-b362-4c8c4e225b10.png',
       category: 'Executive Consultations'
+    },
+    {
+      src: '/lovable-uploads/17424ed7-79a7-4d95-aca3-6ee75c76a993.png',
+      category: 'Corporate Events'
+    },
+    {
+      src: '/lovable-uploads/3f496f60-258f-43f1-9bc8-45a2caf5c12c.png',
+      category: 'Professional Team'
+    },
+    {
+      src: '/lovable-uploads/6c652822-67dd-4e67-bda3-699b33f9443b.png',
+      category: 'Corporate Events'
+    },
+    {
+      src: '/lovable-uploads/603a03a5-c27b-4781-a1d6-4a19cc5e1f82.png',
+      category: 'Special Events'
+    },
+    {
+      src: '/lovable-uploads/9d6016dd-51b9-4c53-9522-b10dc988cdf6.png',
+      category: 'Cultural Events'
     }
   ];
 
