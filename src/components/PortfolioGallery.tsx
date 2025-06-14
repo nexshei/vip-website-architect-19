@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -92,6 +93,18 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/0db3978f-fddb-459e-b8bb-85802bf3c090.png',
       category: 'Event Management'
+    },
+    {
+      src: '/lovable-uploads/349eca6a-8be0-41b8-b658-6812782f24bd.png',
+      category: 'Luxury Venues'
+    },
+    {
+      src: '/lovable-uploads/ebe0fd91-a90a-4892-918e-0ba9efc3f528.png',
+      category: 'Fine Dining Events'
+    },
+    {
+      src: '/lovable-uploads/3f9c5810-d649-4491-b362-4c8c4e225b10.png',
+      category: 'Executive Consultations'
     }
   ];
 
@@ -180,6 +193,18 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
     {
       src: '/lovable-uploads/0db3978f-fddb-459e-b8bb-85802bf3c090.png',
       category: 'Event Management'
+    },
+    {
+      src: '/lovable-uploads/349eca6a-8be0-41b8-b658-6812782f24bd.png',
+      category: 'Luxury Venues'
+    },
+    {
+      src: '/lovable-uploads/ebe0fd91-a90a-4892-918e-0ba9efc3f528.png',
+      category: 'Fine Dining Events'
+    },
+    {
+      src: '/lovable-uploads/3f9c5810-d649-4491-b362-4c8c4e225b10.png',
+      category: 'Executive Consultations'
     }
   ];
 
