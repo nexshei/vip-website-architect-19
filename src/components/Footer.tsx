@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { MapPin, Mail, Clock, Users } from 'lucide-react';
 
@@ -32,7 +31,7 @@ const Footer = () => {
             </div>
             
             <p className="text-luxury-white/70 mb-6 max-w-md">
-              Premier luxury protocol and hospitality company in Nairobi, setting the gold standard for VIP services and creating unforgettable experiences of sophistication.
+              Premier luxury protocol and hospitality company in Nairobi, setting the gold standard for VVIP services and creating unforgettable experiences of sophistication.
             </p>
 
             <div className="space-y-3">
