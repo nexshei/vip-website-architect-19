@@ -93,24 +93,6 @@ const VipConcierge = () => {
               />
             </div>
             <div>
-              <Label htmlFor="eventType" className="text-luxury-black font-medium">Type of Event</Label>
-              <Select required>
-                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                  <SelectValue placeholder="Select event type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="corporate">Corporate Event</SelectItem>
-                  <SelectItem value="wedding">Wedding</SelectItem>
-                  <SelectItem value="diplomatic">Diplomatic Function</SelectItem>
-                  <SelectItem value="private">Private Celebration</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
               <Label htmlFor="eventDate" className="text-luxury-black font-medium">Preferred Event Date</Label>
               <Input 
                 id="eventDate" 
@@ -118,6 +100,9 @@ const VipConcierge = () => {
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
             </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="location" className="text-luxury-black font-medium">Location / Venue</Label>
               <Input 
@@ -125,20 +110,19 @@ const VipConcierge = () => {
                 className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
               />
             </div>
-          </div>
-
-          <div>
-            <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
-            <Select>
-              <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                <SelectValue placeholder="Select range" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1-5">1-5</SelectItem>
-                <SelectItem value="5-10">5-10</SelectItem>
-                <SelectItem value="10-20">10-20</SelectItem>
-              </SelectContent>
-            </Select>
+            <div>
+              <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
+              <Select>
+                <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                  <SelectValue placeholder="Select range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1-5">1-5</SelectItem>
+                  <SelectItem value="5-10">5-10</SelectItem>
+                  <SelectItem value="10-20">10-20</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div>
