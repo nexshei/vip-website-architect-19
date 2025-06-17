@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Crown, Sparkles, Mail } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState('');
@@ -16,16 +17,46 @@ const NewsletterSection = () => {
 
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Successfully subscribed!",
-      description: "Welcome to the Sir Ole VVIP family. You'll receive our exclusive updates soon.",
-    });
-    
-    setEmail('');
-    setIsLoading(false);
+    try {
+      // Insert the email into the subscribers table
+      const { data, error } = await supabase
+        .from('subscribers')
+        .insert([
+          {
+            email: email,
+            subscribed: true,
+            subscription_tier: 'newsletter'
+          }
+        ])
+        .select();
+
+      if (error) {
+        if (error.code === '23505') { // Unique constraint violation
+          toast({
+            title: "Already subscribed!",
+            description: "This email is already in our VIP list. Thank you for your continued interest!",
+          });
+        } else {
+          throw error;
+        }
+      } else {
+        toast({
+          title: "Successfully subscribed!",
+          description: "Welcome to the Sir Ole VVIP family. You'll receive our exclusive updates soon.",
+        });
+      }
+      
+      setEmail('');
+    } catch (error: any) {
+      console.error('Newsletter subscription error:', error);
+      toast({
+        title: "Subscription failed",
+        description: "There was an error subscribing to our newsletter. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

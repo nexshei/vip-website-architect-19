@@ -4,11 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { X, Crown, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const StickyNewsletter = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [email, setEmail] = useState('');
+  const [subscriberCount, setSubscriberCount] = useState(0);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -26,18 +28,84 @@ const StickyNewsletter = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isDismissed]);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  // Real-time subscriber count
+  useEffect(() => {
+    // Get initial count
+    const getSubscriberCount = async () => {
+      const { count } = await supabase
+        .from('subscribers')
+        .select('*', { count: 'exact', head: true })
+        .eq('subscribed', true);
+      setSubscriberCount(count || 0);
+    };
+
+    getSubscriberCount();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('subscriber-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'subscribers'
+        },
+        () => {
+          // Refresh count when new subscriber is added
+          getSubscriberCount();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
-    toast({
-      title: "🎩 Welcome to the Inner Circle!",
-      description: "You'll receive exclusive VIP updates and protocol insights.",
-    });
+    try {
+      const { data, error } = await supabase
+        .from('subscribers')
+        .insert([
+          {
+            email: email,
+            subscribed: true,
+            subscription_tier: 'newsletter'
+          }
+        ])
+        .select();
 
-    setEmail('');
-    setIsVisible(false);
-    setIsDismissed(true);
+      if (error) {
+        if (error.code === '23505') { // Unique constraint violation
+          toast({
+            title: "🎩 Already in the Circle!",
+            description: "This email is already part of our exclusive VIP community.",
+          });
+        } else {
+          throw error;
+        }
+      } else {
+        toast({
+          title: "🎩 Welcome to the Inner Circle!",
+          description: "You'll receive exclusive VIP updates and protocol insights.",
+        });
+      }
+
+      setEmail('');
+      setIsVisible(false);
+      setIsDismissed(true);
+    } catch (error: any) {
+      console.error('Newsletter subscription error:', error);
+      toast({
+        title: "Subscription failed",
+        description: "There was an error joining our VIP list. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleDismiss = () => {
@@ -85,6 +153,11 @@ const StickyNewsletter = () => {
                 <p className="text-luxury-white/90 text-sm sm:text-base leading-relaxed max-w-xs sm:max-w-none">
                   Get exclusive updates from <span className="text-luxury-gold font-semibold block sm:inline">Sir Ole VVIP Protocol</span>
                 </p>
+                {subscriberCount > 0 && (
+                  <p className="text-luxury-gold text-xs mt-1">
+                    {subscriberCount} VIP members and counting ✨
+                  </p>
+                )}
               </div>
             </div>
 
