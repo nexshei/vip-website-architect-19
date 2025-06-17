@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,12 +7,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Book, Clock, MapPin, Mic, Utensils, Heart } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { validateTextField, validateEmail, validatePhone, canSubmit } from '@/utils/validation';
-import CareerApplicationsList from '@/components/CareerApplicationsList';
 
 const Careers = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -221,186 +220,173 @@ const Careers = () => {
           </p>
         </div>
 
-        <Tabs defaultValue="apply" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="apply">Apply for Position</TabsTrigger>
-            <TabsTrigger value="applications">View Applications</TabsTrigger>
-          </TabsList>
+        {/* Company Culture */}
+        <div className="bg-gradient-luxury rounded-2xl p-8 mb-16 text-center">
+          <h2 className="text-3xl font-playfair font-bold text-luxury-gold mb-4">Our Culture</h2>
+          <p className="text-luxury-white/90 text-lg max-w-3xl mx-auto">
+            At Sir Ole, we believe that excellence is not just a goal—it's a way of life. Our team members are passionate professionals who take pride in creating extraordinary experiences. We foster an environment of continuous learning, mutual respect, and collective achievement.
+          </p>
+        </div>
 
-          <TabsContent value="apply">
-            {/* Company Culture */}
-            <div className="bg-gradient-luxury rounded-2xl p-8 mb-16 text-center">
-              <h2 className="text-3xl font-playfair font-bold text-luxury-gold mb-4">Our Culture</h2>
-              <p className="text-luxury-white/90 text-lg max-w-3xl mx-auto">
-                At Sir Ole, we believe that excellence is not just a goal—it's a way of life. Our team members are passionate professionals who take pride in creating extraordinary experiences. We foster an environment of continuous learning, mutual respect, and collective achievement.
-              </p>
-            </div>
-
-            {/* Job Positions */}
-            <div className="mb-16">
-              <h2 className="text-3xl font-playfair font-bold text-luxury-black text-center mb-12">
-                Available <span className="text-gradient-gold">Positions</span>
-              </h2>
-              
-              <Accordion type="single" collapsible className="space-y-4">
-                {jobPositions.map((job, index) => (
-                  <AccordionItem key={index} value={`job-${index}`} className="border border-luxury-black/10 rounded-lg">
-                    <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-luxury-black/5 rounded-lg">
-                      <div className="flex items-center space-x-4 text-left">
-                        <div className="w-12 h-12 bg-gradient-luxury rounded-full flex items-center justify-center">
-                          <job.icon className="text-luxury-gold" size={24} />
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-playfair font-semibold text-luxury-black">{job.title}</h3>
-                          <div className="flex space-x-4 text-sm text-luxury-black/60">
-                            <span>{job.type}</span>
-                            <span>•</span>
-                            <span>{job.location}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-6 pb-6">
-                      <div className="space-y-4">
-                        <p className="text-luxury-black/80">{job.description}</p>
-                        <div>
-                          <h4 className="font-semibold text-luxury-black mb-2">Requirements:</h4>
-                          <ul className="space-y-1">
-                            {job.requirements.map((req, reqIndex) => (
-                              <li key={reqIndex} className="text-luxury-black/70 flex items-start">
-                                <div className="w-1.5 h-1.5 bg-luxury-gold rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                {req}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-
-            {/* Application Form */}
-            <div className="max-w-4xl mx-auto">
-              <Card className="shadow-2xl border-luxury-black/10">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-3xl font-playfair text-luxury-black">
-                    Apply <span className="text-gradient-gold">Now</span>
-                  </CardTitle>
-                  <CardDescription className="text-luxury-black/70">
-                    Take the first step towards joining our team of excellence
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
-                        <Input
-                          id="fullName"
-                          required
-                          value={fullName}
-                          onChange={e => setFullName(e.target.value)}
-                          className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          required
-                          value={email}
-                          onChange={e => setEmail(e.target.value)}
-                          className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                        />
-                      </div>
+        {/* Job Positions */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-playfair font-bold text-luxury-black text-center mb-12">
+            Available <span className="text-gradient-gold">Positions</span>
+          </h2>
+          
+          <Accordion type="single" collapsible className="space-y-4">
+            {jobPositions.map((job, index) => (
+              <AccordionItem key={index} value={`job-${index}`} className="border border-luxury-black/10 rounded-lg">
+                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-luxury-black/5 rounded-lg">
+                  <div className="flex items-center space-x-4 text-left">
+                    <div className="w-12 h-12 bg-gradient-luxury rounded-full flex items-center justify-center">
+                      <job.icon className="text-luxury-gold" size={24} />
                     </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="phone" className="text-luxury-black font-medium">Phone Number</Label>
-                        <Input
-                          id="phone"
-                          type="tel"
-                          required
-                          value={phone}
-                          onChange={e => setPhone(e.target.value)}
-                          className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="position" className="text-luxury-black font-medium">Position Applying For</Label>
-                        <Select value={position} onValueChange={setPosition}>
-                          <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                            <SelectValue placeholder="Select position" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {jobPositions.map((job, index) => (
-                              <SelectItem key={index} value={job.title.toLowerCase().replace(/\s+/g, '-')}>
-                                {job.title}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="cv" className="text-luxury-black font-medium">Upload CV</Label>
-                        <Input
-                          id="cv"
-                          type="file"
-                          accept=".pdf,.doc,.docx"
-                          required
-                          onChange={e => setCv(e.target.files?.[0] || null)}
-                          className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="professionalPhoto" className="text-luxury-black font-medium">Professional Photo</Label>
-                        <Input
-                          id="professionalPhoto"
-                          type="file"
-                          accept=".jpg,.jpeg,.png"
-                          onChange={e => setProfessionalPhoto(e.target.files?.[0] || null)}
-                          className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                        />
-                        <p className="text-xs text-luxury-black/60 mt-1">Optional: Upload a professional headshot (JPG, PNG)</p>
-                      </div>
-                    </div>
-
                     <div>
-                      <Label htmlFor="coverLetter" className="text-luxury-black font-medium">Cover Letter / Message</Label>
-                      <Textarea
-                        id="coverLetter"
-                        rows={5}
-                        placeholder="Tell us why you want to join Sir Ole VVIP Protocol and what unique qualities you would bring to our team..."
-                        value={coverLetter}
-                        onChange={e => setCoverLetter(e.target.value)}
-                        className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
-                      />
+                      <h3 className="text-xl font-playfair font-semibold text-luxury-black">{job.title}</h3>
+                      <div className="flex space-x-4 text-sm text-luxury-black/60">
+                        <span>{job.type}</span>
+                        <span>•</span>
+                        <span>{job.location}</span>
+                      </div>
                     </div>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-4">
+                    <p className="text-luxury-black/80">{job.description}</p>
+                    <div>
+                      <h4 className="font-semibold text-luxury-black mb-2">Requirements:</h4>
+                      <ul className="space-y-1">
+                        {job.requirements.map((req, reqIndex) => (
+                          <li key={reqIndex} className="text-luxury-black/70 flex items-start">
+                            <div className="w-1.5 h-1.5 bg-luxury-gold rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            {req}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
 
-                    <Button 
-                      type="submit" 
-                      disabled={isLoading}
-                      className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105"
-                    >
-                      {isLoading ? 'Submitting Application...' : 'Apply Now'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+        {/* Application Form */}
+        <div className="max-w-4xl mx-auto">
+          <Card className="shadow-2xl border-luxury-black/10">
+            <CardHeader className="text-center">
+              <CardTitle className="text-3xl font-playfair text-luxury-black">
+                Apply <span className="text-gradient-gold">Now</span>
+              </CardTitle>
+              <CardDescription className="text-luxury-black/70">
+                Take the first step towards joining our team of excellence
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
+                    <Input
+                      id="fullName"
+                      required
+                      value={fullName}
+                      onChange={e => setFullName(e.target.value)}
+                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                  </div>
+                </div>
 
-          <TabsContent value="applications">
-            <CareerApplicationsList />
-          </TabsContent>
-        </Tabs>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="phone" className="text-luxury-black font-medium">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={e => setPhone(e.target.value)}
+                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="position" className="text-luxury-black font-medium">Position Applying For</Label>
+                    <Select value={position} onValueChange={setPosition}>
+                      <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                        <SelectValue placeholder="Select position" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {jobPositions.map((job, index) => (
+                          <SelectItem key={index} value={job.title.toLowerCase().replace(/\s+/g, '-')}>
+                            {job.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="cv" className="text-luxury-black font-medium">Upload CV</Label>
+                    <Input
+                      id="cv"
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      required
+                      onChange={e => setCv(e.target.files?.[0] || null)}
+                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="professionalPhoto" className="text-luxury-black font-medium">Professional Photo</Label>
+                    <Input
+                      id="professionalPhoto"
+                      type="file"
+                      accept=".jpg,.jpeg,.png"
+                      onChange={e => setProfessionalPhoto(e.target.files?.[0] || null)}
+                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                    <p className="text-xs text-luxury-black/60 mt-1">Optional: Upload a professional headshot (JPG, PNG)</p>
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="coverLetter" className="text-luxury-black font-medium">Cover Letter / Message</Label>
+                  <Textarea
+                    id="coverLetter"
+                    rows={5}
+                    placeholder="Tell us why you want to join Sir Ole VVIP Protocol and what unique qualities you would bring to our team..."
+                    value={coverLetter}
+                    onChange={e => setCoverLetter(e.target.value)}
+                    className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
+                  />
+                </div>
+
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105"
+                >
+                  {isLoading ? 'Submitting Application...' : 'Apply Now'}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
