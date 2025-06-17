@@ -61,6 +61,7 @@ const App = () => {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/subscription" element={<Subscription />} />
+                  <Route path="/terms" element={<Terms />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
