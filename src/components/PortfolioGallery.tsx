@@ -13,6 +13,9 @@ interface GalleryPhoto {
   alt_text?: string;
   display_order: number;
   is_featured: boolean;
+  image_data?: string | null;
+  content_type?: string;
+  file_size?: number | null;
 }
 
 const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
@@ -26,6 +29,16 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   useEffect(() => {
     fetchGalleryPhotos();
   }, [isHomepage]);
+
+  // Helper function to get the image source (either URL or base64 data)
+  const getImageSrc = (photo: GalleryPhoto): string => {
+    if (photo.image_data && photo.content_type) {
+      // If we have binary data, convert it to base64 data URL
+      return `data:${photo.content_type};base64,${photo.image_data}`;
+    }
+    // Fall back to the URL if no binary data is available
+    return photo.src;
+  };
 
   const fetchGalleryPhotos = async () => {
     try {
@@ -133,9 +146,9 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
                     }}
                   >
                     <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer mx-4 sm:mx-8"
-                         onClick={() => setSelectedImage(image.src)}>
+                         onClick={() => setSelectedImage(getImageSrc(image))}>
                       <img
-                        src={image.src}
+                        src={getImageSrc(image)}
                         alt={image.alt_text || image.category}
                         className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                         loading="lazy"
@@ -193,12 +206,12 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
             <div
               key={image.id}
               className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2"
-              onClick={() => setSelectedImage(image.src)}
+              onClick={() => setSelectedImage(getImageSrc(image))}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={image.src}
+                  src={getImageSrc(image)}
                   alt={image.alt_text || image.category}
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
