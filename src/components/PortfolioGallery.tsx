@@ -26,10 +26,6 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchGalleryPhotos();
-  }, [isHomepage]);
-
   // Helper function to get the image source (either URL or base64 data)
   const getImageSrc = (photo: GalleryPhoto): string => {
     if (photo.image_data && photo.content_type) {
@@ -78,6 +74,52 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchGalleryPhotos();
+
+    // Set up real-time subscription for gallery photos
+    const channel = supabase
+      .channel('gallery-photos-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
+          schema: 'public',
+          table: 'gallery_photos'
+        },
+        (payload) => {
+          console.log('Real-time gallery update:', payload);
+          
+          // Show toast notification for real-time updates
+          if (payload.eventType === 'INSERT') {
+            toast({
+              title: "New photo added",
+              description: "Gallery has been updated with a new photo.",
+            });
+          } else if (payload.eventType === 'UPDATE') {
+            toast({
+              title: "Photo updated",
+              description: "A gallery photo has been updated.",
+            });
+          } else if (payload.eventType === 'DELETE') {
+            toast({
+              title: "Photo removed",
+              description: "A photo has been removed from the gallery.",
+            });
+          }
+
+          // Refresh the gallery data
+          fetchGalleryPhotos();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [isHomepage, toast]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
