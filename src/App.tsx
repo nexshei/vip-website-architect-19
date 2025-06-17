@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,6 +22,7 @@ import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import VipConcierge from "./components/VipConcierge";
 import StickyNewsletter from "./components/StickyNewsletter";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +62,7 @@ const App = () => {
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/subscription" element={<Subscription />} />
                   <Route path="/terms" element={<Terms />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
