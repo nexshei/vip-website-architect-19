@@ -19,6 +19,7 @@ import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import Subscription from "./pages/Subscription";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import VipConcierge from "./components/VipConcierge";
 import StickyNewsletter from "./components/StickyNewsletter";
