@@ -1,5 +1,6 @@
+
 import { Link } from 'react-router-dom';
-import { MapPin, Mail, Clock, Users } from 'lucide-react';
+import { MapPin, Mail, Clock, Users, Facebook, Youtube, X } from 'lucide-react';
 
 const Footer = () => {
   const quickLinks = [
@@ -35,7 +36,7 @@ const Footer = () => {
               Premier luxury protocol and hospitality company in Nairobi, setting the gold standard for VVIP services and creating unforgettable experiences of sophistication.
             </p>
 
-            <div className="space-y-3">
+            <div className="space-y-3 mb-6">
               <div className="flex items-center space-x-3">
                 <MapPin className="text-luxury-gold" size={20} />
                 <span className="text-luxury-white/80">Golden Court, Silicon Valley Estate, Eastern Bypass, Nairobi</span>
@@ -50,6 +51,37 @@ const Footer = () => {
                 <Users className="text-luxury-gold" size={20} />
                 <span className="text-luxury-white/80">+254712063461</span>
               </div>
+            </div>
+
+            {/* Social Media Icons */}
+            <div className="flex space-x-4">
+              <a 
+                href="#" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook size={24} />
+              </a>
+              <a 
+                href="#" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
+                aria-label="YouTube"
+              >
+                <Youtube size={24} />
+              </a>
+              <a 
+                href="#" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
+                aria-label="X (Twitter)"
+              >
+                <X size={24} />
+              </a>
             </div>
           </div>
 
