@@ -56,26 +56,46 @@ const Contact = () => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.from('contact_submissions').insert([
-      { name, email, subject: subject || null, message }
-    ]);
+    try {
+      // Insert into database
+      const { error: dbError } = await supabase.from('contact_submissions').insert([
+        { name, email, subject: subject || null, message }
+      ]);
 
-    setIsLoading(false);
+      if (dbError) {
+        throw dbError;
+      }
 
-    if (error) {
+      // Send email notification
+      const { error: emailError } = await supabase.functions.invoke('send-notifications', {
+        body: {
+          type: 'contact',
+          name,
+          email,
+          subject,
+          message
+        }
+      });
+
+      if (emailError) {
+        console.error('Email notification error:', emailError);
+        // Don't fail the submission if email fails
+      }
+
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for contacting Sir Ole VVIP Protocol. We will respond to your inquiry within 24 hours.",
+      });
+      resetForm();
+    } catch (error: any) {
       toast({
         title: "Error submitting message",
         description: error.message,
         variant: "destructive"
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    toast({
-      title: "Message Sent Successfully!",
-      description: "Thank you for contacting Sir Ole VVIP Protocol. We will respond to your inquiry within 24 hours.",
-    });
-    resetForm();
   };
 
   const contactInfo = [

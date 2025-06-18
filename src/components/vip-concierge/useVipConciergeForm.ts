@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { 
@@ -77,38 +76,62 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
 
     setIsLoading(true);
 
-    const { error } = await supabase.from('vvip_service_requests').insert([
-      {
-        full_name: state.fullName,
-        email: state.email,
-        phone: state.phone,
-        event_date: state.eventDate || null,
-        event_type: state.eventType || null,
-        service_type: state.serviceType || null,
-        location: state.location || null,
-        protocol_officers: state.protocolOfficers || null,
-        requirements: state.requirements || null,
+    try {
+      // Insert into database
+      const { error: dbError } = await supabase.from('vvip_service_requests').insert([
+        {
+          full_name: state.fullName,
+          email: state.email,
+          phone: state.phone,
+          event_date: state.eventDate || null,
+          event_type: state.eventType || null,
+          service_type: state.serviceType || null,
+          location: state.location || null,
+          protocol_officers: state.protocolOfficers || null,
+          requirements: state.requirements || null,
+        }
+      ]);
+
+      if (dbError) {
+        throw dbError;
       }
-    ]);
 
-    setIsLoading(false);
+      // Send email notification
+      const { error: emailError } = await supabase.functions.invoke('send-notifications', {
+        body: {
+          type: 'meeting',
+          fullName: state.fullName,
+          email: state.email,
+          phone: state.phone,
+          eventType: state.eventType,
+          eventDate: state.eventDate,
+          location: state.location,
+          protocolOfficers: state.protocolOfficers,
+          vision: state.requirements
+        }
+      });
 
-    if (error) {
+      if (emailError) {
+        console.error('Email notification error:', emailError);
+        // Don't fail the submission if email fails
+      }
+
+      toast({
+        title: "Service Request Submitted!",
+        description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
+      });
+
+      setIsOpen(false);
+      resetForm();
+    } catch (error: any) {
       toast({
         title: "Error submitting request",
         description: error.message,
         variant: "destructive",
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    toast({
-      title: "Service Request Submitted!",
-      description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
-    });
-
-    setIsOpen(false);
-    resetForm();
   };
 
   return {

@@ -44,6 +44,7 @@ const BookMeeting = () => {
       });
       return;
     }
+
     // Validations
     if (
       !validateTextField(fullName, 80) ||
@@ -64,36 +65,60 @@ const BookMeeting = () => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.from('meeting_requests').insert([
-      {
-        full_name: fullName,
-        email,
-        phone,
-        event_type: eventType || null,
-        event_date: eventDate || null,
-        location: location || null,
-        protocol_officers: protocolOfficers || null,
-        vision: vision || null,
+    try {
+      // Insert into database
+      const { error: dbError } = await supabase.from('meeting_requests').insert([
+        {
+          full_name: fullName,
+          email,
+          phone,
+          event_type: eventType || null,
+          event_date: eventDate || null,
+          location: location || null,
+          protocol_officers: protocolOfficers || null,
+          vision: vision || null,
+        }
+      ]);
+
+      if (dbError) {
+        throw dbError;
       }
-    ]);
 
-    setIsLoading(false);
+      // Send email notification
+      const { error: emailError } = await supabase.functions.invoke('send-notifications', {
+        body: {
+          type: 'meeting',
+          fullName,
+          email,
+          phone,
+          eventType,
+          eventDate,
+          location,
+          protocolOfficers,
+          vision
+        }
+      });
 
-    if (error) {
+      if (emailError) {
+        console.error('Email notification error:', emailError);
+        // Don't fail the submission if email fails
+      }
+
+      toast({
+        title: "Meeting Request Submitted!",
+        description: "Thank you for your interest. Our VVIP consultation team will contact you within 24 hours to schedule your meeting.",
+      });
+
+      resetForm();
+    } catch (error: any) {
       toast({
         title: "Error submitting meeting request",
         description: error.message,
         variant: "destructive",
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    toast({
-      title: "Meeting Request Submitted!",
-      description: "Thank you for your interest. Our VVIP consultation team will contact you within 24 hours to schedule your meeting.",
-    });
-
-    resetForm();
   };
 
   return (
