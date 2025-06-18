@@ -74,7 +74,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const emailResponse = await resend.emails.send({
-      from: "Sir Ole VVIP Protocol <notifications@sirolevvipprotocolltd.co.ke>",
+      from: "Sir Ole VVIP Protocol <onboarding@resend.dev>",
       to: ["info@sirolevvipprotocolltd.co.ke"],
       subject: emailSubject,
       html: emailContent,
