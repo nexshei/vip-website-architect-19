@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Crown, Sparkles, Mail } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,11 +11,21 @@ import { supabase } from '@/integrations/supabase/client';
 const NewsletterSection = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [consentGiven, setConsentGiven] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
+
+    if (!consentGiven) {
+      toast({
+        title: "Consent Required",
+        description: "Please consent to us collecting your details to proceed.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     setIsLoading(true);
     
@@ -47,6 +59,7 @@ const NewsletterSection = () => {
       }
       
       setEmail('');
+      setConsentGiven(false);
     } catch (error: any) {
       console.error('Newsletter subscription error:', error);
       toast({
@@ -106,11 +119,24 @@ const NewsletterSection = () => {
                 />
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-luxury-gold/5 to-transparent pointer-events-none"></div>
               </div>
+
+              {/* Consent Checkbox */}
+              <div className="flex items-start space-x-3 p-4 bg-luxury-white/10 rounded-lg border border-luxury-gold/20 backdrop-blur-sm">
+                <Checkbox 
+                  id="newsletterConsent" 
+                  checked={consentGiven}
+                  onCheckedChange={(checked) => setConsentGiven(checked as boolean)}
+                  className="mt-1 border-luxury-gold/60 data-[state=checked]:bg-luxury-gold data-[state=checked]:border-luxury-gold"
+                />
+                <Label htmlFor="newsletterConsent" className="text-sm text-luxury-white leading-relaxed cursor-pointer">
+                  I consent to Sir Ole VVIP Protocol Ltd collecting my email address for the purpose of sending newsletter updates and exclusive content. I understand my data will be handled in accordance with your privacy policy.
+                </Label>
+              </div>
               
               <Button 
                 type="submit" 
-                disabled={isLoading}
-                className="w-full bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold px-8 py-4 h-14 text-base transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-luxury-gold/40 relative overflow-hidden group"
+                disabled={isLoading || !consentGiven}
+                className="w-full bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold px-8 py-4 h-14 text-base transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-luxury-gold/40 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="relative z-10">
                   {isLoading ? 'Subscribing...' : 'Subscribe Now'}

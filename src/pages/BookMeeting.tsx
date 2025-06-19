@@ -1,9 +1,11 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { validateTextField, validateEmail, validatePhone, canSubmit } from '@/utils/validation';
@@ -21,6 +23,7 @@ const BookMeeting = () => {
   const [location, setLocation] = useState('');
   const [protocolOfficers, setProtocolOfficers] = useState('');
   const [vision, setVision] = useState('');
+  const [consentGiven, setConsentGiven] = useState(false);
 
   const resetForm = () => {
     setFullName('');
@@ -31,10 +34,20 @@ const BookMeeting = () => {
     setLocation('');
     setProtocolOfficers('');
     setVision('');
+    setConsentGiven(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!consentGiven) {
+      toast({
+        title: "Consent Required",
+        description: "Please consent to us collecting your details to proceed.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     if (!canSubmit('bookmeeting-form')) {
       toast({
@@ -241,10 +254,23 @@ const BookMeeting = () => {
                   />
                 </div>
 
+                {/* Consent Checkbox */}
+                <div className="flex items-start space-x-3 p-4 bg-luxury-black/5 rounded-lg border border-luxury-black/10">
+                  <Checkbox 
+                    id="meetingConsent" 
+                    checked={consentGiven}
+                    onCheckedChange={(checked) => setConsentGiven(checked as boolean)}
+                    className="mt-1"
+                  />
+                  <Label htmlFor="meetingConsent" className="text-sm text-luxury-black leading-relaxed cursor-pointer">
+                    I consent to Sir Ole VVIP Protocol Ltd collecting and processing my personal details for the purpose of scheduling a consultation and providing information about your services. I understand my data will be handled in accordance with your privacy policy.
+                  </Label>
+                </div>
+
                 <Button 
                   type="submit" 
-                  disabled={isLoading}
-                  className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105"
+                  disabled={isLoading || !consentGiven}
+                  className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Submitting Request...' : 'Request VVIP Consultation'}
                 </Button>

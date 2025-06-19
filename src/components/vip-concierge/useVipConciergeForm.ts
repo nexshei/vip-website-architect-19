@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { 
@@ -20,6 +21,7 @@ const initialState = {
   location: '',
   protocolOfficers: '',
   requirements: '',
+  consentGiven: false,
 };
 
 export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
@@ -43,10 +45,11 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
     if (state.serviceType && !validateTextField(state.serviceType, 40)) errors.serviceType = "Service type: max 40 chars";
     if (state.protocolOfficers && !['1-5','5-10','10-20',''].includes(state.protocolOfficers)) errors.protocolOfficers = "Select a valid range";
     if (state.requirements && !validateTextField(state.requirements, 500)) errors.requirements = "Requirements: max 500 chars";
+    if (!state.consentGiven) errors.consentGiven = "Consent is required to proceed";
     return errors;
   }
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: string | boolean) => {
     setState(prev => ({ ...prev, [field]: value }));
     setFormErrors(prev => ({ ...prev, [field]: undefined }));
   };
