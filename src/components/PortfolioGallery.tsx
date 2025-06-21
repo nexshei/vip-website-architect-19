@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Expand } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
 
 interface GalleryPhoto {
   id: string;
@@ -13,10 +11,21 @@ interface GalleryPhoto {
   alt_text?: string;
   display_order: number;
   is_featured: boolean;
-  image_data?: string | null;
-  content_type?: string;
-  file_size?: number | null;
 }
+
+// Mock gallery data
+const mockGalleryPhotos: GalleryPhoto[] = [
+  { id: '1', src: '/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png', category: 'Team Services', is_featured: true, display_order: 1 },
+  { id: '2', src: '/lovable-uploads/ebbab88b-0596-40bf-b0b7-2f7812c15cde.png', category: 'VVIP Protocol', is_featured: true, display_order: 2 },
+  { id: '3', src: '/lovable-uploads/c4bf5383-4aef-4c73-8242-83c4de363bfa.png', category: 'Executive Meetings', is_featured: true, display_order: 3 },
+  { id: '4', src: '/lovable-uploads/c02cf92c-6efb-4a58-b4cf-e12866d1164c.png', category: 'Red Carpet Events', is_featured: true, display_order: 4 },
+  { id: '5', src: '/lovable-uploads/f47d4502-0c8b-4ba8-becc-584a00a22418.png', category: 'Luxury Events', is_featured: true, display_order: 5 },
+  { id: '6', src: '/lovable-uploads/02da9a98-f3d5-4a34-9909-5c798ce596c4.png', category: 'Wedding Ceremonies', is_featured: true, display_order: 6 },
+  { id: '7', src: '/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png', category: 'Cultural Events', is_featured: false, display_order: 7 },
+  { id: '8', src: '/lovable-uploads/3c79f6f7-1682-4d4f-954c-ea88a6d0cb8e.png', category: 'Corporate Events', is_featured: false, display_order: 8 },
+  { id: '9', src: '/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png', category: 'Luxury Events', is_featured: false, display_order: 9 },
+  { id: '10', src: '/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png', category: 'VVIP Team Services', is_featured: false, display_order: 10 },
+];
 
 const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -24,102 +33,25 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
   const [carouselImages, setCarouselImages] = useState<GalleryPhoto[]>([]);
   const [portfolioImages, setPortfolioImages] = useState<GalleryPhoto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
-
-  // Helper function to get the image source (either URL or base64 data)
-  const getImageSrc = (photo: GalleryPhoto): string => {
-    if (photo.image_data && photo.content_type) {
-      // If we have binary data, convert it to base64 data URL
-      return `data:${photo.content_type};base64,${photo.image_data}`;
-    }
-    // Fall back to the URL if no binary data is available
-    return photo.src;
-  };
-
-  const fetchGalleryPhotos = async () => {
-    try {
-      setIsLoading(true);
-
-      // Fetch featured photos for carousel
-      const { data: featuredPhotos, error: featuredError } = await supabase
-        .from('gallery_photos')
-        .select('*')
-        .eq('is_featured', true)
-        .order('display_order', { ascending: true });
-
-      if (featuredError) throw featuredError;
-
-      // Fetch all photos for portfolio grid
-      const { data: allPhotos, error: allError } = await supabase
-        .from('gallery_photos')
-        .select('*')
-        .order('display_order', { ascending: true });
-
-      if (allError) throw allError;
-
-      setCarouselImages(featuredPhotos || []);
-      
-      // Limit to 6 images for homepage, show all for gallery page
-      const photosToShow = isHomepage ? (allPhotos || []).slice(0, 6) : (allPhotos || []);
-      setPortfolioImages(photosToShow);
-
-    } catch (error) {
-      console.error('Error fetching gallery photos:', error);
-      toast({
-        title: "Error loading gallery",
-        description: "Failed to load gallery photos. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
-    fetchGalleryPhotos();
-
-    // Set up real-time subscription for gallery photos
-    const channel = supabase
-      .channel('gallery-photos-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
-          schema: 'public',
-          table: 'gallery_photos'
-        },
-        (payload) => {
-          console.log('Real-time gallery update:', payload);
-          
-          // Show toast notification for real-time updates
-          if (payload.eventType === 'INSERT') {
-            toast({
-              title: "New photo added",
-              description: "Gallery has been updated with a new photo.",
-            });
-          } else if (payload.eventType === 'UPDATE') {
-            toast({
-              title: "Photo updated",
-              description: "A gallery photo has been updated.",
-            });
-          } else if (payload.eventType === 'DELETE') {
-            toast({
-              title: "Photo removed",
-              description: "A photo has been removed from the gallery.",
-            });
-          }
-
-          // Refresh the gallery data
-          fetchGalleryPhotos();
-        }
-      )
-      .subscribe();
-
-    // Cleanup subscription on unmount
-    return () => {
-      supabase.removeChannel(channel);
+    // Simulate loading and set mock data
+    const loadGalleryData = () => {
+      setIsLoading(true);
+      
+      // Featured photos for carousel
+      const featuredPhotos = mockGalleryPhotos.filter(photo => photo.is_featured);
+      setCarouselImages(featuredPhotos);
+      
+      // Portfolio photos (limit to 6 for homepage, all for gallery page)
+      const photosToShow = isHomepage ? mockGalleryPhotos.slice(0, 6) : mockGalleryPhotos;
+      setPortfolioImages(photosToShow);
+      
+      setIsLoading(false);
     };
-  }, [isHomepage, toast]);
+
+    loadGalleryData();
+  }, [isHomepage]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
@@ -162,7 +94,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
           </p>
         </div>
 
-        {/* Enhanced 3D Carousel with better mobile navigation */}
+        {/* Enhanced 3D Carousel */}
         {carouselImages.length > 0 && (
           <div className="relative h-80 sm:h-96 md:h-[500px] mb-16 perspective-1000">
             <div className="relative w-full h-full">
@@ -188,9 +120,9 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
                     }}
                   >
                     <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer mx-4 sm:mx-8"
-                         onClick={() => setSelectedImage(getImageSrc(image))}>
+                         onClick={() => setSelectedImage(image.src)}>
                       <img
-                        src={getImageSrc(image)}
+                        src={image.src}
                         alt={image.alt_text || image.category}
                         className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                         loading="lazy"
@@ -210,7 +142,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
               })}
             </div>
 
-            {/* Enhanced Navigation Buttons - larger and more prominent for mobile */}
+            {/* Navigation Buttons */}
             <button
               onClick={prevSlide}
               className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-luxury-black/70 hover:bg-luxury-gold active:bg-luxury-gold-dark text-luxury-white hover:text-luxury-black p-3 sm:p-3 rounded-full transition-all duration-300 touch-target shadow-lg backdrop-blur-sm"
@@ -226,7 +158,7 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
               <ChevronRight size={24} className="sm:w-6 sm:h-6" />
             </button>
 
-            {/* Enhanced Slide Indicators */}
+            {/* Slide Indicators */}
             <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2 bg-luxury-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
               {carouselImages.map((_, index) => (
                 <button
@@ -248,12 +180,12 @@ const PortfolioGallery = ({ isHomepage = false }: { isHomepage?: boolean }) => {
             <div
               key={image.id}
               className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2"
-              onClick={() => setSelectedImage(getImageSrc(image))}
+              onClick={() => setSelectedImage(image.src)}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={getImageSrc(image)}
+                  src={image.src}
                   alt={image.alt_text || image.category}
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"

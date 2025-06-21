@@ -7,7 +7,6 @@ import {
   validatePhone,
   canSubmit
 } from '@/utils/validation';
-import { supabase } from '@/integrations/supabase/client';
 
 export const FORM_KEY = "vip_concierge";
 
@@ -80,44 +79,17 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
     setIsLoading(true);
 
     try {
-      // Insert into database
-      const { error: dbError } = await supabase.from('vvip_service_requests').insert([
-        {
-          full_name: state.fullName,
-          email: state.email,
-          phone: state.phone,
-          event_date: state.eventDate || null,
-          event_type: state.eventType || null,
-          service_type: state.serviceType || null,
-          location: state.location || null,
-          protocol_officers: state.protocolOfficers || null,
-          requirements: state.requirements || null,
-        }
-      ]);
+      // Simulate form submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      if (dbError) {
-        throw dbError;
-      }
-
-      // Send email notification
-      const { error: emailError } = await supabase.functions.invoke('send-notifications', {
-        body: {
-          type: 'meeting',
-          fullName: state.fullName,
-          email: state.email,
-          phone: state.phone,
-          eventType: state.eventType,
-          eventDate: state.eventDate,
-          location: state.location,
-          protocolOfficers: state.protocolOfficers,
-          vision: state.requirements
-        }
+      // Store in local storage for demo purposes
+      const submissions = JSON.parse(localStorage.getItem('vvip_requests') || '[]');
+      submissions.push({
+        ...state,
+        id: Date.now().toString(),
+        timestamp: new Date().toISOString()
       });
-
-      if (emailError) {
-        console.error('Email notification error:', emailError);
-        // Don't fail the submission if email fails
-      }
+      localStorage.setItem('vvip_requests', JSON.stringify(submissions));
 
       toast({
         title: "Service Request Submitted!",
@@ -129,7 +101,7 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
     } catch (error: any) {
       toast({
         title: "Error submitting request",
-        description: error.message,
+        description: "Please try again later.",
         variant: "destructive",
       });
     } finally {

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +6,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 import { validateTextField, validateEmail, validatePhone, canSubmit } from '@/utils/validation';
 
 const BookMeeting = () => {
@@ -79,43 +77,24 @@ const BookMeeting = () => {
     setIsLoading(true);
 
     try {
-      // Insert into database
-      const { error: dbError } = await supabase.from('meeting_requests').insert([
-        {
-          full_name: fullName,
-          email,
-          phone,
-          event_type: eventType || null,
-          event_date: eventDate || null,
-          location: location || null,
-          protocol_officers: protocolOfficers || null,
-          vision: vision || null,
-        }
-      ]);
+      // Simulate form submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      if (dbError) {
-        throw dbError;
-      }
-
-      // Send email notification
-      const { error: emailError } = await supabase.functions.invoke('send-notifications', {
-        body: {
-          type: 'meeting',
-          fullName,
-          email,
-          phone,
-          eventType,
-          eventDate,
-          location,
-          protocolOfficers,
-          vision
-        }
+      // Store in local storage for demo purposes
+      const submissions = JSON.parse(localStorage.getItem('meeting_requests') || '[]');
+      submissions.push({
+        fullName,
+        email,
+        phone,
+        eventType,
+        eventDate,
+        location,
+        protocolOfficers,
+        vision,
+        timestamp: new Date().toISOString(),
+        id: Date.now().toString()
       });
-
-      if (emailError) {
-        console.error('Email notification error:', emailError);
-        // Don't fail the submission if email fails
-      }
+      localStorage.setItem('meeting_requests', JSON.stringify(submissions));
 
       toast({
         title: "Meeting Request Submitted!",
@@ -126,7 +105,7 @@ const BookMeeting = () => {
     } catch (error: any) {
       toast({
         title: "Error submitting meeting request",
-        description: error.message,
+        description: "Please try again later.",
         variant: "destructive",
       });
     } finally {

@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { MapPin, Mail, Clock, Users } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { validateTextField, validateEmail, canSubmit } from '@/utils/validation';
 
 const Contact = () => {
@@ -52,7 +51,7 @@ const Contact = () => {
       return;
     }
 
-    // Server-like validation before DB insert
+    // Server-like validation before storing
     if (
       !validateTextField(name, 64) ||
       !validateTextField(subject, 128) ||
@@ -70,30 +69,20 @@ const Contact = () => {
     setIsLoading(true);
 
     try {
-      // Insert into database
-      const { error: dbError } = await supabase.from('contact_submissions').insert([
-        { name, email, subject: subject || null, message }
-      ]);
+      // Simulate form submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      if (dbError) {
-        throw dbError;
-      }
-
-      // Send email notification
-      const { error: emailError } = await supabase.functions.invoke('send-notifications', {
-        body: {
-          type: 'contact',
-          name,
-          email,
-          subject,
-          message
-        }
+      // Store in local storage for demo purposes
+      const submissions = JSON.parse(localStorage.getItem('contact_submissions') || '[]');
+      submissions.push({
+        name,
+        email,
+        subject,
+        message,
+        timestamp: new Date().toISOString(),
+        id: Date.now().toString()
       });
-
-      if (emailError) {
-        console.error('Email notification error:', emailError);
-        // Don't fail the submission if email fails
-      }
+      localStorage.setItem('contact_submissions', JSON.stringify(submissions));
 
       toast({
         title: "Message Sent Successfully!",
@@ -103,7 +92,7 @@ const Contact = () => {
     } catch (error: any) {
       toast({
         title: "Error submitting message",
-        description: error.message,
+        description: "Please try again later.",
         variant: "destructive"
       });
     } finally {

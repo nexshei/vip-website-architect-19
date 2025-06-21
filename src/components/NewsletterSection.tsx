@@ -6,12 +6,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Crown, Sparkles, Mail } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
+  const [subscriberCount, setSubscriberCount] = useState(247); // Mock count
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,31 +30,25 @@ const NewsletterSection = () => {
     setIsLoading(true);
     
     try {
-      // Insert the email into the subscribers table
-      const { data, error } = await supabase
-        .from('subscribers')
-        .insert([
-          {
-            email: email,
-            subscribed: true,
-            subscription_tier: 'newsletter'
-          }
-        ])
-        .select();
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      if (error) {
-        if (error.code === '23505') { // Unique constraint violation
-          toast({
-            title: "Already subscribed!",
-            description: "This email is already in our VIP list. Thank you for your continued interest!",
-          });
-        } else {
-          throw error;
-        }
-      } else {
+      // Check for existing subscription in localStorage
+      const subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+      
+      if (subscribers.includes(email)) {
         toast({
-          title: "Successfully subscribed!",
-          description: "Welcome to the Sir Ole VVIP family. You'll receive our exclusive updates soon.",
+          title: "🎩 Already in the Circle!",
+          description: "This email is already part of our exclusive VIP community.",
+        });
+      } else {
+        subscribers.push(email);
+        localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
+        setSubscriberCount(prev => prev + 1);
+        
+        toast({
+          title: "🎩 Welcome to the Inner Circle!",
+          description: "You'll receive exclusive VIP updates and protocol insights.",
         });
       }
       
@@ -64,7 +58,7 @@ const NewsletterSection = () => {
       console.error('Newsletter subscription error:', error);
       toast({
         title: "Subscription failed",
-        description: "There was an error subscribing to our newsletter. Please try again.",
+        description: "There was an error joining our VIP list. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -149,6 +143,12 @@ const NewsletterSection = () => {
               Join our exclusive community and stay informed about upcoming VVIP events and hospitality insights.
               <span className="block mt-1 text-luxury-gold">✨ No spam, only premium content</span>
             </p>
+            
+            {subscriberCount > 0 && (
+              <p className="text-luxury-gold text-xs mt-2">
+                {subscriberCount} VIP members and counting ✨
+              </p>
+            )}
           </div>
 
           {/* Decorative bottom elements */}

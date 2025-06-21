@@ -4,13 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { X, Crown, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 const StickyNewsletter = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [email, setEmail] = useState('');
-  const [subscriberCount, setSubscriberCount] = useState(0);
+  const [subscriberCount, setSubscriberCount] = useState(247); // Mock count
   const { toast } = useToast();
 
   useEffect(() => {
@@ -28,67 +27,27 @@ const StickyNewsletter = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isDismissed]);
 
-  // Real-time subscriber count
-  useEffect(() => {
-    // Get initial count
-    const getSubscriberCount = async () => {
-      const { count } = await supabase
-        .from('subscribers')
-        .select('*', { count: 'exact', head: true })
-        .eq('subscribed', true);
-      setSubscriberCount(count || 0);
-    };
-
-    getSubscriberCount();
-
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('subscriber-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'subscribers'
-        },
-        () => {
-          // Refresh count when new subscriber is added
-          getSubscriberCount();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
     try {
-      const { data, error } = await supabase
-        .from('subscribers')
-        .insert([
-          {
-            email: email,
-            subscribed: true,
-            subscription_tier: 'newsletter'
-          }
-        ])
-        .select();
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      if (error) {
-        if (error.code === '23505') { // Unique constraint violation
-          toast({
-            title: "🎩 Already in the Circle!",
-            description: "This email is already part of our exclusive VIP community.",
-          });
-        } else {
-          throw error;
-        }
+      // Check for existing subscription in localStorage
+      const subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+      
+      if (subscribers.includes(email)) {
+        toast({
+          title: "🎩 Already in the Circle!",
+          description: "This email is already part of our exclusive VIP community.",
+        });
       } else {
+        subscribers.push(email);
+        localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
+        setSubscriberCount(prev => prev + 1);
+        
         toast({
           title: "🎩 Welcome to the Inner Circle!",
           description: "You'll receive exclusive VIP updates and protocol insights.",
@@ -120,7 +79,7 @@ const StickyNewsletter = () => {
       {/* Enhanced decorative top border with animated gradient */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-luxury-gold-dark via-luxury-gold to-luxury-gold-light animate-shimmer"></div>
       
-      {/* Close button - made larger and more prominent for mobile */}
+      {/* Close button */}
       <button
         onClick={handleDismiss}
         className="absolute top-2 right-2 z-50 bg-luxury-gold/20 hover:bg-luxury-gold/40 active:bg-luxury-gold/50 text-luxury-gold hover:text-luxury-white transition-all duration-200 p-3 rounded-full backdrop-blur-sm border border-luxury-gold/40 hover:border-luxury-gold touch-target shadow-lg"
@@ -133,7 +92,7 @@ const StickyNewsletter = () => {
       <div className="container mx-auto px-3 py-4 sm:px-6 sm:py-6">
         <div className="max-w-md mx-auto sm:max-w-6xl">
           
-          {/* Header section - centered for mobile */}
+          {/* Header section */}
           <div className="text-center mb-4 sm:mb-0 sm:flex sm:items-center sm:justify-between sm:text-left pr-8 sm:pr-6">
             
             {/* Icon and text section */}
@@ -161,7 +120,7 @@ const StickyNewsletter = () => {
               </div>
             </div>
 
-            {/* Form section - full width on mobile */}
+            {/* Form section */}
             <div className="w-full sm:w-auto mt-4 sm:mt-0">
               <form onSubmit={handleSubscribe} className="space-y-3 sm:flex sm:space-y-0 sm:space-x-3">
                 <div className="relative">
@@ -177,7 +136,7 @@ const StickyNewsletter = () => {
                 </div>
                 <Button 
                   type="submit"
-                  className="w-full sm:w-auto bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold px-6 py-3 h-12 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-luxury-gold/30 whitespace-nowrap rounded-xl touch-target"
+                  className="w-full sm:w-auto bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold px-6 py-3 h-12 text-base transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-luxury-gold/30 whitespace-nowrap rounded-xl touch-target"
                 >
                   Subscribe Now
                 </Button>
@@ -185,7 +144,7 @@ const StickyNewsletter = () => {
             </div>
           </div>
 
-          {/* Bottom decorative elements - only visible on larger screens */}
+          {/* Bottom decorative elements */}
           <div className="hidden sm:flex justify-center mt-4 space-x-2">
             <div className="w-2 h-2 bg-luxury-gold rounded-full animate-pulse"></div>
             <div className="w-2 h-2 bg-luxury-gold/60 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
