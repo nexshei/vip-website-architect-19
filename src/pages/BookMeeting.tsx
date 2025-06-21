@@ -1,110 +1,58 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { validateTextField, validateEmail, validatePhone, canSubmit } from '@/utils/validation';
+import { supabase } from '@/integrations/supabase/client';
 
 const BookMeeting = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    eventDate: '',
+    eventType: '',
+    location: '',
+    protocolOfficers: '',
+    vision: ''
+  });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Controlled form state
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [eventType, setEventType] = useState('');
-  const [eventDate, setEventDate] = useState('');
-  const [location, setLocation] = useState('');
-  const [protocolOfficers, setProtocolOfficers] = useState('');
-  const [vision, setVision] = useState('');
-  const [consentGiven, setConsentGiven] = useState(false);
-
-  const resetForm = () => {
-    setFullName('');
-    setEmail('');
-    setPhone('');
-    setEventType('');
-    setEventDate('');
-    setLocation('');
-    setProtocolOfficers('');
-    setVision('');
-    setConsentGiven(false);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!consentGiven) {
-      toast({
-        title: "Consent Required",
-        description: "Please consent to us collecting your details to proceed.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (!canSubmit('bookmeeting-form')) {
-      toast({
-        title: "Please wait before submitting again.",
-        description: "Limit one submission every 12 seconds.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // Validations
-    if (
-      !validateTextField(fullName, 80) ||
-      !validateEmail(email) ||
-      !validatePhone(phone) ||
-      (eventType && !validateTextField(eventType, 32)) ||
-      (location && !validateTextField(location, 100)) ||
-      (protocolOfficers && !validateTextField(protocolOfficers, 12)) ||
-      (vision && !validateTextField(vision, 2000))
-    ) {
-      toast({
-        title: "Invalid Input",
-        description: "Please check your entries for errors and excessive length.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { error } = await supabase
+        .from('meeting_requests')
+        .insert({
+          full_name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          event_date: formData.eventDate,
+          event_type: formData.eventType,
+          location: formData.location,
+          protocol_officers: formData.protocolOfficers,
+          vision: formData.vision
+        });
 
-      // Store in local storage for demo purposes
-      const submissions = JSON.parse(localStorage.getItem('meeting_requests') || '[]');
-      submissions.push({
-        fullName,
-        email,
-        phone,
-        eventType,
-        eventDate,
-        location,
-        protocolOfficers,
-        vision,
-        timestamp: new Date().toISOString(),
-        id: Date.now().toString()
-      });
-      localStorage.setItem('meeting_requests', JSON.stringify(submissions));
+      if (error) throw error;
 
       toast({
-        title: "Meeting Request Submitted!",
-        description: "Thank you for your interest. Our VVIP consultation team will contact you within 24 hours to schedule your meeting.",
+        title: "Meeting request submitted!",
+        description: "Thank you for your request. We'll contact you within 24 hours.",
       });
 
-      resetForm();
-    } catch (error: any) {
+      setFormData({
+        fullName: '', email: '', phone: '', eventDate: '', 
+        eventType: '', location: '', protocolOfficers: '', vision: ''
+      });
+    } catch (error) {
       toast({
-        title: "Error submitting meeting request",
+        title: "Error submitting request",
         description: "Please try again later.",
         variant: "destructive",
       });
@@ -114,179 +62,108 @@ const BookMeeting = () => {
   };
 
   return (
-    <div className="pt-20 min-h-screen bg-luxury-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl font-playfair font-bold text-luxury-black mb-6">
-              Book Your <span className="text-gradient-gold">VVIP Consultation</span>
-            </h1>
-            <div className="w-24 h-1 bg-luxury-gold mx-auto mb-6"></div>
-            <p className="text-xl text-luxury-black/70 max-w-2xl mx-auto">
-              Let's discuss how we can elevate your next event to extraordinary heights of sophistication and excellence.
-            </p>
-          </div>
+    <div className="pt-20">
+      <div className="bg-gradient-luxury py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl sm:text-6xl font-playfair font-bold text-luxury-white mb-6">
+            Book a <span className="text-luxury-gold">Meeting</span>
+          </h1>
+          <p className="text-xl text-luxury-white/90 max-w-3xl mx-auto">
+            Schedule a consultation to discuss your VIP protocol and event management needs
+          </p>
+        </div>
+      </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Form */}
-            <div className="bg-luxury-white shadow-2xl rounded-2xl p-8 border border-luxury-black/10">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="fullName" className="text-luxury-black font-medium">Full Name</Label>
-                    <Input
-                      id="fullName"
-                      required
-                      value={fullName}
-                      onChange={e => setFullName(e.target.value)}
-                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email" className="text-luxury-black font-medium">Email Address</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      required
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="phone" className="text-luxury-black font-medium">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      required
-                      value={phone}
-                      onChange={e => setPhone(e.target.value)}
-                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="eventType" className="text-luxury-black font-medium">Type of Event</Label>
-                    <Select value={eventType} onValueChange={setEventType}>
-                      <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                        <SelectValue placeholder="Select event type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="corporate">Corporate Event</SelectItem>
-                        <SelectItem value="wedding">Wedding</SelectItem>
-                        <SelectItem value="diplomatic">Diplomatic Function</SelectItem>
-                        <SelectItem value="private">Private Celebration</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="eventDate" className="text-luxury-black font-medium">Preferred Event Date</Label>
-                    <Input
-                      id="eventDate"
-                      type="date"
-                      value={eventDate}
-                      onChange={e => setEventDate(e.target.value)}
-                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="location" className="text-luxury-black font-medium">Location / Venue</Label>
-                    <Input
-                      id="location"
-                      value={location}
-                      onChange={e => setLocation(e.target.value)}
-                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="protocolOfficers" className="text-luxury-black font-medium">Number of Protocol Officers Needed</Label>
-                  <Select value={protocolOfficers} onValueChange={setProtocolOfficers}>
-                    <SelectTrigger className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
-                      <SelectValue placeholder="Select range" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1-5">1-5</SelectItem>
-                      <SelectItem value="5-10">5-10</SelectItem>
-                      <SelectItem value="10-20">10-20</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="vision" className="text-luxury-black font-medium">Describe Your Vision</Label>
-                  <Textarea
-                    id="vision"
-                    rows={5}
-                    placeholder="Tell us about your event vision, expected number of guests, specific requirements, and how we can help make it extraordinary..."
-                    value={vision}
-                    onChange={e => setVision(e.target.value)}
-                    className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
-                  />
-                </div>
-
-                {/* Consent Checkbox */}
-                <div className="flex items-start space-x-3 p-4 bg-luxury-black/5 rounded-lg border border-luxury-black/10">
-                  <Checkbox 
-                    id="meetingConsent" 
-                    checked={consentGiven}
-                    onCheckedChange={(checked) => setConsentGiven(checked as boolean)}
-                    className="mt-1"
-                  />
-                  <Label htmlFor="meetingConsent" className="text-sm text-luxury-black leading-relaxed cursor-pointer">
-                    I consent to Sir Ole VVIP Protocol Ltd collecting and processing my personal details for the purpose of scheduling a consultation and providing information about your services. I understand my data will be handled in accordance with your privacy policy.
-                  </Label>
-                </div>
-
-                <Button 
-                  type="submit" 
-                  disabled={isLoading || !consentGiven}
-                  className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isLoading ? 'Submitting Request...' : 'Request VVIP Consultation'}
-                </Button>
-              </form>
-            </div>
-
-            {/* Info Panel */}
-            <div className="bg-gradient-luxury rounded-2xl p-8 text-luxury-white">
-              <h3 className="text-2xl font-playfair font-bold text-luxury-gold mb-6">Why Choose Sir Ole?</h3>
-              
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-semibold text-luxury-gold mb-2">Unmatched Excellence</h4>
-                  <p className="text-luxury-white/80">Years of experience serving high-profile clients and diplomatic functions with impeccable attention to detail.</p>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-luxury-gold mb-2">Personalized Service</h4>
-                  <p className="text-luxury-white/80">Every event is tailored to your unique vision and requirements, ensuring a truly bespoke experience.</p>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-luxury-gold mb-2">Professional Team</h4>
-                  <p className="text-luxury-white/80">Our highly trained professionals bring expertise in protocol, security, and hospitality management.</p>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-luxury-gold mb-2">Comprehensive Solutions</h4>
-                  <p className="text-luxury-white/80">From planning to execution, we handle every aspect to ensure a seamless and memorable event.</p>
-                </div>
+      <div className="py-20 bg-luxury-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                <Input
+                  placeholder="Full Name"
+                  value={formData.fullName}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  required
+                  className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                />
+                <Input
+                  type="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                />
               </div>
 
-              <div className="mt-8 p-6 bg-luxury-white/10 rounded-lg border border-luxury-gold/20">
-                <h4 className="font-semibold text-luxury-gold mb-2">Quick Response Guarantee</h4>
-                <p className="text-luxury-white/80 text-sm">We respond to all consultation requests within 24 hours and offer flexible meeting arrangements to suit your schedule.</p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Input
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                />
+                <Input
+                  type="date"
+                  placeholder="Preferred Event Date"
+                  value={formData.eventDate}
+                  onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
+                  className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                />
               </div>
-            </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <Select value={formData.eventType} onValueChange={(value) => setFormData({ ...formData, eventType: value })}>
+                  <SelectTrigger className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                    <SelectValue placeholder="Event Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="corporate">Corporate Event</SelectItem>
+                    <SelectItem value="wedding">Wedding</SelectItem>
+                    <SelectItem value="diplomatic">Diplomatic Function</SelectItem>
+                    <SelectItem value="private">Private Celebration</SelectItem>
+                    <SelectItem value="government">Government Function</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Input
+                  placeholder="Location/Venue"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                />
+              </div>
+
+              <Select value={formData.protocolOfficers} onValueChange={(value) => setFormData({ ...formData, protocolOfficers: value })}>
+                <SelectTrigger className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold">
+                  <SelectValue placeholder="Number of Protocol Officers Needed" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1-5">1-5 Officers</SelectItem>
+                  <SelectItem value="5-10">5-10 Officers</SelectItem>
+                  <SelectItem value="10-20">10-20 Officers</SelectItem>
+                  <SelectItem value="20+">20+ Officers</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Textarea
+                placeholder="Tell us about your vision and specific requirements..."
+                rows={4}
+                value={formData.vision}
+                onChange={(e) => setFormData({ ...formData, vision: e.target.value })}
+                className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
+              />
+
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 transition-all duration-300"
+              >
+                {isLoading ? 'Submitting...' : 'Schedule Meeting'}
+              </Button>
+            </form>
           </div>
         </div>
       </div>

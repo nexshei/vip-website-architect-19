@@ -2,291 +2,141 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { MapPin, Mail, Clock, Users } from 'lucide-react';
-import { validateTextField, validateEmail, canSubmit } from '@/utils/validation';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    message: ''
+  });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Controlled state for form
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
-  const [consentGiven, setConsentGiven] = useState(false);
-
-  const resetForm = () => {
-    setName('');
-    setEmail('');
-    setSubject('');
-    setMessage('');
-    setConsentGiven(false);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!consentGiven) {
-      toast({
-        title: "Consent Required",
-        description: "Please consent to us collecting your details to proceed.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // Rate limit: one every 12 seconds by IP/session
-    if (!canSubmit('contact-form')) {
-      toast({
-        title: "Please wait before submitting again.",
-        description: "Slow down to protect against spam.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // Server-like validation before storing
-    if (
-      !validateTextField(name, 64) ||
-      !validateTextField(subject, 128) ||
-      !validateTextField(message, 3000) ||
-      !validateEmail(email)
-    ) {
-      toast({
-        title: "Invalid Input",
-        description: "Please check your inputs for length and format.",
-        variant: "destructive"
-      });
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert({
+          full_name: formData.fullName,
+          email: formData.email,
+          message: formData.message
+        });
 
-      // Store in local storage for demo purposes
-      const submissions = JSON.parse(localStorage.getItem('contact_submissions') || '[]');
-      submissions.push({
-        name,
-        email,
-        subject,
-        message,
-        timestamp: new Date().toISOString(),
-        id: Date.now().toString()
-      });
-      localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+      if (error) throw error;
 
       toast({
-        title: "Message Sent Successfully!",
-        description: "Thank you for contacting Sir Ole VVIP Protocol. We will respond to your inquiry within 24 hours.",
+        title: "Message sent successfully!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
       });
-      resetForm();
-    } catch (error: any) {
+
+      setFormData({ fullName: '', email: '', message: '' });
+    } catch (error) {
       toast({
-        title: "Error submitting message",
+        title: "Error sending message",
         description: "Please try again later.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const contactInfo = [
-    {
-      icon: MapPin,
-      title: "Our Location",
-      details: ["Golden Court, Silicon Valley Estate", "Eastern Bypass, Nairobi", "Kenya"]
-    },
-    {
-      icon: Users,
-      title: "Phone",
-      details: ["+254712063461", "Available 24/7 for emergencies"]
-    },
-    {
-      icon: Mail,
-      title: "Email",
-      details: ["sirolevipprotocol@gmail.com", "Response within 24 hours"]
-    },
-    {
-      icon: Clock,
-      title: "Office Hours",
-      details: ["Mon-Fri: 8:00 AM - 6:00 PM", "Sat: 9:00 AM - 4:00 PM", "Sun: By Appointment"]
-    }
-  ];
-
   return (
-    <div className="pt-20 min-h-screen bg-luxury-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-playfair font-bold text-luxury-black mb-6">
-            Contact <span className="text-gradient-gold">Sir Ole</span>
+    <div className="pt-20">
+      <div className="bg-gradient-luxury py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl sm:text-6xl font-playfair font-bold text-luxury-white mb-6">
+            Contact <span className="text-luxury-gold">Us</span>
           </h1>
-          <div className="w-24 h-1 bg-luxury-gold mx-auto mb-6"></div>
-          <p className="text-xl text-luxury-black/70 max-w-3xl mx-auto">
-            Ready to elevate your next event? Get in touch with our team of luxury protocol experts. We're here to make your vision a reality.
+          <p className="text-xl text-luxury-white/90 max-w-3xl mx-auto">
+            Get in touch with our team for inquiries about our VIP protocol and event management services
           </p>
         </div>
+      </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-3xl font-playfair font-bold text-luxury-black mb-8">Get in Touch</h2>
-              <p className="text-luxury-black/70 text-lg mb-8">
-                Whether you're planning a corporate event, diplomatic function, or private celebration, our team is ready to provide you with unmatched service excellence.
-              </p>
-            </div>
-
-            <div className="grid gap-6">
-              {contactInfo.map((info, index) => (
-                <Card key={index} className="border-luxury-black/10 hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-gradient-luxury rounded-full flex items-center justify-center flex-shrink-0">
-                        <info.icon className="text-luxury-gold" size={24} />
-                      </div>
-                      <div>
-                        <h3 className="font-playfair font-semibold text-luxury-black text-lg mb-2">{info.title}</h3>
-                        {info.details.map((detail, detailIndex) => (
-                          <p key={detailIndex} className="text-luxury-black/70">
-                            {detail}
-                          </p>
-                        ))}
-                      </div>
+      <div className="py-20 bg-luxury-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                <h2 className="text-3xl font-playfair font-bold text-luxury-black mb-6">Get In Touch</h2>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-center justify-center">
+                      <span className="text-luxury-black font-bold">📧</span>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Map Placeholder */}
-            <Card className="border-luxury-black/10">
-              <CardContent className="p-0">
-                <div className="bg-gradient-luxury h-64 rounded-lg flex items-center justify-center">
-                  <div className="text-center text-luxury-white">
-                    <MapPin className="mx-auto mb-4 text-luxury-gold" size={48} />
-                    <h3 className="text-xl font-playfair font-semibold mb-2">Visit Our Office</h3>
-                    <p className="text-luxury-white/80">
-                      Golden Court, Silicon Valley Estate<br />
-                      Eastern Bypass, Nairobi
-                    </p>
+                    <div>
+                      <h3 className="font-semibold text-luxury-black">Email</h3>
+                      <p className="text-luxury-black/70">sirolevvipprotocol@gmail.com</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-center justify-center">
+                      <span className="text-luxury-black font-bold">📱</span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-luxury-black">Phone</h3>
+                      <p className="text-luxury-black/70">0712063461</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-center justify-center">
+                      <span className="text-luxury-black font-bold">📍</span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-luxury-black">Address</h3>
+                      <p className="text-luxury-black/70">Golden Court, Silicon Valley Estate, Eastern Bypass, Nairobi</p>
+                    </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
 
-          {/* Contact Form */}
-          <div>
-            <Card className="shadow-2xl border-luxury-black/10">
-              <CardHeader>
-                <CardTitle className="text-2xl font-playfair text-luxury-black text-center">
-                  Send Us a <span className="text-gradient-gold">Message</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+              <div>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="name" className="text-luxury-black font-medium">Name</Label>
-                      <Input
-                        id="name"
-                        required
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email" className="text-luxury-black font-medium">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        required
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
-                      />
-                    </div>
-                  </div>
                   <div>
-                    <Label htmlFor="subject" className="text-luxury-black font-medium">Subject</Label>
                     <Input
-                      id="subject"
+                      placeholder="Full Name"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       required
-                      value={subject}
-                      onChange={e => setSubject(e.target.value)}
-                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                      className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="message" className="text-luxury-black font-medium">Message</Label>
-                    <Textarea
-                      id="message"
-                      rows={6}
+                    <Input
+                      type="email"
+                      placeholder="Email Address"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
-                      placeholder="Tell us about your event or inquiry. Include details about dates, location, type of event, and any specific requirements..."
-                      value={message}
-                      onChange={e => setMessage(e.target.value)}
-                      className="mt-2 border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
+                      className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                   </div>
-                  
-                  {/* Consent Checkbox */}
-                  <div className="flex items-start space-x-3 p-4 bg-luxury-black/5 rounded-lg border border-luxury-black/10">
-                    <Checkbox 
-                      id="consent" 
-                      checked={consentGiven}
-                      onCheckedChange={(checked) => setConsentGiven(checked as boolean)}
-                      className="mt-1"
+                  <div>
+                    <Textarea
+                      placeholder="Your Message"
+                      rows={6}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      required
+                      className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold resize-none"
                     />
-                    <Label htmlFor="consent" className="text-sm text-luxury-black leading-relaxed cursor-pointer">
-                      I consent to Sir Ole VVIP Protocol Ltd collecting and processing my personal details for the purpose of responding to my inquiry and providing information about your services. I understand my data will be handled in accordance with your privacy policy.
-                    </Label>
                   </div>
-
                   <Button
                     type="submit"
-                    disabled={isLoading || !consentGiven}
-                    className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 text-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isLoading}
+                    className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold py-3 transition-all duration-300"
                   >
-                    {isLoading ? 'Sending Message...' : 'Send Message'}
+                    {isLoading ? 'Sending...' : 'Send Message'}
                   </Button>
                 </form>
-              </CardContent>
-            </Card>
-
-            {/* Additional Info */}
-            <div className="mt-8 bg-gradient-luxury rounded-xl p-6 text-luxury-white">
-              <h3 className="text-xl font-playfair font-semibold text-luxury-gold mb-4">Why Contact Sir Ole?</h3>
-              <ul className="space-y-2">
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-luxury-gold rounded-full mr-3"></div>
-                  24-hour response guarantee
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-luxury-gold rounded-full mr-3"></div>
-                  Free initial consultation
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-luxury-gold rounded-full mr-3"></div>
-                  Customized service proposals
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-luxury-gold rounded-full mr-3"></div>
-                  Transparent pricing
-                </li>
-              </ul>
+              </div>
             </div>
           </div>
         </div>

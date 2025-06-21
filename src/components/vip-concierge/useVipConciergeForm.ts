@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   validateTextField,
   validateEmail,
@@ -79,17 +80,31 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
     setIsLoading(true);
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { error } = await supabase
+        .from('vvip_subscribers')
+        .insert({
+          full_name: state.fullName,
+          email: state.email,
+          company: state.location // Using location as company field for now
+        });
 
-      // Store in local storage for demo purposes
-      const submissions = JSON.parse(localStorage.getItem('vvip_requests') || '[]');
-      submissions.push({
-        ...state,
-        id: Date.now().toString(),
-        timestamp: new Date().toISOString()
-      });
-      localStorage.setItem('vvip_requests', JSON.stringify(submissions));
+      if (error) throw error;
+
+      // Also create a meeting request
+      const { error: meetingError } = await supabase
+        .from('meeting_requests')
+        .insert({
+          full_name: state.fullName,
+          email: state.email,
+          phone: state.phone,
+          event_date: state.eventDate,
+          event_type: state.eventType,
+          location: state.location,
+          protocol_officers: state.protocolOfficers,
+          vision: state.requirements
+        });
+
+      if (meetingError) console.error('Meeting request error:', meetingError);
 
       toast({
         title: "Service Request Submitted!",
