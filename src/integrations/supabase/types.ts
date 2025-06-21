@@ -9,37 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      analytics: {
+      admin_users: {
         Row: {
           created_at: string | null
+          email: string
           id: string
-          metric_name: string | null
-          metric_value: number | null
-          notes: string | null
-          record_date: string | null
+          password_changed: boolean | null
+          role: string
         }
         Insert: {
           created_at?: string | null
+          email: string
           id?: string
-          metric_name?: string | null
-          metric_value?: number | null
-          notes?: string | null
-          record_date?: string | null
+          password_changed?: boolean | null
+          role: string
         }
         Update: {
           created_at?: string | null
+          email?: string
           id?: string
-          metric_name?: string | null
-          metric_value?: number | null
-          notes?: string | null
-          record_date?: string | null
+          password_changed?: boolean | null
+          role?: string
         }
         Relationships: []
       }
       bookings: {
         Row: {
           approval_status: string | null
-          client_id: string | null
           client_name: string | null
           created_at: string | null
           id: string
@@ -52,7 +48,6 @@ export type Database = {
         }
         Insert: {
           approval_status?: string | null
-          client_id?: string | null
           client_name?: string | null
           created_at?: string | null
           id?: string
@@ -65,7 +60,6 @@ export type Database = {
         }
         Update: {
           approval_status?: string | null
-          client_id?: string | null
           client_name?: string | null
           created_at?: string | null
           id?: string
@@ -82,239 +76,137 @@ export type Database = {
         Row: {
           cover_letter: string | null
           created_at: string | null
-          cv_url: string | null
-          email: string
-          full_name: string
+          email: string | null
+          full_name: string | null
           id: string
           phone: string | null
-          position: string | null
-          professional_photo_url: string | null
+          resume_url: string | null
         }
         Insert: {
           cover_letter?: string | null
           created_at?: string | null
-          cv_url?: string | null
-          email: string
-          full_name: string
+          email?: string | null
+          full_name?: string | null
           id?: string
           phone?: string | null
-          position?: string | null
-          professional_photo_url?: string | null
+          resume_url?: string | null
         }
         Update: {
           cover_letter?: string | null
           created_at?: string | null
-          cv_url?: string | null
-          email?: string
-          full_name?: string
+          email?: string | null
+          full_name?: string | null
           id?: string
           phone?: string | null
-          position?: string | null
-          professional_photo_url?: string | null
-        }
-        Relationships: []
-      }
-      careers: {
-        Row: {
-          application_deadline: string | null
-          created_at: string
-          department: string | null
-          description: string | null
-          employment_type: string | null
-          id: string
-          location: string | null
-          requirements: string[] | null
-          salary_range: string | null
-          status: string | null
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          application_deadline?: string | null
-          created_at?: string
-          department?: string | null
-          description?: string | null
-          employment_type?: string | null
-          id?: string
-          location?: string | null
-          requirements?: string[] | null
-          salary_range?: string | null
-          status?: string | null
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          application_deadline?: string | null
-          created_at?: string
-          department?: string | null
-          description?: string | null
-          employment_type?: string | null
-          id?: string
-          location?: string | null
-          requirements?: string[] | null
-          salary_range?: string | null
-          status?: string | null
-          title?: string
-          updated_at?: string
+          resume_url?: string | null
         }
         Relationships: []
       }
       clients: {
         Row: {
-          company: string | null
+          company_name: string | null
           created_at: string | null
           email: string | null
           full_name: string | null
           id: string
-          notes: string | null
           phone: string | null
         }
         Insert: {
-          company?: string | null
+          company_name?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
-          notes?: string | null
           phone?: string | null
         }
         Update: {
-          company?: string | null
+          company_name?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
-          notes?: string | null
           phone?: string | null
         }
         Relationships: []
       }
-      communications: {
+      contact_messages: {
         Row: {
-          channel: string | null
           created_at: string | null
+          email: string | null
+          full_name: string | null
           id: string
           message: string | null
-          receiver_id: string | null
-          sender_id: string | null
-          subject: string | null
         }
         Insert: {
-          channel?: string | null
           created_at?: string | null
+          email?: string | null
+          full_name?: string | null
           id?: string
           message?: string | null
-          receiver_id?: string | null
-          sender_id?: string | null
-          subject?: string | null
         }
         Update: {
-          channel?: string | null
           created_at?: string | null
+          email?: string | null
+          full_name?: string | null
           id?: string
           message?: string | null
-          receiver_id?: string | null
-          sender_id?: string | null
-          subject?: string | null
         }
         Relationships: []
       }
-      contact_submissions: {
+      events: {
         Row: {
+          banner_url: string | null
           created_at: string | null
-          email: string
+          description: string | null
+          event_date: string | null
           id: string
-          message: string
-          name: string
-          subject: string | null
+          is_public: boolean | null
+          location: string | null
+          title: string | null
         }
         Insert: {
+          banner_url?: string | null
           created_at?: string | null
-          email: string
+          description?: string | null
+          event_date?: string | null
           id?: string
-          message: string
-          name: string
-          subject?: string | null
+          is_public?: boolean | null
+          location?: string | null
+          title?: string | null
         }
         Update: {
+          banner_url?: string | null
           created_at?: string | null
-          email?: string
+          description?: string | null
+          event_date?: string | null
           id?: string
-          message?: string
-          name?: string
-          subject?: string | null
-        }
-        Relationships: []
-      }
-      emails: {
-        Row: {
-          body: string | null
-          from_email: string | null
-          id: string
-          sent_at: string | null
-          status: string | null
-          subject: string | null
-          to_email: string | null
-        }
-        Insert: {
-          body?: string | null
-          from_email?: string | null
-          id?: string
-          sent_at?: string | null
-          status?: string | null
-          subject?: string | null
-          to_email?: string | null
-        }
-        Update: {
-          body?: string | null
-          from_email?: string | null
-          id?: string
-          sent_at?: string | null
-          status?: string | null
-          subject?: string | null
-          to_email?: string | null
+          is_public?: boolean | null
+          location?: string | null
+          title?: string | null
         }
         Relationships: []
       }
       gallery_photos: {
         Row: {
           alt_text: string | null
-          category: string
-          content_type: string
-          created_at: string
-          display_order: number | null
-          file_size: number | null
+          category: string | null
+          created_at: string | null
           id: string
-          image_data: string | null
-          is_featured: boolean | null
-          src: string
-          updated_at: string
+          src: string | null
         }
         Insert: {
           alt_text?: string | null
-          category: string
-          content_type?: string
-          created_at?: string
-          display_order?: number | null
-          file_size?: number | null
+          category?: string | null
+          created_at?: string | null
           id?: string
-          image_data?: string | null
-          is_featured?: boolean | null
-          src: string
-          updated_at?: string
+          src?: string | null
         }
         Update: {
           alt_text?: string | null
-          category?: string
-          content_type?: string
-          created_at?: string
-          display_order?: number | null
-          file_size?: number | null
+          category?: string | null
+          created_at?: string | null
           id?: string
-          image_data?: string | null
-          is_featured?: boolean | null
-          src?: string
-          updated_at?: string
+          src?: string | null
         }
         Relationships: []
       }
@@ -324,60 +216,21 @@ export type Database = {
           description: string | null
           id: string
           item_name: string | null
-          location: string | null
           quantity: number | null
-          status: string | null
         }
         Insert: {
           created_at?: string | null
           description?: string | null
           id?: string
           item_name?: string | null
-          location?: string | null
           quantity?: number | null
-          status?: string | null
         }
         Update: {
           created_at?: string | null
           description?: string | null
           id?: string
           item_name?: string | null
-          location?: string | null
           quantity?: number | null
-          status?: string | null
-        }
-        Relationships: []
-      }
-      jobs: {
-        Row: {
-          department: string | null
-          description: string | null
-          id: string
-          location: string | null
-          posted_at: string | null
-          requirements: string | null
-          status: string | null
-          title: string | null
-        }
-        Insert: {
-          department?: string | null
-          description?: string | null
-          id?: string
-          location?: string | null
-          posted_at?: string | null
-          requirements?: string | null
-          status?: string | null
-          title?: string | null
-        }
-        Update: {
-          department?: string | null
-          description?: string | null
-          id?: string
-          location?: string | null
-          posted_at?: string | null
-          requirements?: string | null
-          status?: string | null
-          title?: string | null
         }
         Relationships: []
       }
@@ -390,9 +243,10 @@ export type Database = {
           full_name: string
           id: string
           location: string | null
-          phone: string
+          phone: string | null
           protocol_officers: string | null
           status: string | null
+          updated_at: string | null
           vision: string | null
         }
         Insert: {
@@ -403,9 +257,10 @@ export type Database = {
           full_name: string
           id?: string
           location?: string | null
-          phone: string
+          phone?: string | null
           protocol_officers?: string | null
           status?: string | null
+          updated_at?: string | null
           vision?: string | null
         }
         Update: {
@@ -416,211 +271,131 @@ export type Database = {
           full_name?: string
           id?: string
           location?: string | null
-          phone?: string
+          phone?: string | null
           protocol_officers?: string | null
           status?: string | null
+          updated_at?: string | null
           vision?: string | null
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          email: string | null
-          full_name: string | null
-          id: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          email?: string | null
-          full_name?: string | null
-          id: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          email?: string | null
-          full_name?: string | null
-          id?: string
-          updated_at?: string
         }
         Relationships: []
       }
       quotes: {
         Row: {
-          amount: number | null
+          client_name: string | null
           created_at: string | null
           id: string
-          quote_details: string | null
-          requested_service: string | null
-          requester_id: string | null
-          requester_name: string | null
-          status: string | null
+          notes: string | null
+          price: number | null
+          service_summary: string | null
         }
         Insert: {
-          amount?: number | null
+          client_name?: string | null
           created_at?: string | null
           id?: string
-          quote_details?: string | null
-          requested_service?: string | null
-          requester_id?: string | null
-          requester_name?: string | null
-          status?: string | null
+          notes?: string | null
+          price?: number | null
+          service_summary?: string | null
         }
         Update: {
-          amount?: number | null
+          client_name?: string | null
           created_at?: string | null
           id?: string
-          quote_details?: string | null
-          requested_service?: string | null
-          requester_id?: string | null
-          requester_name?: string | null
-          status?: string | null
+          notes?: string | null
+          price?: number | null
+          service_summary?: string | null
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          price_estimate: number | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          price_estimate?: number | null
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          price_estimate?: number | null
+          title?: string
         }
         Relationships: []
       }
       staff: {
         Row: {
+          contact: string | null
           created_at: string | null
-          email: string | null
           full_name: string | null
           id: string
-          notes: string | null
-          phone: string | null
           role: string | null
-          status: string | null
         }
         Insert: {
+          contact?: string | null
           created_at?: string | null
-          email?: string | null
           full_name?: string | null
           id?: string
-          notes?: string | null
-          phone?: string | null
           role?: string | null
-          status?: string | null
         }
         Update: {
+          contact?: string | null
           created_at?: string | null
-          email?: string | null
           full_name?: string | null
           id?: string
-          notes?: string | null
-          phone?: string | null
           role?: string | null
-          status?: string | null
         }
         Relationships: []
       }
       subscribers: {
         Row: {
-          created_at: string
-          email: string
+          created_at: string | null
+          email: string | null
           id: string
-          stripe_customer_id: string | null
-          subscribed: boolean
-          subscription_end: string | null
-          subscription_tier: string | null
-          updated_at: string
-          user_id: string | null
         }
         Insert: {
-          created_at?: string
-          email: string
+          created_at?: string | null
+          email?: string | null
           id?: string
-          stripe_customer_id?: string | null
-          subscribed?: boolean
-          subscription_end?: string | null
-          subscription_tier?: string | null
-          updated_at?: string
-          user_id?: string | null
         }
         Update: {
-          created_at?: string
-          email?: string
+          created_at?: string | null
+          email?: string | null
           id?: string
-          stripe_customer_id?: string | null
-          subscribed?: boolean
-          subscription_end?: string | null
-          subscription_tier?: string | null
-          updated_at?: string
-          user_id?: string | null
         }
         Relationships: []
       }
-      subscriptions: {
+      vvip_subscribers: {
         Row: {
-          active: boolean | null
-          client_id: string | null
+          company: string | null
           created_at: string | null
-          end_date: string | null
+          email: string | null
+          full_name: string | null
           id: string
-          notes: string | null
-          start_date: string | null
-          tier: string | null
         }
         Insert: {
-          active?: boolean | null
-          client_id?: string | null
+          company?: string | null
           created_at?: string | null
-          end_date?: string | null
+          email?: string | null
+          full_name?: string | null
           id?: string
-          notes?: string | null
-          start_date?: string | null
-          tier?: string | null
         }
         Update: {
-          active?: boolean | null
-          client_id?: string | null
+          company?: string | null
           created_at?: string | null
-          end_date?: string | null
+          email?: string | null
+          full_name?: string | null
           id?: string
-          notes?: string | null
-          start_date?: string | null
-          tier?: string | null
-        }
-        Relationships: []
-      }
-      vvip_service_requests: {
-        Row: {
-          created_at: string | null
-          email: string
-          event_date: string | null
-          event_type: string | null
-          full_name: string
-          id: string
-          location: string | null
-          phone: string
-          protocol_officers: string | null
-          requirements: string | null
-          service_type: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          event_date?: string | null
-          event_type?: string | null
-          full_name: string
-          id?: string
-          location?: string | null
-          phone: string
-          protocol_officers?: string | null
-          requirements?: string | null
-          service_type?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          event_date?: string | null
-          event_type?: string | null
-          full_name?: string
-          id?: string
-          location?: string | null
-          phone?: string
-          protocol_officers?: string | null
-          requirements?: string | null
-          service_type?: string | null
         }
         Relationships: []
       }
