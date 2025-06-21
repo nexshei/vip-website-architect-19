@@ -18,7 +18,6 @@ import BookMeeting from "./pages/BookMeeting";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
-import Subscription from "./pages/Subscription";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import VipConcierge from "./components/VipConcierge";
@@ -60,7 +59,6 @@ const App = () => {
                   <Route path="/careers" element={<Careers />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/auth" element={<Auth />} />
-                  <Route path="/subscription" element={<Subscription />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

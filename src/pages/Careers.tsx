@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +9,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Book, Clock, MapPin, Mic, Utensils, Heart } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { validateTextField, validateEmail, validatePhone, canSubmit } from '@/utils/validation';
 
 const Careers = () => {
@@ -187,35 +185,35 @@ const Careers = () => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.from('career_applications').insert([
-      {
+    try {
+      // Store in localStorage for demo purposes
+      const applications = JSON.parse(localStorage.getItem('career_applications') || '[]');
+      applications.push({
+        id: Date.now().toString(),
         full_name: fullName,
         email,
         phone,
         position: position || null,
-        cv_url: null,
-        professional_photo_url: null,
         cover_letter: coverLetter || null,
-      }
-    ]);
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('career_applications', JSON.stringify(applications));
 
-    setIsLoading(false);
+      toast({
+        title: "Application Submitted Successfully!",
+        description: "Thank you for your interest in joining Sir Ole VVIP Protocol. Our HR team will review your application and contact you soon.",
+      });
 
-    if (error) {
+      resetForm();
+    } catch (error: any) {
       toast({
         title: "Error submitting application",
-        description: error.message,
+        description: "Please try again later.",
         variant: "destructive"
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    toast({
-      title: "Application Submitted Successfully!",
-      description: "Thank you for your interest in joining Sir Ole VVIP Protocol. Our HR team will review your application and contact you soon.",
-    });
-
-    resetForm();
   };
 
   return (
