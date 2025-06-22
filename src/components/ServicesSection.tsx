@@ -3,183 +3,167 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Shield, Clock, Calendar, Star, Mic, Utensils, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import ServiceDetailModal from './ServiceDetailModal';
+
+// Icon mapping for services
+const iconMap: { [key: string]: any } = {
+  'Professional Ushering': Users,
+  'VIP Security Services': Shield,
+  'High-Profile Protocol': Clock,
+  'Luxury Event Management': Calendar,
+  'MC Services': Mic,
+  'Cutlery & Catering Services': Utensils,
+  'Bridal Party Coordination': Heart,
+};
+
+// Enhanced service data mapping
+const serviceEnhancements: { [key: string]: any } = {
+  'Professional Ushering': {
+    stats: '200+ Events',
+    rating: '99%',
+    color: 'border-luxury-gold bg-luxury-gold/5',
+    badge: '98%',
+    features: ['Multilingual staff', 'Event coordination', 'Formal training', 'Guest assistance'],
+    testimonial: "Exceptional service that exceeded our expectations",
+    keyFeatures: [
+      'Multilingual staff fluent in major international languages',
+      'Comprehensive event coordination and crowd management',
+      'Formal protocol training and etiquette expertise',
+      'Personalized guest assistance and VIP handling'
+    ]
+  },
+  'VIP Security Services': {
+    stats: '150+ Events',
+    rating: '100%',
+    color: 'border-gray-300 bg-gray-50/5',
+    badge: 'VIP',
+    features: ['Executive protection', 'Threat assessment', 'Discrete surveillance', 'Emergency response'],
+    testimonial: "Professional and unobtrusive protection",
+    keyFeatures: [
+      'Former law enforcement and military professionals',
+      'Comprehensive threat assessment and risk management',
+      'Discrete surveillance and crowd monitoring',
+      'Rapid emergency response and evacuation protocols'
+    ]
+  },
+  'High-Profile Protocol': {
+    stats: '100+ Events',
+    rating: '98%',
+    color: 'border-luxury-gold bg-luxury-gold/5',
+    badge: '98%',
+    features: ['Diplomatic protocol', 'Ceremonial coordination', 'Cultural sensitivity', 'Protocol advisory'],
+    testimonial: "Impeccable attention to diplomatic detail",
+    keyFeatures: [
+      'International diplomatic protocol expertise',
+      'Ceremonial coordination and flag protocols',
+      'Cultural sensitivity and customs awareness',
+      'Protocol advisory and planning consultation'
+    ]
+  },
+  'Luxury Event Management': {
+    stats: '300+ Events',
+    rating: '97%',
+    color: 'border-gray-300 bg-gray-50/5',
+    badge: 'LUXURY',
+    features: ['Full event planning', 'Vendor coordination', 'Timeline management', 'Quality assurance'],
+    testimonial: "Transformed our vision into spectacular reality",
+    keyFeatures: [
+      'Comprehensive event planning from concept to completion',
+      'Premium vendor coordination and management',
+      'Detailed timeline management and execution',
+      'Rigorous quality assurance and contingency planning'
+    ]
+  },
+  'MC Services': {
+    stats: '180+ Events',
+    rating: '96%',
+    color: 'border-luxury-gold bg-luxury-gold/5',
+    badge: 'MC',
+    features: ['Charismatic hosting', 'Script writing', 'Crowd engagement', 'Multilingual services'],
+    testimonial: "Kept our guests entertained throughout the event",
+    keyFeatures: [
+      'Experienced and charismatic event hosts',
+      'Custom script writing and event planning',
+      'Expert crowd engagement and entertainment',
+      'Multilingual hosting capabilities'
+    ]
+  },
+  'Cutlery & Catering Services': {
+    stats: '250+ Events',
+    rating: '95%',
+    color: 'border-gray-300 bg-gray-50/5',
+    badge: 'PREMIUM',
+    features: ['Gourmet cuisine', 'Premium cutlery', 'Table styling', 'Dietary accommodations'],
+    testimonial: "Exquisite cuisine and presentation",
+    keyFeatures: [
+      'Gourmet cuisine crafted by expert chefs',
+      'Premium cutlery and elegant tableware',
+      'Professional table styling and setup',
+      'Comprehensive dietary accommodation options'
+    ]
+  },
+  'Bridal Party Coordination': {
+    stats: '120+ Weddings',
+    rating: '99%',
+    color: 'border-luxury-gold bg-luxury-gold/5',
+    badge: 'BRIDAL',
+    features: ['Wedding coordination', 'Bridal party management', 'Timeline orchestration', 'Vendor liaison'],
+    testimonial: "Made our wedding day absolutely perfect",
+    keyFeatures: [
+      'Complete wedding day coordination and planning',
+      'Professional bridal party management and guidance',
+      'Detailed timeline orchestration and execution',
+      'Expert vendor liaison and communication'
+    ]
+  }
+};
 
 const ServicesSection = () => {
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
-  const services = [
-    {
-      id: 'professional-ushering',
-      title: 'Professional Ushering',
-      description: 'Our expertly trained ushers provide seamless guidance and assistance, ensuring your guests feel welcomed and properly directed throughout your event with grace and professionalism.',
-      icon: Users,
-      stats: '200+ Events',
-      rating: '99%',
-      color: 'border-luxury-gold bg-luxury-gold/5',
-      badge: '98%',
-      features: [
-        'Multilingual staff',
-        'Event coordination', 
-        'Formal training',
-        'Guest assistance'
-      ],
-      testimonial: "Exceptional service that exceeded our expectations",
-      detailDescription: 'Our expertly trained ushers provide seamless guidance and assistance, ensuring your guests feel welcomed and properly directed throughout your event with grace and professionalism.',
-      keyFeatures: [
-        'Multilingual staff fluent in major international languages',
-        'Comprehensive event coordination and crowd management',
-        'Formal protocol training and etiquette expertise',
-        'Personalized guest assistance and VIP handling'
-      ]
-    },
-    {
-      id: 'vip-security',
-      title: 'VIP Security Services',
-      description: 'Discrete and professional security solutions tailored for high-profile individuals and events, providing world-class protection with unmatched discretion and professionalism.',
-      icon: Shield,
-      stats: '150+ Events',
-      rating: '100%',
-      color: 'border-gray-300 bg-gray-50/5',
-      badge: 'VIP',
-      features: [
-        'Executive protection',
-        'Threat assessment',
-        'Discrete surveillance', 
-        'Emergency response'
-      ],
-      testimonial: "Professional and unobtrusive protection",
-      detailDescription: 'Our VIP Security Services provide world-class protection with unmatched discretion. Our team includes former law enforcement and military professionals trained in executive protection protocols.',
-      keyFeatures: [
-        'Former law enforcement and military professionals',
-        'Comprehensive threat assessment and risk management',
-        'Discrete surveillance and crowd monitoring',
-        'Rapid emergency response and evacuation protocols'
-      ]
-    },
-    {
-      id: 'high-profile-protocol',
-      title: 'High-Profile Protocol',
-      description: 'Sophisticated protocol management for diplomatic events, corporate functions, and exclusive gatherings, ensuring flawless execution of formal procedures.',
-      icon: Clock,
-      stats: '100+ Events',
-      rating: '98%',
-      color: 'border-luxury-gold bg-luxury-gold/5',
-      badge: '98%',
-      features: [
-        'Diplomatic protocol',
-        'Ceremonial coordination',
-        'Cultural sensitivity',
-        'Protocol advisory'
-      ],
-      testimonial: "Impeccable attention to diplomatic detail",
-      detailDescription: 'Sophisticated protocol management for diplomatic events, corporate functions, and exclusive gatherings, ensuring flawless execution of formal procedures and cultural sensitivity.',
-      keyFeatures: [
-        'International diplomatic protocol expertise',
-        'Ceremonial coordination and flag protocols',
-        'Cultural sensitivity and customs awareness',
-        'Protocol advisory and planning consultation'
-      ]
-    },
-    {
-      id: 'luxury-event-management',
-      title: 'Luxury Event Management',
-      description: 'End-to-end event planning and execution services that transform your vision into reality, creating unforgettable experiences with meticulous attention to detail.',
-      icon: Calendar,
-      stats: '300+ Events',
-      rating: '97%',
-      color: 'border-gray-300 bg-gray-50/5',
-      badge: 'LUXURY',
-      features: [
-        'Full event planning',
-        'Vendor coordination',
-        'Timeline management',
-        'Quality assurance'
-      ],
-      testimonial: "Transformed our vision into spectacular reality",
-      detailDescription: 'End-to-end event planning and execution services that transform your vision into reality, creating unforgettable experiences with meticulous attention to every detail.',
-      keyFeatures: [
-        'Comprehensive event planning from concept to completion',
-        'Premium vendor coordination and management',
-        'Detailed timeline management and execution',
-        'Rigorous quality assurance and contingency planning'
-      ]
-    },
-    {
-      id: 'mc-services',
-      title: 'MC Services',
-      description: 'Professional masters of ceremony who bring charisma, eloquence, and seamless flow to your events, ensuring every moment is perfectly orchestrated and engaging.',
-      icon: Mic,
-      stats: '180+ Events',
-      rating: '96%',
-      color: 'border-luxury-gold bg-luxury-gold/5',
-      badge: 'MC',
-      features: [
-        'Charismatic hosting',
-        'Script writing',
-        'Crowd engagement',
-        'Multilingual services'
-      ],
-      testimonial: "Kept our guests entertained throughout the event",
-      detailDescription: 'Our professional MCs bring energy, charisma, and seamless coordination to your events, ensuring smooth transitions and engaging entertainment that keeps your guests captivated.',
-      keyFeatures: [
-        'Experienced and charismatic event hosts',
-        'Custom script writing and event planning',
-        'Expert crowd engagement and entertainment',
-        'Multilingual hosting capabilities'
-      ]
-    },
-    {
-      id: 'cutlery-catering',
-      title: 'Cutlery & Catering Services',
-      description: 'Premium catering solutions with exquisite cutlery and tableware, delivering culinary excellence that complements the sophistication of your luxury events.',
-      icon: Utensils,
-      stats: '250+ Events',
-      rating: '95%',
-      color: 'border-gray-300 bg-gray-50/5',
-      badge: 'PREMIUM',
-      features: [
-        'Gourmet cuisine',
-        'Premium cutlery',
-        'Table styling',
-        'Dietary accommodations'
-      ],
-      testimonial: "Exquisite cuisine and presentation",
-      detailDescription: 'Our catering services combine gourmet cuisine with premium cutlery and elegant table styling, creating a complete dining experience that reflects the luxury of your event.',
-      keyFeatures: [
-        'Gourmet cuisine crafted by expert chefs',
-        'Premium cutlery and elegant tableware',
-        'Professional table styling and setup',
-        'Comprehensive dietary accommodation options'
-      ]
-    },
-    {
-      id: 'bridal-coordination',
-      title: 'Bridal Party Coordination',
-      description: 'Specialized coordination services for bridal parties, ensuring every detail of your special day is perfectly orchestrated from ceremony to reception.',
-      icon: Heart,
-      stats: '120+ Weddings',
-      rating: '99%',
-      color: 'border-luxury-gold bg-luxury-gold/5',
-      badge: 'BRIDAL',
-      features: [
-        'Wedding coordination',
-        'Bridal party management',
-        'Timeline orchestration',
-        'Vendor liaison'
-      ],
-      testimonial: "Made our wedding day absolutely perfect",
-      detailDescription: 'Specialized bridal party coordination ensuring your wedding day flows seamlessly, with expert management of all bridal party activities, timelines, and vendor coordination.',
-      keyFeatures: [
-        'Complete wedding day coordination and planning',
-        'Professional bridal party management and guidance',
-        'Detailed timeline orchestration and execution',
-        'Expert vendor liaison and communication'
-      ]
+  // Fetch services from database
+  const { data: servicesData, isLoading, error } = useQuery({
+    queryKey: ['services'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .order('created_at', { ascending: true });
+      
+      if (error) throw error;
+      return data;
     }
-  ];
+  });
+
+  // Transform database services to match component structure
+  const services = servicesData?.map(service => {
+    const enhancement = serviceEnhancements[service.title] || {};
+    const IconComponent = iconMap[service.title] || Calendar;
+    
+    return {
+      id: service.id,
+      title: service.title,
+      description: service.description,
+      icon: IconComponent,
+      stats: enhancement.stats || '50+ Events',
+      rating: enhancement.rating || '95%',
+      color: enhancement.color || 'border-gray-300 bg-gray-50/5',
+      badge: enhancement.badge || 'NEW',
+      features: enhancement.features || ['Professional service', 'Quality assurance', 'Expert staff', 'Customer satisfaction'],
+      testimonial: enhancement.testimonial || "Outstanding professional service",
+      detailDescription: service.description,
+      keyFeatures: enhancement.keyFeatures || [
+        'Professional and experienced staff',
+        'Comprehensive service delivery',
+        'Quality assurance and customer satisfaction',
+        'Flexible and customized solutions'
+      ]
+    };
+  }) || [];
 
   const handleRequestService = () => {
     navigate('/book-meeting');
@@ -188,6 +172,31 @@ const ServicesSection = () => {
   const handleLearnMore = (serviceId: string) => {
     setSelectedService(serviceId);
   };
+
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luxury-gold mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading our premium services...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">Unable to load services. Please try again later.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>
