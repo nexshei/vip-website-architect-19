@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,14 +13,13 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Reduced hero photos collection for better performance - only showing key images
+  // Updated hero photos collection with the new uploaded images
   const heroPhotos = [
-    "/lovable-uploads/2835e50b-8540-4a20-b379-264f22d6a1e9.png",
-    "/lovable-uploads/1c51a4d7-6e98-495a-b619-d798e08c8b19.png",
-    "/lovable-uploads/3c79f6f7-1682-4d4f-954c-ea88a6d0cb8e.png",
-    "/lovable-uploads/608158d2-48ae-425b-a7d8-41d1453d06f4.png",
-    "/lovable-uploads/d4fdfea7-8670-4110-9791-f0516ec43e1e.png",
-    "/lovable-uploads/48401841-d864-4dae-a945-f26d5cb259d6.png"
+    "/lovable-uploads/c2357d8b-b0a8-44a1-9254-b72a9718d54d.png",
+    "/lovable-uploads/da751c4b-a485-4c3f-ad1d-ce8b72eb6a08.png",
+    "/lovable-uploads/3716fca3-2aa0-4954-85b7-cdc432d063ee.png",
+    "/lovable-uploads/daba50e7-e98f-4baf-af77-ef7d8cd912b6.png",
+    "/lovable-uploads/934bea8e-73a9-45e5-8ac7-15bbf30239b5.png"
   ];
 
   const scrollToPortfolio = () => {
