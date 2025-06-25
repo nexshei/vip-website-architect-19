@@ -41,47 +41,50 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
-    }, 5000); // Slower transition for better performance
+    }, 4000); // Slightly faster transition for better visual flow
     return () => clearInterval(interval);
   }, [heroPhotos.length]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-luxury overflow-hidden">
-      {/* Optimized Sliding Photo Background with better performance */}
+      {/* Enhanced Sliding Photo Background with better aspect ratio handling */}
       <div className="absolute inset-0 z-0">
         {heroPhotos.map((photo, index) => (
           <div
             key={photo}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
               index === currentPhotoIndex 
-                ? 'opacity-40' 
+                ? 'opacity-60' 
                 : 'opacity-0'
             }`}
-            style={{
-              backgroundImage: `url('${photo}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center center',
-              backgroundRepeat: 'no-repeat'
-            }}
-          />
+          >
+            <img
+              src={photo}
+              alt="VIP Protocol Service"
+              className="w-full h-full object-cover object-center"
+              style={{
+                filter: 'brightness(0.7) contrast(1.1)',
+              }}
+            />
+          </div>
         ))}
       </div>
 
-      {/* Dark Overlay for Better Text Visibility */}
-      <div className="absolute inset-0 bg-luxury-black/50 z-1"></div>
+      {/* Enhanced Dark Overlay with Gradient for Better Text Visibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-luxury-black/60 via-luxury-black/50 to-luxury-black/70 z-1"></div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-5xl mx-auto animate-fade-in">
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-playfair font-bold text-luxury-white mb-4 sm:mb-6 leading-tight px-2">
-            <span className="block mb-2 sm:mb-4">The Power for Your Event</span>
-            <span className="text-gradient-gold block mt-2 transition-all duration-1000 ease-in-out transform text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            <span className="block mb-2 sm:mb-4 drop-shadow-lg">The Power for Your Event</span>
+            <span className="text-gradient-gold block mt-2 transition-all duration-1000 ease-in-out transform text-2xl sm:text-3xl md:text-4xl lg:text-5xl drop-shadow-lg">
               {heroTexts[currentTextIndex]}
             </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-luxury-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in delay-300 px-4">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-luxury-white/95 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in delay-300 px-4 drop-shadow-md">
             Where luxury meets logistics. Experience flawless VVIP service that transforms every occasion into an unforgettable moment of excellence.
           </p>
 
@@ -105,17 +108,17 @@ const HeroSection = () => {
 
           {/* Trust Indicators */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-12 animate-fade-in delay-700 px-4">
-            <div className="flex items-center justify-center space-x-2 text-luxury-white/80">
+            <div className="flex items-center justify-center space-x-2 text-luxury-white/90">
               <div className="w-2 h-2 bg-luxury-gold rounded-full flex-shrink-0"></div>
-              <span className="text-sm font-medium">5+ Years Excellence</span>
+              <span className="text-sm font-medium drop-shadow-sm">5+ Years Excellence</span>
             </div>
-            <div className="flex items-center justify-center space-x-2 text-luxury-white/80">
+            <div className="flex items-center justify-center space-x-2 text-luxury-white/90">
               <div className="w-2 h-2 bg-luxury-gold rounded-full flex-shrink-0"></div>
-              <span className="text-sm font-medium">24/7 Premium Support</span>
+              <span className="text-sm font-medium drop-shadow-sm">24/7 Premium Support</span>
             </div>
-            <div className="flex items-center justify-center space-x-2 text-luxury-white/80">
+            <div className="flex items-center justify-center space-x-2 text-luxury-white/90">
               <div className="w-2 h-2 bg-luxury-gold rounded-full flex-shrink-0"></div>
-              <span className="text-sm font-medium">500+ VVIP Events</span>
+              <span className="text-sm font-medium drop-shadow-sm">500+ VVIP Events</span>
             </div>
           </div>
 
@@ -123,9 +126,9 @@ const HeroSection = () => {
           <div className="animate-bounce">
             <button 
               onClick={scrollToPortfolio}
-              className="inline-flex flex-col items-center text-luxury-white/70 hover:text-luxury-gold transition-all duration-300 group"
+              className="inline-flex flex-col items-center text-luxury-white/80 hover:text-luxury-gold transition-all duration-300 group"
             >
-              <span className="text-xs sm:text-sm font-medium mb-2 group-hover:scale-110 transition-transform">Discover Excellence</span>
+              <span className="text-xs sm:text-sm font-medium mb-2 group-hover:scale-110 transition-transform drop-shadow-sm">Discover Excellence</span>
               <div className="relative">
                 <ChevronDown size={20} className="sm:w-6 sm:h-6 animate-pulse" />
                 <div className="absolute inset-0 bg-luxury-gold/30 rounded-full scale-0 group-hover:scale-150 transition-transform duration-500"></div>

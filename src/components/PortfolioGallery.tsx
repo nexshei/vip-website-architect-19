@@ -89,13 +89,16 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
           {filteredPhotos.map((photo) => (
             <div
               key={photo.id}
-              className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-white"
             >
-              <img
-                src={photo.src}
-                alt={photo.alt_text}
-                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
+              <div className="aspect-[4/3] overflow-hidden">
+                <img
+                  src={photo.src}
+                  alt={photo.alt_text}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="p-6 text-white">
                   <p className="text-sm font-medium">{photo.alt_text}</p>
