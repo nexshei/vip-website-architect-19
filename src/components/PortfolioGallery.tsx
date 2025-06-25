@@ -1,4 +1,8 @@
+
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Photo {
   id: string;
@@ -13,45 +17,10 @@ interface PortfolioGalleryProps {
 
 const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Updated photo data with your new uploaded images
+  // Updated photo data with only the new visible images
   const photos: Photo[] = [
-    {
-      id: '1',
-      src: '/lovable-uploads/10c82e62-1255-46d1-bc7c-eaac26571dd0.png',
-      alt_text: 'Protocol officers with distinguished guest in professional setting',
-      category: 'government'
-    },
-    {
-      id: '2', 
-      src: '/lovable-uploads/cc5e796b-d6a3-4b75-9269-0d3919a8f16d.png',
-      alt_text: 'Luxury event venue with elegant chandelier and formal dining setup',
-      category: 'corporate'
-    },
-    {
-      id: '3',
-      src: '/lovable-uploads/c2fca5bf-fa16-4aaa-b7b9-b08a8cf584df.png',
-      alt_text: 'VIP protocol service with professional team greeting distinguished guest',
-      category: 'diplomatic'
-    },
-    {
-      id: '4',
-      src: '/lovable-uploads/bae22750-f71e-41f0-a5c7-2f6be59700a1.png',
-      alt_text: 'Elegant table setting with luxury dining arrangement and gold accents',
-      category: 'private'
-    },
-    {
-      id: '5',
-      src: '/lovable-uploads/eb29c827-3393-42f6-83bc-bf998935ba5d.png',
-      alt_text: 'Wedding ceremony with professional hosts and microphone setup',
-      category: 'wedding'
-    },
-    {
-      id: '6',
-      src: '/lovable-uploads/34c98434-5ae9-4d0c-b834-b055ea974ecf.png',
-      alt_text: 'Traditional wedding party in orange attire with cultural ceremony elements',
-      category: 'wedding'
-    },
     {
       id: '7',
       src: '/lovable-uploads/aac3f7a9-ba36-4ed8-a16e-ace88dc00a86.png',
@@ -120,9 +89,131 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     ? photos 
     : photos.filter(photo => photo.category === selectedCategory);
 
-  // If it's homepage, don't show any gallery - only hero section shows photos
+  // For homepage: show only 6 photos in carousel
+  const homepagePhotos = photos.slice(0, 6);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(homepagePhotos.length / 3));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.ceil(homepagePhotos.length / 3)) % Math.ceil(homepagePhotos.length / 3));
+  };
+
   if (isHomepage) {
-    return null;
+    return (
+      <section className="py-20 bg-gradient-to-br from-luxury-white via-luxury-gold/5 to-luxury-white relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute top-10 left-10 w-64 h-64 bg-luxury-gold/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-48 h-48 bg-luxury-gold/20 rounded-full blur-2xl"></div>
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-playfair font-bold text-luxury-black mb-6">
+              Excellence in <span className="text-gradient-gold">Action</span>
+            </h2>
+            <p className="text-lg sm:text-xl text-luxury-black/80 max-w-3xl mx-auto leading-relaxed">
+              Witness the pinnacle of VIP protocol service through our curated gallery of distinguished events
+            </p>
+          </div>
+
+          {/* Carousel Container */}
+          <div className="relative">
+            <div className="overflow-hidden rounded-2xl shadow-2xl">
+              <div 
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {Array.from({ length: Math.ceil(homepagePhotos.length / 3) }).map((_, slideIndex) => (
+                  <div key={slideIndex} className="flex-none w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-gradient-to-br from-luxury-black/5 to-luxury-gold/10">
+                      {homepagePhotos.slice(slideIndex * 3, slideIndex * 3 + 3).map((photo, index) => (
+                        <div
+                          key={photo.id}
+                          className={`group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${
+                            index === 1 ? 'md:scale-110 md:z-10' : ''
+                          }`}
+                        >
+                          <div className="aspect-[4/3] overflow-hidden">
+                            <img
+                              src={photo.src}
+                              alt={photo.alt_text}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end">
+                            <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                              <p className="text-sm font-medium leading-relaxed line-clamp-2">{photo.alt_text}</p>
+                              <p className="text-xs text-luxury-gold mt-2 capitalize font-semibold">{photo.category}</p>
+                            </div>
+                          </div>
+                          {/* Floating category badge */}
+                          <div className="absolute top-4 left-4 bg-luxury-gold/90 text-luxury-black text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                            {photo.category.charAt(0).toUpperCase() + photo.category.slice(1)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Carousel Navigation */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-luxury-gold/90 hover:bg-luxury-gold text-luxury-black p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-luxury-gold/90 hover:bg-luxury-gold text-luxury-black p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
+            >
+              <ChevronRight size={20} />
+            </button>
+
+            {/* Slide indicators */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {Array.from({ length: Math.ceil(homepagePhotos.length / 3) }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide 
+                      ? 'bg-luxury-gold scale-125' 
+                      : 'bg-luxury-gold/30 hover:bg-luxury-gold/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center mt-16">
+            <div className="bg-gradient-to-r from-luxury-black/5 via-luxury-gold/10 to-luxury-black/5 rounded-2xl p-8 backdrop-blur-sm">
+              <h3 className="text-2xl sm:text-3xl font-playfair font-bold text-luxury-black mb-4">
+                Discover Our Complete Portfolio
+              </h3>
+              <p className="text-luxury-black/70 mb-6 max-w-2xl mx-auto">
+                Explore our extensive gallery showcasing years of excellence in VIP protocol services across diverse events and distinguished clientele
+              </p>
+              <Link to="/gallery">
+                <Button 
+                  size="lg" 
+                  className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group rounded-full"
+                >
+                  View Complete Gallery
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={20} />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (

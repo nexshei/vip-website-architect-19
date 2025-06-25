@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,23 +14,18 @@ const HeroSection = () => {
     "Legacy of Distinction"
   ];
 
-  // Enhanced hero photos collection with your new uploaded images
+  // Updated hero photos with only the new visible images
   const heroPhotos = [
-    // Existing photos
-    "/lovable-uploads/10c82e62-1255-46d1-bc7c-eaac26571dd0.png",
-    "/lovable-uploads/cc5e796b-d6a3-4b75-9269-0d3919a8f16d.png",
-    "/lovable-uploads/c2fca5bf-fa16-4aaa-b7b9-b08a8cf584df.png",
-    "/lovable-uploads/bae22750-f71e-41f0-a5c7-2f6be59700a1.png",
-    "/lovable-uploads/eb29c827-3393-42f6-83bc-bf998935ba5d.png",
-    "/lovable-uploads/34c98434-5ae9-4d0c-b834-b055ea974ecf.png",
-    // New uploaded photos for enhanced visual appeal
     "/lovable-uploads/aac3f7a9-ba36-4ed8-a16e-ace88dc00a86.png",
     "/lovable-uploads/b9ba68f8-b176-49d5-a8ff-c9f8318086aa.png",
     "/lovable-uploads/a986df73-48b9-47e1-9217-a017116e525b.png",
     "/lovable-uploads/106281aa-04c2-4533-92e5-e1044566520f.png",
     "/lovable-uploads/b7c270ed-d140-46b1-adc8-3123807ffd1a.png",
     "/lovable-uploads/9adfbdd8-7ff7-41c3-8228-65e5803640f3.png",
-    "/lovable-uploads/2417aefe-5fed-43f0-b77b-4c8ee078ddcb.png"
+    "/lovable-uploads/016009e8-2075-462b-bfa8-f2fe1a37581c.png",
+    "/lovable-uploads/2417aefe-5fed-43f0-b77b-4c8ee078ddcb.png",
+    "/lovable-uploads/b69edc0b-0e29-4f2d-ab0d-abd974ef5133.png",
+    "/lovable-uploads/c8c41d47-43d1-4ff8-9931-38d6933001fb.png"
   ];
 
   const scrollToPortfolio = () => {
@@ -49,7 +45,7 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
-    }, 3500); // Slightly slower transition for better visual impact
+    }, 3500);
     return () => clearInterval(interval);
   }, [heroPhotos.length]);
 
