@@ -340,7 +340,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
                 </div>
               )}
             </div>
-          </div>
+          </DialogContent>
         </Dialog>
       </div>
     </section>
