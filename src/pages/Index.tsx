@@ -10,7 +10,7 @@ const Index = () => {
     <div className="pt-20">
       <HeroSection />
       <div id="portfolio">
-        <PortfolioGallery isHomepage={true} />
+        <PortfolioGallery />
       </div>
       <WhyChooseUsSection />
       <TestimonialsSection />

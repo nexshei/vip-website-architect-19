@@ -1,6 +1,5 @@
 
-import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { useState } from 'react';
 
 interface Photo {
   id: string;
@@ -14,32 +13,49 @@ interface PortfolioGalleryProps {
 }
 
 const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
-  const [photos, setPhotos] = useState<Photo[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Static photo data with the uploaded images
+  const photos: Photo[] = [
+    {
+      id: '1',
+      src: '/lovable-uploads/10c82e62-1255-46d1-bc7c-eaac26571dd0.png',
+      alt_text: 'Protocol officers with distinguished guest in professional setting',
+      category: 'government'
+    },
+    {
+      id: '2', 
+      src: '/lovable-uploads/cc5e796b-d6a3-4b75-9269-0d3919a8f16d.png',
+      alt_text: 'Luxury event venue with elegant chandelier and formal dining setup',
+      category: 'corporate'
+    },
+    {
+      id: '3',
+      src: '/lovable-uploads/c2fca5bf-fa16-4aaa-b7b9-b08a8cf584df.png',
+      alt_text: 'VIP protocol service with professional team greeting distinguished guest',
+      category: 'diplomatic'
+    },
+    {
+      id: '4',
+      src: '/lovable-uploads/bae22750-f71e-41f0-a5c7-2f6be59700a1.png',
+      alt_text: 'Elegant table setting with luxury dining arrangement and gold accents',
+      category: 'private'
+    },
+    {
+      id: '5',
+      src: '/lovable-uploads/eb29c827-3393-42f6-83bc-bf998935ba5d.png',
+      alt_text: 'Wedding ceremony with professional hosts and microphone setup',
+      category: 'wedding'
+    },
+    {
+      id: '6',
+      src: '/lovable-uploads/34c98434-5ae9-4d0c-b834-b055ea974ecf.png',
+      alt_text: 'Traditional wedding party in orange attire with cultural ceremony elements',
+      category: 'wedding'
+    }
+  ];
 
   const categories = ['all', 'corporate', 'diplomatic', 'wedding', 'government', 'private'];
-
-  useEffect(() => {
-    fetchPhotos();
-  }, []);
-
-  const fetchPhotos = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('gallery_photos')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      setPhotos(data || []);
-    } catch (error) {
-      console.error('Error fetching photos:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const filteredPhotos = selectedCategory === 'all' 
     ? photos 
@@ -48,18 +64,6 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   // If it's homepage, don't show any gallery - only hero section shows photos
   if (isHomepage) {
     return null;
-  }
-
-  if (isLoading) {
-    return (
-      <section className="py-20 bg-luxury-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-luxury-black">Loading gallery...</p>
-          </div>
-        </div>
-      </section>
-    );
   }
 
   return (

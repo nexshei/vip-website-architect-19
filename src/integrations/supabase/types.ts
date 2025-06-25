@@ -186,30 +186,6 @@ export type Database = {
         }
         Relationships: []
       }
-      gallery_photos: {
-        Row: {
-          alt_text: string | null
-          category: string | null
-          created_at: string | null
-          id: string
-          src: string | null
-        }
-        Insert: {
-          alt_text?: string | null
-          category?: string | null
-          created_at?: string | null
-          id?: string
-          src?: string | null
-        }
-        Update: {
-          alt_text?: string | null
-          category?: string | null
-          created_at?: string | null
-          id?: string
-          src?: string | null
-        }
-        Relationships: []
-      }
       inventory: {
         Row: {
           created_at: string | null
