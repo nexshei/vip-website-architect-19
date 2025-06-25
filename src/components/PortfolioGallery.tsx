@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 interface Photo {
   id: string;
@@ -18,6 +19,7 @@ interface PortfolioGalleryProps {
 const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<Photo | null>(null);
 
   // Updated photo data with only the new visible images
   const photos: Photo[] = [
@@ -89,15 +91,25 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     ? photos 
     : photos.filter(photo => photo.category === selectedCategory);
 
-  // For homepage: show only 6 photos in carousel
-  const homepagePhotos = photos.slice(0, 6);
+  // For homepage: show only 8 photos in carousel
+  const homepagePhotos = photos.slice(0, 8);
+  const photosPerSlide = 4;
+  const totalSlides = Math.ceil(homepagePhotos.length / photosPerSlide);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(homepagePhotos.length / 3));
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + Math.ceil(homepagePhotos.length / 3)) % Math.ceil(homepagePhotos.length / 3));
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  const openImageModal = (photo: Photo) => {
+    setSelectedImage(photo);
+  };
+
+  const closeImageModal = () => {
+    setSelectedImage(null);
   };
 
   if (isHomepage) {
@@ -118,22 +130,21 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
             </p>
           </div>
 
-          {/* Carousel Container */}
-          <div className="relative">
-            <div className="overflow-hidden rounded-2xl shadow-2xl">
+          {/* Enhanced Carousel Container */}
+          <div className="relative max-w-7xl mx-auto">
+            <div className="overflow-hidden rounded-3xl shadow-2xl bg-gradient-to-br from-luxury-black/5 to-luxury-gold/10 p-6">
               <div 
                 className="flex transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
-                {Array.from({ length: Math.ceil(homepagePhotos.length / 3) }).map((_, slideIndex) => (
+                {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                   <div key={slideIndex} className="flex-none w-full">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-gradient-to-br from-luxury-black/5 to-luxury-gold/10">
-                      {homepagePhotos.slice(slideIndex * 3, slideIndex * 3 + 3).map((photo, index) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {homepagePhotos.slice(slideIndex * photosPerSlide, slideIndex * photosPerSlide + photosPerSlide).map((photo) => (
                         <div
                           key={photo.id}
-                          className={`group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${
-                            index === 1 ? 'md:scale-110 md:z-10' : ''
-                          }`}
+                          className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 cursor-pointer bg-white border border-luxury-gold/20"
+                          onClick={() => openImageModal(photo)}
                         >
                           <div className="aspect-[4/3] overflow-hidden">
                             <img
@@ -150,7 +161,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
                             </div>
                           </div>
                           {/* Floating category badge */}
-                          <div className="absolute top-4 left-4 bg-luxury-gold/90 text-luxury-black text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                          <div className="absolute top-3 left-3 bg-luxury-gold/90 text-luxury-black text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
                             {photo.category.charAt(0).toUpperCase() + photo.category.slice(1)}
                           </div>
                         </div>
@@ -161,29 +172,29 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
               </div>
             </div>
 
-            {/* Carousel Navigation */}
+            {/* Enhanced Carousel Navigation */}
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-luxury-gold/90 hover:bg-luxury-gold text-luxury-black p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black p-4 rounded-full shadow-xl transition-all duration-300 hover:scale-110 z-20 border-2 border-white"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={24} />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-luxury-gold/90 hover:bg-luxury-gold text-luxury-black p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black p-4 rounded-full shadow-xl transition-all duration-300 hover:scale-110 z-20 border-2 border-white"
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={24} />
             </button>
 
-            {/* Slide indicators */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {Array.from({ length: Math.ceil(homepagePhotos.length / 3) }).map((_, index) => (
+            {/* Enhanced Slide indicators */}
+            <div className="flex justify-center mt-8 space-x-3">
+              {Array.from({ length: totalSlides }).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
                     index === currentSlide 
-                      ? 'bg-luxury-gold scale-125' 
+                      ? 'bg-luxury-gold scale-125 shadow-lg' 
                       : 'bg-luxury-gold/30 hover:bg-luxury-gold/50'
                   }`}
                 />
@@ -191,27 +202,63 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
             </div>
           </div>
 
-          {/* Call to Action */}
+          {/* Enhanced Call to Action */}
           <div className="text-center mt-16">
-            <div className="bg-gradient-to-r from-luxury-black/5 via-luxury-gold/10 to-luxury-black/5 rounded-2xl p-8 backdrop-blur-sm">
-              <h3 className="text-2xl sm:text-3xl font-playfair font-bold text-luxury-black mb-4">
+            <div className="bg-gradient-to-r from-luxury-black/5 via-luxury-gold/10 to-luxury-black/5 rounded-3xl p-10 backdrop-blur-sm border border-luxury-gold/20">
+              <h3 className="text-3xl sm:text-4xl font-playfair font-bold text-luxury-black mb-6">
                 Discover Our Complete Portfolio
               </h3>
-              <p className="text-luxury-black/70 mb-6 max-w-2xl mx-auto">
+              <p className="text-luxury-black/70 mb-8 max-w-2xl mx-auto text-lg">
                 Explore our extensive gallery showcasing years of excellence in VIP protocol services across diverse events and distinguished clientele
               </p>
               <Link to="/gallery">
                 <Button 
                   size="lg" 
-                  className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group rounded-full"
+                  className="bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-bold px-10 py-6 text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl group rounded-full border-2 border-luxury-gold-dark"
                 >
-                  View Complete Gallery
-                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={20} />
+                  View All Photos
+                  <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform duration-300" size={20} />
                 </Button>
               </Link>
             </div>
           </div>
         </div>
+
+        {/* Image Modal */}
+        <Dialog open={!!selectedImage} onOpenChange={closeImageModal}>
+          <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-luxury-black/95 border-luxury-gold/30">
+            <DialogTitle className="sr-only">
+              {selectedImage?.alt_text || 'Gallery Image'}
+            </DialogTitle>
+            <div className="relative">
+              <button
+                onClick={closeImageModal}
+                className="absolute top-4 right-4 z-10 bg-luxury-gold/20 hover:bg-luxury-gold/40 text-white p-2 rounded-full transition-all duration-300"
+              >
+                <X size={20} />
+              </button>
+              {selectedImage && (
+                <div className="flex flex-col">
+                  <div className="relative">
+                    <img
+                      src={selectedImage.src}
+                      alt={selectedImage.alt_text}
+                      className="w-full h-auto max-h-[70vh] object-contain rounded-t-lg"
+                    />
+                  </div>
+                  <div className="p-6 bg-gradient-to-r from-luxury-black to-luxury-black/80">
+                    <h3 className="text-xl font-bold text-luxury-gold mb-2 capitalize">
+                      {selectedImage.category}
+                    </h3>
+                    <p className="text-luxury-white/90 leading-relaxed">
+                      {selectedImage.alt_text}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
       </section>
     );
   }
@@ -239,7 +286,8 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
           {filteredPhotos.map((photo) => (
             <div
               key={photo.id}
-              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 bg-white transform hover:-translate-y-2"
+              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 bg-white transform hover:-translate-y-2 cursor-pointer"
+              onClick={() => openImageModal(photo)}
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img
@@ -258,6 +306,42 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
             </div>
           ))}
         </div>
+
+        {/* Image Modal for Gallery Page */}
+        <Dialog open={!!selectedImage} onOpenChange={closeImageModal}>
+          <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-luxury-black/95 border-luxury-gold/30">
+            <DialogTitle className="sr-only">
+              {selectedImage?.alt_text || 'Gallery Image'}
+            </DialogTitle>
+            <div className="relative">
+              <button
+                onClick={closeImageModal}
+                className="absolute top-4 right-4 z-10 bg-luxury-gold/20 hover:bg-luxury-gold/40 text-white p-2 rounded-full transition-all duration-300"
+              >
+                <X size={20} />
+              </button>
+              {selectedImage && (
+                <div className="flex flex-col">
+                  <div className="relative">
+                    <img
+                      src={selectedImage.src}
+                      alt={selectedImage.alt_text}
+                      className="w-full h-auto max-h-[70vh] object-contain rounded-t-lg"
+                    />
+                  </div>
+                  <div className="p-6 bg-gradient-to-r from-luxury-black to-luxury-black/80">
+                    <h3 className="text-xl font-bold text-luxury-gold mb-2 capitalize">
+                      {selectedImage.category}
+                    </h3>
+                    <p className="text-luxury-white/90 leading-relaxed">
+                      {selectedImage.alt_text}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </Dialog>
       </div>
     </section>
   );
