@@ -16,11 +16,12 @@ const HeroSection = () => {
 
   // Updated hero photos collection with the new uploaded images
   const heroPhotos = [
-    "/lovable-uploads/c2357d8b-b0a8-44a1-9254-b72a9718d54d.png",
-    "/lovable-uploads/da751c4b-a485-4c3f-ad1d-ce8b72eb6a08.png",
-    "/lovable-uploads/3716fca3-2aa0-4954-85b7-cdc432d063ee.png",
-    "/lovable-uploads/daba50e7-e98f-4baf-af77-ef7d8cd912b6.png",
-    "/lovable-uploads/934bea8e-73a9-45e5-8ac7-15bbf30239b5.png"
+    "/lovable-uploads/10c82e62-1255-46d1-bc7c-eaac26571dd0.png",
+    "/lovable-uploads/cc5e796b-d6a3-4b75-9269-0d3919a8f16d.png",
+    "/lovable-uploads/c2fca5bf-fa16-4aaa-b7b9-b08a8cf584df.png",
+    "/lovable-uploads/bae22750-f71e-41f0-a5c7-2f6be59700a1.png",
+    "/lovable-uploads/eb29c827-3393-42f6-83bc-bf998935ba5d.png",
+    "/lovable-uploads/34c98434-5ae9-4d0c-b834-b055ea974ecf.png"
   ];
 
   const scrollToPortfolio = () => {
