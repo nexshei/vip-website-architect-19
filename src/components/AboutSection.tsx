@@ -17,7 +17,7 @@ const AboutSection = () => {
             <img 
               src="/lovable-uploads/569bcb82-cebd-48f6-9d3b-7a1d0c566fd4.png" 
               alt="Dennis Olele - CEO of Sir Ole VVIP Protocol Ltd" 
-              className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 object-cover rounded-full border-4 border-luxury-gold shadow-2xl mx-auto mb-6 animate-scale-in"
+              className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 object-cover object-center rounded-full border-4 border-luxury-gold shadow-2xl mx-auto mb-6 animate-scale-in"
             />
           </div>
           <h3 className="text-2xl sm:text-3xl font-playfair font-bold text-luxury-black mb-2">
