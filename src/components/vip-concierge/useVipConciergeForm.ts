@@ -78,17 +78,46 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
 
     setIsLoading(true);
 
-    // Simulate form submission delay
-    setTimeout(() => {
-      toast({
-        title: "Service Request Submitted!",
-        description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
+    try {
+      const response = await fetch('/api/send-notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'vvip',
+          fullName: state.fullName,
+          email: state.email,
+          phone: state.phone,
+          eventDate: state.eventDate,
+          eventType: state.eventType,
+          serviceType: state.serviceType,
+          location: state.location,
+          protocolOfficers: state.protocolOfficers,
+          requirements: state.requirements
+        }),
       });
 
-      setIsOpen(false);
-      resetForm();
+      if (response.ok) {
+        toast({
+          title: "Service Request Submitted!",
+          description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
+        });
+        setIsOpen(false);
+        resetForm();
+      } else {
+        throw new Error('Failed to submit VVIP service request');
+      }
+    } catch (error) {
+      console.error('Error submitting VVIP service request:', error);
+      toast({
+        title: "Error submitting request",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return {

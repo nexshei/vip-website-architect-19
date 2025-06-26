@@ -15,15 +15,37 @@ const NewsletterSection = () => {
 
     setIsLoading(true);
 
-    // Simulate subscription delay
-    setTimeout(() => {
-      toast({
-        title: "Successfully subscribed!",
-        description: "Thank you for subscribing to our newsletter.",
+    try {
+      const response = await fetch('/api/send-notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'newsletter',
+          email: email
+        }),
       });
-      setEmail('');
+
+      if (response.ok) {
+        toast({
+          title: "Successfully subscribed!",
+          description: "Thank you for subscribing to our newsletter.",
+        });
+        setEmail('');
+      } else {
+        throw new Error('Failed to subscribe');
+      }
+    } catch (error) {
+      console.error('Error subscribing to newsletter:', error);
+      toast({
+        title: "Error subscribing",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

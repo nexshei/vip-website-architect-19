@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,23 +31,49 @@ const Careers = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate form submission delay
-    setTimeout(() => {
-      toast({
-        title: "Application submitted successfully!",
-        description: "Thank you for your interest. We'll review your application and get back to you.",
+    try {
+      const response = await fetch('/api/send-notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'career',
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          coverLetter: formData.coverLetter,
+          hasResume: !!formData.resumeFile,
+          hasPhoto: !!formData.photoFile
+        }),
       });
 
-      setFormData({ 
-        fullName: '', 
-        email: '', 
-        phone: '', 
-        coverLetter: '', 
-        resumeFile: null, 
-        photoFile: null 
+      if (response.ok) {
+        toast({
+          title: "Application submitted successfully!",
+          description: "Thank you for your interest. We'll review your application and get back to you.",
+        });
+        setFormData({ 
+          fullName: '', 
+          email: '', 
+          phone: '', 
+          coverLetter: '', 
+          resumeFile: null, 
+          photoFile: null 
+        });
+      } else {
+        throw new Error('Failed to submit application');
+      }
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      toast({
+        title: "Error submitting application",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
       });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

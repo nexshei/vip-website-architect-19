@@ -41,16 +41,39 @@ const Contact = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate form submission delay
-    setTimeout(() => {
-      toast({
-        title: "Message sent successfully!",
-        description: "Thank you for contacting us. We'll get back to you soon.",
+    try {
+      const response = await fetch('/api/send-notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'contact',
+          name: formData.fullName,
+          email: formData.email,
+          message: formData.message
+        }),
       });
 
-      setFormData({ fullName: '', email: '', message: '' });
+      if (response.ok) {
+        toast({
+          title: "Message sent successfully!",
+          description: "Thank you for contacting us. We'll get back to you soon.",
+        });
+        setFormData({ fullName: '', email: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

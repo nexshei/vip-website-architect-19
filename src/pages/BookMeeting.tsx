@@ -24,19 +24,47 @@ const BookMeeting = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate form submission delay
-    setTimeout(() => {
-      toast({
-        title: "Meeting request submitted!",
-        description: "Thank you for your request. We'll contact you within 24 hours.",
+    try {
+      const response = await fetch('/api/send-notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'meeting',
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          eventType: formData.eventType,
+          eventDate: formData.eventDate,
+          location: formData.location,
+          protocolOfficers: formData.protocolOfficers,
+          vision: formData.vision
+        }),
       });
 
-      setFormData({
-        fullName: '', email: '', phone: '', eventDate: '', 
-        eventType: '', location: '', protocolOfficers: '', vision: ''
+      if (response.ok) {
+        toast({
+          title: "Meeting request submitted!",
+          description: "Thank you for your request. We'll contact you within 24 hours.",
+        });
+        setFormData({
+          fullName: '', email: '', phone: '', eventDate: '', 
+          eventType: '', location: '', protocolOfficers: '', vision: ''
+        });
+      } else {
+        throw new Error('Failed to submit meeting request');
+      }
+    } catch (error) {
+      console.error('Error submitting meeting request:', error);
+      toast({
+        title: "Error submitting request",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
       });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
