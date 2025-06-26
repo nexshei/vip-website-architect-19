@@ -95,7 +95,7 @@ const AboutSection = () => {
                   <img 
                     src="/lovable-uploads/0d88121d-a8c1-47b3-a487-4b9ce6c5a80b.png" 
                     alt="Cabinet Member" 
-                    className="w-full h-96 object-cover object-center rounded-xl transform group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-96 object-cover object-[center_15%] rounded-xl transform group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               </div>
@@ -116,7 +116,7 @@ const AboutSection = () => {
                   <img 
                     src="/lovable-uploads/31ccd523-69b9-4809-b449-0da8be63b767.png" 
                     alt="Cabinet Member" 
-                    className="w-full h-96 object-cover object-center rounded-xl transform group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-96 object-cover object-[center_25%] rounded-xl transform group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               </div>
