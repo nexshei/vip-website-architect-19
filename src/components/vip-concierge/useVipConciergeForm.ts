@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 import { 
   validateTextField,
   validateEmail,
@@ -79,56 +78,8 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
 
     setIsLoading(true);
 
-    try {
-      const { error } = await supabase
-        .from('vvip_subscribers')
-        .insert({
-          full_name: state.fullName,
-          email: state.email,
-          company: state.location // Using location as company field for now
-        });
-
-      if (error) throw error;
-
-      // Also create a meeting request
-      const { error: meetingError } = await supabase
-        .from('meeting_requests')
-        .insert({
-          full_name: state.fullName,
-          email: state.email,
-          phone: state.phone,
-          event_date: state.eventDate,
-          event_type: state.eventType,
-          location: state.location,
-          protocol_officers: state.protocolOfficers,
-          vision: state.requirements
-        });
-
-      if (meetingError) console.error('Meeting request error:', meetingError);
-
-      // Send email notification
-      try {
-        const { error: notificationError } = await supabase.functions.invoke('send-notifications', {
-          body: {
-            type: 'meeting',
-            fullName: state.fullName,
-            email: state.email,
-            phone: state.phone,
-            eventType: state.eventType,
-            eventDate: state.eventDate,
-            location: state.location,
-            protocolOfficers: state.protocolOfficers,
-            vision: state.requirements
-          }
-        });
-
-        if (notificationError) {
-          console.error('Email notification error:', notificationError);
-        }
-      } catch (emailError) {
-        console.error('Failed to send email notification:', emailError);
-      }
-
+    // Simulate form submission delay
+    setTimeout(() => {
       toast({
         title: "Service Request Submitted!",
         description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
@@ -136,15 +87,8 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
 
       setIsOpen(false);
       resetForm();
-    } catch (error: any) {
-      toast({
-        title: "Error submitting request",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   return {

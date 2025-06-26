@@ -1,10 +1,10 @@
+
 import { useState } from 'react';
 import SEO from '../components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -41,51 +41,16 @@ const Contact = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      // Store in database
-      const { error } = await supabase
-        .from('contact_messages')
-        .insert({
-          full_name: formData.fullName,
-          email: formData.email,
-          message: formData.message
-        });
-
-      if (error) throw error;
-
-      // Send email notification
-      try {
-        const { error: notificationError } = await supabase.functions.invoke('send-notifications', {
-          body: {
-            type: 'contact',
-            name: formData.fullName,
-            email: formData.email,
-            message: formData.message
-          }
-        });
-
-        if (notificationError) {
-          console.error('Email notification error:', notificationError);
-        }
-      } catch (emailError) {
-        console.error('Failed to send email notification:', emailError);
-      }
-
+    // Simulate form submission delay
+    setTimeout(() => {
       toast({
         title: "Message sent successfully!",
         description: "Thank you for contacting us. We'll get back to you soon.",
       });
 
       setFormData({ fullName: '', email: '', message: '' });
-    } catch (error) {
-      toast({
-        title: "Error sending message",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   return (
@@ -135,7 +100,7 @@ const Contact = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-centered justify-center">
+                      <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-center justify-center">
                         <span className="text-luxury-black font-bold">📍</span>
                       </div>
                       <div>

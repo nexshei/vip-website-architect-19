@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 const Careers = () => {
   const [formData, setFormData] = useState({
@@ -28,49 +27,16 @@ const Careers = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      let resumeUrl = '';
-      
-      // Upload resume if provided
-      if (formData.resumeFile) {
-        const fileExt = formData.resumeFile.name.split('.').pop();
-        const fileName = `${Date.now()}.${fileExt}`;
-        
-        const { data, error: uploadError } = await supabase.storage
-          .from('documents')
-          .upload(`resumes/${fileName}`, formData.resumeFile);
-
-        if (uploadError) throw uploadError;
-        resumeUrl = data.path;
-      }
-
-      const { error } = await supabase
-        .from('career_applications')
-        .insert({
-          full_name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          cover_letter: formData.coverLetter,
-          resume_url: resumeUrl
-        });
-
-      if (error) throw error;
-
+    // Simulate form submission delay
+    setTimeout(() => {
       toast({
         title: "Application submitted successfully!",
         description: "Thank you for your interest. We'll review your application and get back to you.",
       });
 
       setFormData({ fullName: '', email: '', phone: '', coverLetter: '', resumeFile: null });
-    } catch (error) {
-      toast({
-        title: "Error submitting application",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   return (

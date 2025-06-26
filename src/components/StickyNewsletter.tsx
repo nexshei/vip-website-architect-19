@@ -4,7 +4,6 @@ import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 const StickyNewsletter = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -18,38 +17,16 @@ const StickyNewsletter = () => {
 
     setIsLoading(true);
 
-    try {
-      const { error } = await supabase
-        .from('subscribers')
-        .insert({ email });
-
-      if (error) {
-        if (error.code === '23505') { // Unique constraint violation
-          toast({
-            title: "Already subscribed!",
-            description: "This email is already on our newsletter list.",
-            variant: "destructive",
-          });
-        } else {
-          throw error;
-        }
-      } else {
-        toast({
-          title: "Successfully subscribed!",
-          description: "Thank you for subscribing to our newsletter.",
-        });
-        setEmail('');
-        setIsVisible(false);
-      }
-    } catch (error) {
+    // Simulate subscription delay
+    setTimeout(() => {
       toast({
-        title: "Error subscribing",
-        description: "Please try again later.",
-        variant: "destructive",
+        title: "Successfully subscribed!",
+        description: "Thank you for subscribing to our newsletter.",
       });
-    } finally {
+      setEmail('');
+      setIsVisible(false);
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   if (!isVisible) return null;

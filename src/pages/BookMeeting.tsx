@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 const BookMeeting = () => {
   const [formData, setFormData] = useState({
@@ -25,22 +24,8 @@ const BookMeeting = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      const { error } = await supabase
-        .from('meeting_requests')
-        .insert({
-          full_name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          event_date: formData.eventDate,
-          event_type: formData.eventType,
-          location: formData.location,
-          protocol_officers: formData.protocolOfficers,
-          vision: formData.vision
-        });
-
-      if (error) throw error;
-
+    // Simulate form submission delay
+    setTimeout(() => {
       toast({
         title: "Meeting request submitted!",
         description: "Thank you for your request. We'll contact you within 24 hours.",
@@ -50,15 +35,8 @@ const BookMeeting = () => {
         fullName: '', email: '', phone: '', eventDate: '', 
         eventType: '', location: '', protocolOfficers: '', vision: ''
       });
-    } catch (error) {
-      toast({
-        title: "Error submitting request",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   return (

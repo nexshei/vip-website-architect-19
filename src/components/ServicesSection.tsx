@@ -3,31 +3,23 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Shield, Clock, Calendar, Star, Mic, Utensils, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useState } from 'react';
 import ServiceDetailModal from './ServiceDetailModal';
 
-// Icon mapping for services
-const iconMap: { [key: string]: any } = {
-  'Professional Ushering': Users,
-  'VIP Security Services': Shield,
-  'High-Profile Protocol': Clock,
-  'Luxury Event Management': Calendar,
-  'MC Services': Mic,
-  'Cutlery & Catering Services': Utensils,
-  'Bridal Party Coordination': Heart,
-};
-
-// Enhanced service data mapping
-const serviceEnhancements: { [key: string]: any } = {
-  'Professional Ushering': {
+// Static services data
+const staticServices = [
+  {
+    id: '1',
+    title: 'Professional Ushering',
+    description: 'Expert ushering services for corporate events, weddings, and VIP functions with trained multilingual staff.',
+    icon: Users,
     stats: '200+ Events',
     rating: '99%',
     color: 'border-luxury-gold bg-luxury-gold/5',
     badge: '98%',
     features: ['Multilingual staff', 'Event coordination', 'Formal training', 'Guest assistance'],
     testimonial: "Exceptional service that exceeded our expectations",
+    detailDescription: 'Expert ushering services for corporate events, weddings, and VIP functions with trained multilingual staff.',
     keyFeatures: [
       'Multilingual staff fluent in major international languages',
       'Comprehensive event coordination and crowd management',
@@ -35,13 +27,18 @@ const serviceEnhancements: { [key: string]: any } = {
       'Personalized guest assistance and VIP handling'
     ]
   },
-  'VIP Security Services': {
+  {
+    id: '2',
+    title: 'VIP Security Services',
+    description: 'Professional security services for high-profile events and VIP protection with experienced personnel.',
+    icon: Shield,
     stats: '150+ Events',
     rating: '100%',
     color: 'border-gray-300 bg-gray-50/5',
     badge: 'VIP',
     features: ['Executive protection', 'Threat assessment', 'Discrete surveillance', 'Emergency response'],
     testimonial: "Professional and unobtrusive protection",
+    detailDescription: 'Professional security services for high-profile events and VIP protection with experienced personnel.',
     keyFeatures: [
       'Former law enforcement and military professionals',
       'Comprehensive threat assessment and risk management',
@@ -49,13 +46,18 @@ const serviceEnhancements: { [key: string]: any } = {
       'Rapid emergency response and evacuation protocols'
     ]
   },
-  'High-Profile Protocol': {
+  {
+    id: '3',
+    title: 'High-Profile Protocol',
+    description: 'Diplomatic and ceremonial protocol services for government and corporate high-level events.',
+    icon: Clock,
     stats: '100+ Events',
     rating: '98%',
     color: 'border-luxury-gold bg-luxury-gold/5',
     badge: '98%',
     features: ['Diplomatic protocol', 'Ceremonial coordination', 'Cultural sensitivity', 'Protocol advisory'],
     testimonial: "Impeccable attention to diplomatic detail",
+    detailDescription: 'Diplomatic and ceremonial protocol services for government and corporate high-level events.',
     keyFeatures: [
       'International diplomatic protocol expertise',
       'Ceremonial coordination and flag protocols',
@@ -63,13 +65,18 @@ const serviceEnhancements: { [key: string]: any } = {
       'Protocol advisory and planning consultation'
     ]
   },
-  'Luxury Event Management': {
+  {
+    id: '4',
+    title: 'Luxury Event Management',
+    description: 'Complete event planning and management services for luxury corporate and private events.',
+    icon: Calendar,
     stats: '300+ Events',
     rating: '97%',
     color: 'border-gray-300 bg-gray-50/5',
     badge: 'LUXURY',
     features: ['Full event planning', 'Vendor coordination', 'Timeline management', 'Quality assurance'],
     testimonial: "Transformed our vision into spectacular reality",
+    detailDescription: 'Complete event planning and management services for luxury corporate and private events.',
     keyFeatures: [
       'Comprehensive event planning from concept to completion',
       'Premium vendor coordination and management',
@@ -77,13 +84,18 @@ const serviceEnhancements: { [key: string]: any } = {
       'Rigorous quality assurance and contingency planning'
     ]
   },
-  'MC Services': {
+  {
+    id: '5',
+    title: 'MC Services',
+    description: 'Professional master of ceremonies services for corporate events, weddings, and special occasions.',
+    icon: Mic,
     stats: '180+ Events',
     rating: '96%',
     color: 'border-luxury-gold bg-luxury-gold/5',
     badge: 'MC',
     features: ['Charismatic hosting', 'Script writing', 'Crowd engagement', 'Multilingual services'],
     testimonial: "Kept our guests entertained throughout the event",
+    detailDescription: 'Professional master of ceremonies services for corporate events, weddings, and special occasions.',
     keyFeatures: [
       'Experienced and charismatic event hosts',
       'Custom script writing and event planning',
@@ -91,13 +103,18 @@ const serviceEnhancements: { [key: string]: any } = {
       'Multilingual hosting capabilities'
     ]
   },
-  'Cutlery & Catering Services': {
+  {
+    id: '6',
+    title: 'Cutlery & Catering Services',
+    description: 'Premium catering and cutlery services for luxury events with gourmet cuisine and elegant presentation.',
+    icon: Utensils,
     stats: '250+ Events',
     rating: '95%',
     color: 'border-gray-300 bg-gray-50/5',
     badge: 'PREMIUM',
     features: ['Gourmet cuisine', 'Premium cutlery', 'Table styling', 'Dietary accommodations'],
     testimonial: "Exquisite cuisine and presentation",
+    detailDescription: 'Premium catering and cutlery services for luxury events with gourmet cuisine and elegant presentation.',
     keyFeatures: [
       'Gourmet cuisine crafted by expert chefs',
       'Premium cutlery and elegant tableware',
@@ -105,13 +122,18 @@ const serviceEnhancements: { [key: string]: any } = {
       'Comprehensive dietary accommodation options'
     ]
   },
-  'Bridal Party Coordination': {
+  {
+    id: '7',
+    title: 'Bridal Party Coordination',
+    description: 'Specialized wedding coordination services focusing on bridal party management and seamless ceremony execution.',
+    icon: Heart,
     stats: '120+ Weddings',
     rating: '99%',
     color: 'border-luxury-gold bg-luxury-gold/5',
     badge: 'BRIDAL',
     features: ['Wedding coordination', 'Bridal party management', 'Timeline orchestration', 'Vendor liaison'],
     testimonial: "Made our wedding day absolutely perfect",
+    detailDescription: 'Specialized wedding coordination services focusing on bridal party management and seamless ceremony execution.',
     keyFeatures: [
       'Complete wedding day coordination and planning',
       'Professional bridal party management and guidance',
@@ -119,51 +141,11 @@ const serviceEnhancements: { [key: string]: any } = {
       'Expert vendor liaison and communication'
     ]
   }
-};
+];
 
 const ServicesSection = () => {
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState<string | null>(null);
-
-  // Fetch services from database
-  const { data: servicesData, isLoading, error } = useQuery({
-    queryKey: ['services'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('services')
-        .select('*')
-        .order('created_at', { ascending: true });
-      
-      if (error) throw error;
-      return data;
-    }
-  });
-
-  // Transform database services to match component structure
-  const services = servicesData?.map(service => {
-    const enhancement = serviceEnhancements[service.title] || {};
-    const IconComponent = iconMap[service.title] || Calendar;
-    
-    return {
-      id: service.id,
-      title: service.title,
-      description: service.description,
-      icon: IconComponent,
-      stats: enhancement.stats || '50+ Events',
-      rating: enhancement.rating || '95%',
-      color: enhancement.color || 'border-gray-300 bg-gray-50/5',
-      badge: enhancement.badge || 'NEW',
-      features: enhancement.features || ['Professional service', 'Quality assurance', 'Expert staff', 'Customer satisfaction'],
-      testimonial: enhancement.testimonial || "Outstanding professional service",
-      detailDescription: service.description,
-      keyFeatures: enhancement.keyFeatures || [
-        'Professional and experienced staff',
-        'Comprehensive service delivery',
-        'Quality assurance and customer satisfaction',
-        'Flexible and customized solutions'
-      ]
-    };
-  }) || [];
 
   const handleRequestService = () => {
     navigate('/book-meeting');
@@ -172,31 +154,6 @@ const ServicesSection = () => {
   const handleLearnMore = (serviceId: string) => {
     setSelectedService(serviceId);
   };
-
-  if (isLoading) {
-    return (
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luxury-gold mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading our premium services...</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-red-600">Unable to load services. Please try again later.</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <>
@@ -213,7 +170,7 @@ const ServicesSection = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {services.map((service, index) => (
+            {staticServices.map((service, index) => (
               <Card key={service.id} className={`relative overflow-hidden ${service.color} hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2`}>
                 <div className="absolute top-4 right-4 bg-luxury-gold text-black px-3 py-1 rounded-full text-sm font-semibold">
                   {service.badge}
@@ -264,7 +221,7 @@ const ServicesSection = () => {
 
       {selectedService && (
         <ServiceDetailModal 
-          service={services.find(s => s.id === selectedService)!}
+          service={staticServices.find(s => s.id === selectedService)!}
           isOpen={!!selectedService}
           onClose={() => setSelectedService(null)}
           onRequestService={handleRequestService}
