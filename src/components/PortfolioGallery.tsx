@@ -138,17 +138,18 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <PortfolioHeader />
+          <HeroSlider photos={homepagePhotos} onImageClick={openImageModal} />
           <ImageGrid photos={homepagePhotos} onImageClick={openImageModal} isHomepage={true} />
           
           {/* View Gallery Button */}
-          <div className="text-center mt-16">
+          <div className="text-center mt-20">
             <Link to="/gallery">
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold hover:from-luxury-gold-dark hover:via-luxury-gold hover:to-luxury-gold-dark text-luxury-black font-bold px-12 py-6 text-xl transition-all duration-500 hover:scale-110 hover:shadow-2xl group rounded-full border-2 border-luxury-gold-dark/40 shadow-xl"
+                className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold hover:from-luxury-gold-dark hover:via-luxury-gold hover:to-luxury-gold-dark text-luxury-black font-bold px-16 py-8 text-2xl transition-all duration-500 hover:scale-110 hover:shadow-2xl group rounded-full border-2 border-luxury-gold-dark/40 shadow-xl"
               >
                 View Gallery
-                <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform duration-300" size={24} />
+                <ArrowRight className="ml-4 group-hover:translate-x-2 transition-transform duration-300" size={28} />
               </Button>
             </Link>
           </div>
