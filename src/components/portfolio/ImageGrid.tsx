@@ -1,5 +1,5 @@
 
-import { ZoomIn, Tag, Calendar } from 'lucide-react';
+import { ZoomIn } from 'lucide-react';
 
 interface Photo {
   id: string;
@@ -45,7 +45,7 @@ const ImageGrid = ({ photos, onImageClick, isHomepage = false }: ImageGridProps)
               />
               
               {/* Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-luxury-black/90 ${isHomepage ? 'via-luxury-black/20' : 'via-luxury-black/30'} to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ${isHomepage ? '' : 'flex items-end'}`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-t from-luxury-black/90 ${isHomepage ? 'via-luxury-black/20' : 'via-luxury-black/30'} to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700`}></div>
               
               {/* Zoom Icon */}
               <div className={`absolute ${isHomepage ? 'top-6 right-6' : 'top-4 right-4'} bg-luxury-gold/95 text-luxury-black p-${isHomepage ? '3' : '2'} rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100`}>
@@ -53,36 +53,11 @@ const ImageGrid = ({ photos, onImageClick, isHomepage = false }: ImageGridProps)
               </div>
 
               {/* Content Overlay */}
-              {isHomepage ? (
-                <div className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-8 group-hover:translate-y-0">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-3 text-luxury-gold text-sm">
-                      <Tag size={14} />
-                      <span className="font-bold uppercase tracking-wider">{photo.category}</span>
-                    </div>
-                    <p className="text-white text-base font-medium leading-relaxed line-clamp-2">
-                      {photo.alt_text}
-                    </p>
-                    <div className="flex items-center text-luxury-gold/90 text-sm font-medium">
-                      <Calendar size={14} className="mr-2" />
-                      <span>Professional Event</span>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="p-6 text-white transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
-                  <div className="flex items-center space-x-2 text-luxury-gold text-xs mb-2">
-                    <Tag size={12} />
-                    <span className="font-bold uppercase tracking-wider">{photo.category}</span>
-                  </div>
-                  <p className="text-sm font-medium leading-relaxed">{photo.alt_text}</p>
-                </div>
-              )}
-            </div>
-            
-            {/* Category Badge */}
-            <div className={`absolute ${isHomepage ? 'top-6 left-6' : 'top-4 left-4'} bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-luxury-black text-sm font-bold px-4 py-2 rounded-full backdrop-blur-sm border border-white/40 shadow-xl transform group-hover:scale-110 transition-all duration-300`}>
-              {photo.category.charAt(0).toUpperCase() + photo.category.slice(1)}
+              <div className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-8 group-hover:translate-y-0">
+                <p className="text-white text-base font-medium leading-relaxed line-clamp-2">
+                  {photo.alt_text}
+                </p>
+              </div>
             </div>
           </div>
         ))}

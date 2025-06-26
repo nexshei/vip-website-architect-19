@@ -4,7 +4,9 @@ import HeroSlider from './portfolio/HeroSlider';
 import ImageGrid from './portfolio/ImageGrid';
 import ImageModal from './portfolio/ImageModal';
 import PortfolioHeader from './portfolio/PortfolioHeader';
-import CallToAction from './portfolio/CallToAction';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 interface Photo {
   id: string;
@@ -21,7 +23,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<Photo | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Static photos for homepage - only 8 photos
+  // Static photos for homepage - only 4 photos
   const homepagePhotos: Photo[] = [
     {
       id: '1',
@@ -46,7 +48,12 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
       src: '/lovable-uploads/106281aa-04c2-4533-92e5-e1044566520f.png',
       alt_text: 'VIP protocol officers with guests at luxury corporate reception',
       category: 'private'
-    },
+    }
+  ];
+
+  // All photos for gallery page
+  const allPhotos: Photo[] = [
+    ...homepagePhotos,
     {
       id: '5',
       src: '/lovable-uploads/b7c270ed-d140-46b1-adc8-3123807ffd1a.png',
@@ -70,12 +77,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
       src: '/lovable-uploads/2417aefe-5fed-43f0-b77b-4c8ee078ddcb.png',
       alt_text: 'VIP protocol team with distinguished guests at welcome reception',
       category: 'diplomatic'
-    }
-  ];
-
-  // All photos for gallery page
-  const allPhotos: Photo[] = [
-    ...homepagePhotos,
+    },
     {
       id: '9',
       src: '/lovable-uploads/b69edc0b-0e29-4f2d-ab0d-abd974ef5133.png',
@@ -136,9 +138,20 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <PortfolioHeader />
-          <HeroSlider photos={homepagePhotos} onImageClick={openImageModal} />
           <ImageGrid photos={homepagePhotos} onImageClick={openImageModal} isHomepage={true} />
-          <CallToAction />
+          
+          {/* View Gallery Button */}
+          <div className="text-center mt-16">
+            <Link to="/gallery">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold hover:from-luxury-gold-dark hover:via-luxury-gold hover:to-luxury-gold-dark text-luxury-black font-bold px-12 py-6 text-xl transition-all duration-500 hover:scale-110 hover:shadow-2xl group rounded-full border-2 border-luxury-gold-dark/40 shadow-xl"
+              >
+                View Gallery
+                <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform duration-300" size={24} />
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <ImageModal
@@ -153,7 +166,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     );
   }
 
-  // Gallery page layout - no category filters, just show all photos
+  // Gallery page layout - show all photos
   return (
     <section className="py-24 bg-luxury-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">

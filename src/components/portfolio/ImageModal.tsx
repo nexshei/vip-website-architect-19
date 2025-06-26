@@ -1,6 +1,6 @@
 
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { ChevronLeft, ChevronRight, X, Tag, Calendar } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Calendar } from 'lucide-react';
 
 interface Photo {
   id: string;
@@ -73,13 +73,12 @@ const ImageModal = ({
             </div>
             <div className={`p-${isHomepage ? '10' : '8'} bg-gradient-to-r from-luxury-black to-luxury-black/${isHomepage ? '95' : '90'} ${isHomepage ? 'rounded-b-2xl' : ''}`}>
               <div className="flex items-center justify-between mb-${isHomepage ? '6' : '4'}">
-                <h3 className={`text-${isHomepage ? '3xl' : '2xl'} font-bold text-luxury-gold capitalize flex items-center`}>
-                  <Tag className="mr-${isHomepage ? '3' : '2'}" size={isHomepage ? 24 : 20} />
-                  {selectedImage.category}
+                <h3 className={`text-${isHomepage ? '3xl' : '2xl'} font-bold text-luxury-gold`}>
+                  Professional Event
                 </h3>
                 <div className={`flex items-center text-luxury-gold/80 text-${isHomepage ? 'lg' : 'sm'}`}>
                   <Calendar size={isHomepage ? 18 : 16} className="mr-2" />
-                  Professional Event
+                  VIP Protocol Service
                 </div>
               </div>
               <p className={`text-luxury-white/90 leading-relaxed text-${isHomepage ? 'xl' : 'lg'}`}>
