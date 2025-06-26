@@ -23,7 +23,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [filteredPhotos, setFilteredPhotos] = useState<Photo[]>([]);
 
-  // All photos - showing 8 on homepage, 2 additional on gallery page
+  // All photos - showing 8 on homepage, all on gallery page
   const photos: Photo[] = [
     {
       id: '7',
@@ -85,6 +85,61 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
       src: '/lovable-uploads/c8c41d47-43d1-4ff8-9931-38d6933001fb.png',
       alt_text: 'Cultural protocol team in traditional African attire for special ceremony',
       category: 'cultural'
+    },
+    // New photos from uploads
+    {
+      id: '17',
+      src: '/lovable-uploads/f0a0780f-b1f0-4d8a-b394-db906dc05116.png',
+      alt_text: 'Professional VIP protocol officers conducting ceremonial presentation at luxury event',
+      category: 'corporate'
+    },
+    {
+      id: '18',
+      src: '/lovable-uploads/9ec281e9-4c07-4198-89a1-573dbc8e61de.png',
+      alt_text: 'Elegant protocol team in white and gold uniforms with luxury throne setup',
+      category: 'private'
+    },
+    {
+      id: '19',
+      src: '/lovable-uploads/ccf892db-d8ea-4189-ae45-50344ced9a88.png',
+      alt_text: 'VIP protocol team with client in white attire at birthday celebration event',
+      category: 'private'
+    },
+    {
+      id: '20',
+      src: '/lovable-uploads/c7d19e2e-f161-4be2-a50d-1c6a85320e6b.png',
+      alt_text: 'Professional wedding protocol team accompanying bride and groom in elegant ceremony',
+      category: 'wedding'
+    },
+    {
+      id: '21',
+      src: '/lovable-uploads/432f85c5-49c0-4dd6-81f9-8d6d6fbf2bbe.png',
+      alt_text: 'VIP protocol officers leading red carpet entrance at premium event venue',
+      category: 'corporate'
+    },
+    {
+      id: '22',
+      src: '/lovable-uploads/ddf4396c-ee99-4aef-be02-86b8d78d6d86.png',
+      alt_text: 'Protocol team presenting award recognition at distinguished corporate ceremony',
+      category: 'corporate'
+    },
+    {
+      id: '23',
+      src: '/lovable-uploads/bbbd1877-da98-4cfc-be25-35dc5bd41a96.png',
+      alt_text: 'Professional protocol officers with ceremonial presentations at special event',
+      category: 'corporate'
+    },
+    {
+      id: '24',
+      src: '/lovable-uploads/307ff290-d4b5-4d20-9cd2-1784dc0e3bf9.png',
+      alt_text: 'VIP protocol team with government officials at formal red carpet ceremony',
+      category: 'government'
+    },
+    {
+      id: '25',
+      src: '/lovable-uploads/e6684cf4-f8ff-4d1a-bd1e-961f57426619.png',
+      alt_text: 'Professional protocol team in black and gold attire at corporate gathering',
+      category: 'corporate'
     }
   ];
 
@@ -331,7 +386,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     );
   }
 
-  // Gallery page layout remains the same but with all photos
+  // Gallery page layout with all photos including new ones
   return (
     <section className="py-24 bg-luxury-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
