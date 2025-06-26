@@ -82,7 +82,7 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
     try {
       const { error } = await supabase
         .from('vvip_service_requests')
-        .insert([{
+        .insert({
           full_name: state.fullName,
           email: state.email,
           phone: state.phone,
@@ -92,7 +92,7 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
           location: state.location || null,
           protocol_officers: state.protocolOfficers || null,
           requirements: state.requirements || null
-        }]);
+        });
 
       if (error) {
         throw error;

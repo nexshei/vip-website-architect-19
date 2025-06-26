@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,7 +27,7 @@ const BookMeeting = () => {
     try {
       const { error } = await supabase
         .from('meeting_requests')
-        .insert([{
+        .insert({
           full_name: formData.fullName,
           email: formData.email,
           phone: formData.phone,
@@ -37,7 +36,7 @@ const BookMeeting = () => {
           location: formData.location || null,
           protocol_officers: formData.protocolOfficers || null,
           vision: formData.vision || null
-        }]);
+        });
 
       if (error) {
         throw error;
