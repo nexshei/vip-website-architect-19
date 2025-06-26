@@ -1,3 +1,4 @@
+
 const AboutSection = () => {
   return (
     <section id="about" className="py-20 bg-luxury-white">
@@ -32,7 +33,7 @@ const AboutSection = () => {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
           <div className="space-y-6 animate-fade-in">
             <p className="text-lg text-luxury-black/80 leading-relaxed">
               At Sir Ole VVIP Protocol Ltd, we redefine the art of hospitality and protocol services. Our commitment to excellence has established us as Nairobi's premier provider of luxury protocol, ushering, VVIP security, and event management services.
@@ -69,6 +70,93 @@ const AboutSection = () => {
                   We pledge to deliver unparalleled service excellence, ensuring that every protocol we manage reflects the highest standards of professionalism and sophistication that our clients deserve.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Cabinet Section */}
+        <div className="mt-20">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl sm:text-4xl font-playfair font-bold text-luxury-black mb-4">
+              Our Distinguished <span className="text-gradient-gold">Cabinet</span>
+            </h3>
+            <div className="w-20 h-1 bg-luxury-gold mx-auto mb-6"></div>
+            <p className="text-lg text-luxury-black/70 max-w-2xl mx-auto">
+              Meet the exceptional leaders who drive our vision of excellence and ensure the highest standards in luxury protocol services.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+            {/* Cabinet Member 1 */}
+            <div className="group text-center">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/30 to-luxury-gold-light/30 rounded-2xl blur-xl transform group-hover:scale-110 transition-transform duration-300"></div>
+                <div className="relative bg-gradient-to-br from-luxury-white to-luxury-gold/5 p-1 rounded-2xl shadow-xl">
+                  <img 
+                    src="/lovable-uploads/0d88121d-a8c1-47b3-a487-4b9ce6c5a80b.png" 
+                    alt="Cabinet Member" 
+                    className="w-full h-80 object-cover object-center rounded-xl transform group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-bold text-luxury-black mb-2">
+                Distinguished Leader
+              </h4>
+              <p className="text-luxury-gold font-semibold mb-3">Executive Cabinet Member</p>
+              <p className="text-sm text-luxury-black/70 leading-relaxed">
+                Bringing exceptional expertise in luxury protocol management and client relations to ensure unparalleled service delivery.
+              </p>
+            </div>
+
+            {/* Cabinet Member 2 */}
+            <div className="group text-center">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/30 to-luxury-gold-light/30 rounded-2xl blur-xl transform group-hover:scale-110 transition-transform duration-300"></div>
+                <div className="relative bg-gradient-to-br from-luxury-white to-luxury-gold/5 p-1 rounded-2xl shadow-xl">
+                  <img 
+                    src="/lovable-uploads/31ccd523-69b9-4809-b449-0da8be63b767.png" 
+                    alt="Cabinet Member" 
+                    className="w-full h-80 object-cover object-center rounded-xl transform group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-bold text-luxury-black mb-2">
+                Strategic Advisor
+              </h4>
+              <p className="text-luxury-gold font-semibold mb-3">Senior Cabinet Member</p>
+              <p className="text-sm text-luxury-black/70 leading-relaxed">
+                Expert in diplomatic protocol and corporate event management, ensuring seamless execution of high-profile occasions.
+              </p>
+            </div>
+
+            {/* Cabinet Member 3 */}
+            <div className="group text-center">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/30 to-luxury-gold-light/30 rounded-2xl blur-xl transform group-hover:scale-110 transition-transform duration-300"></div>
+                <div className="relative bg-gradient-to-br from-luxury-white to-luxury-gold/5 p-1 rounded-2xl shadow-xl">
+                  <img 
+                    src="/lovable-uploads/2ce928ba-1fc9-4d54-a818-260c6e5f0efd.png" 
+                    alt="Cabinet Member" 
+                    className="w-full h-80 object-cover object-center rounded-xl transform group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-bold text-luxury-black mb-2">
+                Operations Director
+              </h4>
+              <p className="text-luxury-gold font-semibold mb-3">Cabinet Member</p>
+              <p className="text-sm text-luxury-black/70 leading-relaxed">
+                Specializing in operational excellence and quality assurance, maintaining the highest standards in all service offerings.
+              </p>
+            </div>
+          </div>
+
+          {/* Decorative Element */}
+          <div className="mt-16 text-center">
+            <div className="inline-flex items-center space-x-4">
+              <div className="w-12 h-px bg-luxury-gold"></div>
+              <div className="w-3 h-3 bg-luxury-gold rounded-full"></div>
+              <div className="w-12 h-px bg-luxury-gold"></div>
             </div>
           </div>
         </div>
