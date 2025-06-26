@@ -106,6 +106,29 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
 
       if (meetingError) console.error('Meeting request error:', meetingError);
 
+      // Send email notification
+      try {
+        const { error: notificationError } = await supabase.functions.invoke('send-notifications', {
+          body: {
+            type: 'meeting',
+            fullName: state.fullName,
+            email: state.email,
+            phone: state.phone,
+            eventType: state.eventType,
+            eventDate: state.eventDate,
+            location: state.location,
+            protocolOfficers: state.protocolOfficers,
+            vision: state.requirements
+          }
+        });
+
+        if (notificationError) {
+          console.error('Email notification error:', notificationError);
+        }
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
+      }
+
       toast({
         title: "Service Request Submitted!",
         description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
