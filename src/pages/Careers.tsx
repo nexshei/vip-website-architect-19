@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,12 +20,60 @@ const Careers = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fileType: 'resume' | 'photo') => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validate file size (50MB max)
+      if (file.size > 50 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Please select a file smaller than 50MB.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       if (fileType === 'resume') {
+        // Validate resume file types
+        const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!allowedTypes.includes(file.type)) {
+          toast({
+            title: "Invalid file type",
+            description: "Please upload a PDF, DOC, or DOCX file for your resume.",
+            variant: "destructive",
+          });
+          return;
+        }
         setFormData({ ...formData, resumeFile: file });
       } else {
+        // Validate photo file types
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+          toast({
+            title: "Invalid file type",
+            description: "Please upload a JPG, PNG, or WEBP file for your photo.",
+            variant: "destructive",
+          });
+          return;
+        }
         setFormData({ ...formData, photoFile: file });
       }
     }
+  };
+
+  const uploadFile = async (file: File, bucket: string, folder: string) => {
+    const fileName = `${folder}/${Date.now()}_${file.name}`;
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(fileName, file);
+
+    if (error) {
+      throw new Error(`Failed to upload ${file.name}: ${error.message}`);
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(fileName);
+
+    return urlData.publicUrl;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,17 +81,30 @@ const Careers = () => {
     setIsLoading(true);
 
     try {
+      let resumeUrl = null;
+      let photoUrl = null;
+
+      // Upload resume file if provided
+      if (formData.resumeFile) {
+        resumeUrl = await uploadFile(formData.resumeFile, 'documents', 'career_applications');
+      }
+
+      // Upload photo file if provided
+      if (formData.photoFile) {
+        photoUrl = await uploadFile(formData.photoFile, 'photos', 'career_applications');
+      }
+
+      // Insert career application data
       const { error } = await supabase
         .from('career_applications')
-        .insert([{
+        .insert({
           full_name: formData.fullName,
           email: formData.email,
           phone: formData.phone || null,
           cover_letter: formData.coverLetter || null,
-          // Note: File uploads would need storage bucket setup - for now just noting files exist
-          cv_url: formData.resumeFile ? `pending_upload_${formData.resumeFile.name}` : null,
-          professional_photo_url: formData.photoFile ? `pending_upload_${formData.photoFile.name}` : null
-        }]);
+          cv_url: resumeUrl,
+          professional_photo_url: photoUrl
+        });
 
       if (error) {
         throw error;
@@ -54,6 +114,8 @@ const Careers = () => {
         title: "Application submitted successfully!",
         description: "Thank you for your interest. We'll review your application and get back to you.",
       });
+      
+      // Reset form
       setFormData({ 
         fullName: '', 
         email: '', 
@@ -62,6 +124,11 @@ const Careers = () => {
         resumeFile: null, 
         photoFile: null 
       });
+      
+      // Reset file inputs
+      const fileInputs = document.querySelectorAll('input[type="file"]') as NodeListOf<HTMLInputElement>;
+      fileInputs.forEach(input => input.value = '');
+      
     } catch (error: any) {
       console.error('Error submitting application:', error);
       toast({
@@ -156,7 +223,10 @@ const Careers = () => {
                       onChange={(e) => handleFileChange(e, 'resume')}
                       className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
-                    <p className="text-sm text-luxury-black/60 mt-1">Upload your resume (PDF, DOC, DOCX)</p>
+                    <p className="text-sm text-luxury-black/60 mt-1">
+                      Upload your resume (PDF, DOC, DOCX) - Max 50MB
+                      {formData.resumeFile && <span className="text-green-600 ml-2">✓ {formData.resumeFile.name}</span>}
+                    </p>
                   </div>
                   <div>
                     <Input
@@ -165,7 +235,10 @@ const Careers = () => {
                       onChange={(e) => handleFileChange(e, 'photo')}
                       className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
-                    <p className="text-sm text-luxury-black/60 mt-1">Upload your professional photo (JPG, PNG, WEBP)</p>
+                    <p className="text-sm text-luxury-black/60 mt-1">
+                      Upload your professional photo (JPG, PNG, WEBP) - Max 50MB
+                      {formData.photoFile && <span className="text-green-600 ml-2">✓ {formData.photoFile.name}</span>}
+                    </p>
                   </div>
                   <Textarea
                     placeholder="Cover Letter - Tell us why you want to join our team..."
