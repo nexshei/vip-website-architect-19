@@ -22,7 +22,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<Photo | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Static photos for homepage - ONLY 4 photos
+  // Static photos for homepage - EXACTLY 4 photos
   const homepagePhotos: Photo[] = [
     {
       id: '1',
@@ -127,7 +127,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
 
   if (isHomepage) {
     return (
-      <section className="py-32 bg-gradient-to-br from-luxury-white via-luxury-gold/5 to-luxury-white relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-br from-luxury-white via-luxury-gold/5 to-luxury-white relative overflow-hidden">
         {/* Professional Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-72 h-72 bg-luxury-gold/10 rounded-full blur-3xl"></div>
@@ -136,20 +136,63 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
         </div>
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <PortfolioHeader />
+          {/* Header Section */}
+          <div className="text-center mb-16">
+            <h3 className="text-4xl sm:text-5xl font-playfair font-bold text-luxury-black mb-6">
+              Featured <span className="text-luxury-gold">Portfolio</span>
+            </h3>
+            <p className="text-xl text-luxury-black/70 max-w-3xl mx-auto">
+              A curated selection of our finest work in VIP protocol and event management
+            </p>
+          </div>
           
-          {/* Only show 4 homepage photos */}
-          <ImageGrid photos={homepagePhotos} onImageClick={openImageModal} isHomepage={true} />
+          {/* Gallery Grid - EXACTLY 4 PHOTOS */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            {homepagePhotos.map((photo, index) => (
+              <div
+                key={photo.id}
+                className="group relative overflow-hidden rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-6 cursor-pointer bg-white border border-luxury-gold/20 hover:border-luxury-gold/60"
+                onClick={() => openImageModal(photo)}
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
+                <div className="aspect-[4/3] overflow-hidden relative">
+                  <img
+                    src={photo.src}
+                    alt={photo.alt_text}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000 ease-out"
+                    loading="lazy"
+                  />
+                  
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                  
+                  {/* Zoom Icon */}
+                  <div className="absolute top-6 right-6 bg-luxury-gold/95 text-luxury-black p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                  </div>
+
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-8 group-hover:translate-y-0">
+                    <p className="text-white text-base font-medium leading-relaxed line-clamp-2">
+                      {photo.alt_text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
           
-          {/* Prominent View Gallery Button */}
-          <div className="text-center mt-16">
+          {/* Prominent View Full Gallery Button */}
+          <div className="text-center">
             <Link to="/gallery">
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold hover:from-luxury-gold-dark hover:via-luxury-gold hover:to-luxury-gold-dark text-luxury-black font-bold px-12 py-6 text-xl transition-all duration-500 hover:scale-105 hover:shadow-2xl group rounded-full border-2 border-luxury-gold-dark/40 shadow-xl"
+                className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold hover:from-luxury-gold-dark hover:via-luxury-gold hover:to-luxury-gold-dark text-luxury-black font-bold px-16 py-8 text-2xl transition-all duration-500 hover:scale-105 hover:shadow-2xl group rounded-full border-2 border-luxury-gold-dark/40 shadow-xl"
               >
                 View Full Gallery
-                <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform duration-300" size={24} />
+                <ArrowRight className="ml-4 group-hover:translate-x-2 transition-transform duration-300" size={28} />
               </Button>
             </Link>
           </div>
