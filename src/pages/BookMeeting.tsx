@@ -31,10 +31,10 @@ const BookMeeting = () => {
           full_name: formData.fullName,
           email: formData.email,
           phone: formData.phone,
-          event_type: formData.eventType || null,
+          event_type: formData.eventType as any || null,
           event_date: formData.eventDate || null,
           location: formData.location || null,
-          protocol_officers: formData.protocolOfficers || null,
+          protocol_officers: formData.protocolOfficers as any || null,
           vision: formData.vision || null
         });
 

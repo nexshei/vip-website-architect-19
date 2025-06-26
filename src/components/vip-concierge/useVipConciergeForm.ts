@@ -87,10 +87,10 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
           email: state.email,
           phone: state.phone,
           event_date: state.eventDate || null,
-          event_type: state.eventType || null,
-          service_type: state.serviceType || null,
+          event_type: state.eventType as any || null,
+          service_type: state.serviceType as any || null,
           location: state.location || null,
-          protocol_officers: state.protocolOfficers || null,
+          protocol_officers: state.protocolOfficers as any || null,
           requirements: state.requirements || null
         });
 
