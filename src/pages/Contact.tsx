@@ -25,7 +25,7 @@ const Contact = () => {
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+254712063461",
-        "email": "sirolevvipprotocol@gmail.com",
+        "email": "info@sirolevvipprotocolltd.co.ke",
         "contactType": "customer service",
         "availableLanguage": "English"
       },
@@ -104,7 +104,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-luxury-black">Email</h3>
-                        <p className="text-luxury-black/70">sirolevvipprotocol@gmail.com</p>
+                        <p className="text-luxury-black/70">info@sirolevvipprotocolltd.co.ke</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">

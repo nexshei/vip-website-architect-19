@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { MapPin, Mail, Clock, Users, Facebook, Youtube, X } from 'lucide-react';
+import { MapPin, Mail, Clock, Users, Facebook, Youtube, X, Linkedin, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const quickLinks = [
@@ -43,8 +43,8 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="text-luxury-gold" size={20} />
-                <a href="mailto:sirolevipprotocol@gmail.com" className="text-luxury-white/80 hover:text-luxury-gold transition-colors">
-                  sirolevipprotocol@gmail.com
+                <a href="mailto:info@sirolevvipprotocolltd.co.ke" className="text-luxury-white/80 hover:text-luxury-gold transition-colors">
+                  info@sirolevvipprotocolltd.co.ke
                 </a>
               </div>
               <div className="flex items-center space-x-3">
@@ -56,7 +56,7 @@ const Footer = () => {
             {/* Social Media Icons */}
             <div className="flex space-x-4">
               <a 
-                href="#" 
+                href="https://www.facebook.com/sirolevvipprotocol/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
@@ -65,22 +65,40 @@ const Footer = () => {
                 <Facebook size={24} />
               </a>
               <a 
-                href="#" 
+                href="https://ke.linkedin.com/company/sir-ole-vvip-protocol" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
-                aria-label="YouTube"
+                aria-label="LinkedIn"
               >
-                <Youtube size={24} />
+                <Linkedin size={24} />
               </a>
               <a 
-                href="#" 
+                href="https://x.com/sirolevip?lang=en" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
                 aria-label="X (Twitter)"
               >
                 <X size={24} />
+              </a>
+              <a 
+                href="https://instagram.com/sir_ole_vvip_proocol" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram size={24} />
+              </a>
+              <a 
+                href="https://www.youtube.com/@sirolevvipprotocol" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-luxury-white/70 hover:text-luxury-gold transition-colors"
+                aria-label="YouTube"
+              >
+                <Youtube size={24} />
               </a>
             </div>
           </div>

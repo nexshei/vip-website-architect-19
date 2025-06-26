@@ -23,7 +23,7 @@ const Index = () => {
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+254712063461",
-      "email": "sirolevvipprotocol@gmail.com",
+      "email": "info@sirolevvipprotocolltd.co.ke",
       "contactType": "customer service"
     },
     "aggregateRating": {

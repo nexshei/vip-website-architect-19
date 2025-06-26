@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { ArrowRight, ChevronLeft, ChevronRight, X, ZoomIn, Calendar, Tag } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, X, ZoomIn, Calendar, Tag, Eye } from 'lucide-react';
 
 interface Photo {
   id: string;
@@ -24,7 +23,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [filteredPhotos, setFilteredPhotos] = useState<Photo[]>([]);
 
-  // Updated photo data with only the new visible images
+  // All photos - showing 8 on homepage, 2 additional on gallery page
   const photos: Photo[] = [
     {
       id: '7',
@@ -74,6 +73,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
       alt_text: 'VIP protocol team with distinguished guests at welcome reception',
       category: 'diplomatic'
     },
+    // Additional photos for gallery page only
     {
       id: '15',
       src: '/lovable-uploads/b69edc0b-0e29-4f2d-ab0d-abd974ef5133.png',
@@ -111,7 +111,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     return () => clearTimeout(timer);
   }, [selectedCategory]);
 
-  // For homepage: show only 8 photos in carousel
+  // For homepage: show only first 8 photos
   const homepagePhotos = photos.slice(0, 8);
   const photosPerSlide = 4;
   const totalSlides = Math.ceil(homepagePhotos.length / photosPerSlide);
@@ -148,146 +148,121 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
 
   if (isHomepage) {
     return (
-      <section className="py-24 bg-gradient-to-br from-luxury-white via-luxury-gold/3 to-luxury-white relative overflow-hidden">
-        {/* Enhanced Background decorative elements */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-luxury-gold/20 to-luxury-gold/5 rounded-full blur-3xl opacity-60"></div>
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-tl from-luxury-gold/15 to-transparent rounded-full blur-2xl opacity-40"></div>
-        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-luxury-gold/8 rounded-full blur-3xl"></div>
+      <section className="py-32 bg-gradient-to-br from-luxury-white via-luxury-gold/5 to-luxury-white relative overflow-hidden">
+        {/* Professional Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-luxury-gold/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-luxury-gold/8 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-luxury-gold/5 rounded-full blur-3xl"></div>
+        </div>
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Enhanced Section Header */}
-          <div className="text-center mb-20">
-            <div className="inline-block">
-              <span className="text-luxury-gold text-sm font-bold tracking-widest uppercase mb-4 block">Portfolio Showcase</span>
-              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-playfair font-bold text-luxury-black mb-8 leading-tight">
-                Excellence in <span className="text-gradient-gold bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold bg-clip-text text-transparent">Action</span>
-              </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-luxury-gold to-luxury-gold-light mx-auto mb-8"></div>
-              <p className="text-xl sm:text-2xl text-luxury-black/70 max-w-4xl mx-auto leading-relaxed font-light">
-                Witness the pinnacle of VIP protocol service through our curated gallery of distinguished events and memorable occasions
-              </p>
+          {/* Premium Section Header */}
+          <div className="text-center mb-24">
+            <div className="inline-block mb-6">
+              <span className="inline-flex items-center px-6 py-3 rounded-full bg-luxury-gold/20 text-luxury-gold font-bold text-sm tracking-widest uppercase border border-luxury-gold/30">
+                <Eye className="mr-2" size={16} />
+                Portfolio Showcase
+              </span>
             </div>
+            <h2 className="text-6xl sm:text-7xl lg:text-8xl font-playfair font-bold text-luxury-black mb-10 leading-tight">
+              Excellence in <span className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold bg-clip-text text-transparent">Motion</span>
+            </h2>
+            <div className="flex items-center justify-center mb-8">
+              <div className="h-px bg-luxury-gold/30 w-24"></div>
+              <div className="mx-4 w-3 h-3 bg-luxury-gold rounded-full"></div>
+              <div className="h-px bg-luxury-gold/30 w-24"></div>
+            </div>
+            <p className="text-2xl sm:text-3xl text-luxury-black/70 max-w-5xl mx-auto leading-relaxed font-light">
+              Witness the artistry of VIP protocol service through our curated collection of distinguished events
+            </p>
           </div>
 
-          {/* Enhanced Carousel Container */}
-          <div className="relative max-w-8xl mx-auto">
-            <div className="overflow-hidden rounded-3xl shadow-2xl bg-gradient-to-br from-white via-luxury-gold/5 to-white p-8 backdrop-blur-sm border border-luxury-gold/20">
-              <div 
-                className="flex transition-all duration-1000 ease-out"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
-                {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                  <div key={slideIndex} className="flex-none w-full">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {homepagePhotos.slice(slideIndex * photosPerSlide, slideIndex * photosPerSlide + photosPerSlide).map((photo, index) => (
-                        <div
-                          key={photo.id}
-                          className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-4 cursor-pointer bg-white border-2 border-luxury-gold/30 hover:border-luxury-gold"
-                          onClick={() => openImageModal(photo)}
-                          style={{ animationDelay: `${index * 100}ms` }}
-                        >
-                          <div className="aspect-[4/3] overflow-hidden relative">
-                            <img
-                              src={photo.src}
-                              alt={photo.alt_text}
-                              className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-1000 ease-out"
-                              loading="lazy"
-                            />
-                            {/* Professional overlay gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/95 via-luxury-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-                            
-                            {/* Zoom icon */}
-                            <div className="absolute top-4 right-4 bg-luxury-gold/90 text-luxury-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100">
-                              <ZoomIn size={16} />
-                            </div>
+          {/* Professional Image Grid */}
+          <div className="max-w-7xl mx-auto mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {homepagePhotos.map((photo, index) => (
+                <div
+                  key={photo.id}
+                  className="group relative overflow-hidden rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-6 cursor-pointer bg-white border border-luxury-gold/20 hover:border-luxury-gold/60"
+                  onClick={() => openImageModal(photo)}
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="aspect-[4/3] overflow-hidden relative">
+                    <img
+                      src={photo.src}
+                      alt={photo.alt_text}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000 ease-out"
+                      loading="lazy"
+                    />
+                    
+                    {/* Professional Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                    
+                    {/* Premium Icons */}
+                    <div className="absolute top-6 right-6 bg-luxury-gold/95 text-luxury-black p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100">
+                      <ZoomIn size={18} />
+                    </div>
 
-                            {/* Enhanced content overlay */}
-                            <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-6 group-hover:translate-y-0">
-                              <div className="space-y-3">
-                                <div className="flex items-center space-x-2 text-luxury-gold text-xs">
-                                  <Tag size={12} />
-                                  <span className="font-bold uppercase tracking-wider">{photo.category}</span>
-                                </div>
-                                <p className="text-white text-sm font-medium leading-relaxed line-clamp-3">
-                                  {photo.alt_text}
-                                </p>
-                                <div className="flex items-center text-luxury-gold/80 text-xs">
-                                  <Calendar size={12} className="mr-1" />
-                                  <span>Professional Event</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Enhanced floating category badge */}
-                          <div className="absolute top-4 left-4 bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-luxury-black text-xs font-bold px-3 py-2 rounded-full backdrop-blur-sm border border-white/30 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-                            {photo.category.charAt(0).toUpperCase() + photo.category.slice(1)}
-                          </div>
+                    {/* Content Overlay */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-8 group-hover:translate-y-0">
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-3 text-luxury-gold text-sm">
+                          <Tag size={14} />
+                          <span className="font-bold uppercase tracking-wider">{photo.category}</span>
                         </div>
-                      ))}
+                        <p className="text-white text-base font-medium leading-relaxed line-clamp-2">
+                          {photo.alt_text}
+                        </p>
+                        <div className="flex items-center text-luxury-gold/90 text-sm font-medium">
+                          <Calendar size={14} className="mr-2" />
+                          <span>Professional Event</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Enhanced Carousel Navigation */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-6 top-1/2 -translate-y-1/2 bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black p-5 rounded-full shadow-2xl transition-all duration-500 hover:scale-125 z-20 border-3 border-white/50 backdrop-blur-sm group"
-            >
-              <ChevronLeft size={28} className="group-hover:animate-bounce" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-6 top-1/2 -translate-y-1/2 bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black p-5 rounded-full shadow-2xl transition-all duration-500 hover:scale-125 z-20 border-3 border-white/50 backdrop-blur-sm group"
-            >
-              <ChevronRight size={28} className="group-hover:animate-bounce" />
-            </button>
-
-            {/* Enhanced Slide indicators */}
-            <div className="flex justify-center mt-12 space-x-4">
-              {Array.from({ length: totalSlides }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`relative overflow-hidden rounded-full transition-all duration-500 ${
-                    index === currentSlide 
-                      ? 'w-12 h-4 bg-gradient-to-r from-luxury-gold to-luxury-gold-light shadow-xl' 
-                      : 'w-4 h-4 bg-luxury-gold/40 hover:bg-luxury-gold/70 shadow-lg'
-                  }`}
-                >
-                  {index === currentSlide && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold-light to-luxury-gold animate-pulse"></div>
-                  )}
-                </button>
+                  
+                  {/* Category Badge */}
+                  <div className="absolute top-6 left-6 bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-luxury-black text-sm font-bold px-4 py-2 rounded-full backdrop-blur-sm border border-white/40 shadow-xl transform group-hover:scale-110 transition-all duration-300">
+                    {photo.category.charAt(0).toUpperCase() + photo.category.slice(1)}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Enhanced Call to Action */}
-          <div className="text-center mt-20">
-            <div className="bg-gradient-to-br from-luxury-black/5 via-luxury-gold/10 to-luxury-black/5 rounded-3xl p-12 backdrop-blur-sm border-2 border-luxury-gold/30 shadow-2xl relative overflow-hidden">
-              {/* CTA Background decoration */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-luxury-gold/10 rounded-full blur-2xl"></div>
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-luxury-gold/20 rounded-full blur-xl"></div>
+          <div className="text-center">
+            <div className="bg-gradient-to-br from-white via-luxury-gold/10 to-white rounded-3xl p-16 backdrop-blur-sm border-2 border-luxury-gold/30 shadow-3xl relative overflow-hidden max-w-5xl mx-auto">
+              {/* CTA Background Effects */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-luxury-gold/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-luxury-gold/15 rounded-full blur-2xl"></div>
               
               <div className="relative z-10">
-                <h3 className="text-4xl sm:text-5xl font-playfair font-bold text-luxury-black mb-8 leading-tight">
-                  Discover Our Complete <span className="text-gradient-gold bg-gradient-to-r from-luxury-gold to-luxury-gold-light bg-clip-text text-transparent">Portfolio</span>
+                <div className="mb-8">
+                  <span className="inline-flex items-center px-6 py-3 rounded-full bg-luxury-gold/20 text-luxury-gold font-bold text-sm tracking-widest uppercase border border-luxury-gold/30 mb-6">
+                    <Eye className="mr-2" size={16} />
+                    View Complete Portfolio
+                  </span>
+                </div>
+                <h3 className="text-5xl sm:text-6xl font-playfair font-bold text-luxury-black mb-8 leading-tight">
+                  Explore Our Complete <span className="bg-gradient-to-r from-luxury-gold to-luxury-gold-light bg-clip-text text-transparent">Gallery</span>
                 </h3>
-                <p className="text-luxury-black/70 mb-10 max-w-3xl mx-auto text-xl leading-relaxed">
-                  Explore our extensive gallery showcasing years of excellence in VIP protocol services across diverse events and distinguished clientele
+                <p className="text-luxury-black/70 mb-12 max-w-3xl mx-auto text-2xl leading-relaxed">
+                  Discover our extensive collection showcasing years of excellence in VIP protocol services across diverse events and distinguished clientele
                 </p>
                 <Link to="/gallery">
                   <Button 
                     size="lg" 
-                    className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold hover:from-luxury-gold-dark hover:via-luxury-gold hover:to-luxury-gold-dark text-luxury-black font-bold px-12 py-8 text-xl transition-all duration-500 hover:scale-110 hover:shadow-2xl group rounded-full border-3 border-luxury-gold-dark/30 shadow-xl"
+                    className="bg-gradient-to-r from-luxury-gold via-luxury-gold-light to-luxury-gold hover:from-luxury-gold-dark hover:via-luxury-gold hover:to-luxury-gold-dark text-luxury-black font-bold px-16 py-8 text-2xl transition-all duration-500 hover:scale-110 hover:shadow-3xl group rounded-full border-2 border-luxury-gold-dark/40 shadow-2xl"
                   >
-                    View Complete Gallery
-                    <ArrowRight className="ml-4 group-hover:translate-x-2 transition-transform duration-500 group-hover:animate-bounce" size={24} />
+                    View All Photos
+                    <ArrowRight className="ml-4 group-hover:translate-x-3 transition-transform duration-500 group-hover:animate-pulse" size={28} />
                   </Button>
                 </Link>
+                <p className="text-luxury-black/50 text-lg mt-6 font-medium">
+                  {photos.length} Professional Events • Premium Portfolio
+                </p>
               </div>
             </div>
           </div>
@@ -295,7 +270,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
 
         {/* Enhanced Image Modal */}
         <Dialog open={!!selectedImage} onOpenChange={closeImageModal}>
-          <DialogContent className="max-w-6xl max-h-[95vh] p-0 bg-luxury-black/98 border-luxury-gold/50 border-2 shadow-2xl">
+          <DialogContent className="max-w-7xl max-h-[95vh] p-0 bg-luxury-black/98 border-luxury-gold/50 border-2 shadow-3xl rounded-2xl">
             <DialogTitle className="sr-only">
               {selectedImage?.alt_text || 'Gallery Image'}
             </DialogTitle>
@@ -303,21 +278,21 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
               {/* Modal Navigation */}
               <button
                 onClick={() => navigateImage('prev')}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-luxury-gold/20 hover:bg-luxury-gold/40 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-luxury-gold/30 hover:bg-luxury-gold/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110"
               >
-                <ChevronLeft size={24} />
+                <ChevronLeft size={28} />
               </button>
               <button
                 onClick={() => navigateImage('next')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-luxury-gold/20 hover:bg-luxury-gold/40 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-luxury-gold/30 hover:bg-luxury-gold/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110"
               >
-                <ChevronRight size={24} />
+                <ChevronRight size={28} />
               </button>
               <button
                 onClick={closeImageModal}
-                className="absolute top-6 right-6 z-20 bg-luxury-gold/20 hover:bg-luxury-gold/40 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+                className="absolute top-8 right-8 z-20 bg-luxury-gold/30 hover:bg-luxury-gold/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110"
               >
-                <X size={24} />
+                <X size={28} />
               </button>
               
               {selectedImage && (
@@ -326,24 +301,24 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
                     <img
                       src={selectedImage.src}
                       alt={selectedImage.alt_text}
-                      className="w-full h-auto max-h-[75vh] object-contain rounded-t-lg"
+                      className="w-full h-auto max-h-[75vh] object-contain rounded-t-2xl"
                     />
-                    <div className="absolute bottom-4 left-4 bg-luxury-gold/90 text-luxury-black px-4 py-2 rounded-full text-sm font-bold">
-                      {currentImageIndex + 1} of {isHomepage ? homepagePhotos.length : filteredPhotos.length}
+                    <div className="absolute bottom-6 left-6 bg-luxury-gold/95 text-luxury-black px-6 py-3 rounded-full text-lg font-bold">
+                      {currentImageIndex + 1} of {homepagePhotos.length}
                     </div>
                   </div>
-                  <div className="p-8 bg-gradient-to-r from-luxury-black to-luxury-black/90">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-2xl font-bold text-luxury-gold capitalize flex items-center">
-                        <Tag className="mr-2" size={20} />
+                  <div className="p-10 bg-gradient-to-r from-luxury-black to-luxury-black/95 rounded-b-2xl">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="text-3xl font-bold text-luxury-gold capitalize flex items-center">
+                        <Tag className="mr-3" size={24} />
                         {selectedImage.category}
                       </h3>
-                      <div className="flex items-center text-luxury-gold/80 text-sm">
-                        <Calendar size={16} className="mr-2" />
+                      <div className="flex items-center text-luxury-gold/80 text-lg">
+                        <Calendar size={18} className="mr-2" />
                         Professional Event
                       </div>
                     </div>
-                    <p className="text-luxury-white/90 leading-relaxed text-lg">
+                    <p className="text-luxury-white/90 leading-relaxed text-xl">
                       {selectedImage.alt_text}
                     </p>
                   </div>
@@ -356,10 +331,11 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     );
   }
 
+  // Gallery page layout remains the same but with all photos
   return (
     <section className="py-24 bg-luxury-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Enhanced Category Filter */}
+        {/* Category Filter */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-luxury-black mb-8 text-center">Filter by Category</h3>
           <div className="flex flex-wrap justify-center gap-3">
@@ -383,15 +359,12 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
                     {category.count}
                   </span>
                 </span>
-                {selectedCategory === category.id && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold-light to-luxury-gold rounded-full opacity-20 animate-pulse"></div>
-                )}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Enhanced Grid with Loading State */}
+        {/* Grid with Loading State */}
         <div className="relative">
           {isLoading && (
             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
@@ -432,7 +405,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
           </div>
         </div>
 
-        {/* Enhanced Image Modal for Gallery Page */}
+        {/* Image Modal for Gallery Page */}
         <Dialog open={!!selectedImage} onOpenChange={closeImageModal}>
           <DialogContent className="max-w-6xl max-h-[95vh] p-0 bg-luxury-black/98 border-luxury-gold/50 border-2">
             <DialogTitle className="sr-only">
