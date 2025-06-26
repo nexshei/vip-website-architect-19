@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import HeroSlider from './portfolio/HeroSlider';
 import ImageGrid from './portfolio/ImageGrid';
 import ImageModal from './portfolio/ImageModal';
 import PortfolioHeader from './portfolio/PortfolioHeader';
@@ -138,7 +137,6 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <PortfolioHeader />
-          <HeroSlider photos={homepagePhotos} onImageClick={openImageModal} />
           <ImageGrid photos={homepagePhotos} onImageClick={openImageModal} isHomepage={true} />
           
           {/* View Gallery Button */}
