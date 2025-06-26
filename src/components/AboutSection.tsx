@@ -1,4 +1,3 @@
-
 const AboutSection = () => {
   return (
     <section id="about" className="py-20 bg-luxury-white">
@@ -15,7 +14,7 @@ const AboutSection = () => {
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/20 to-luxury-gold-light/20 rounded-full blur-2xl transform scale-110"></div>
             <img 
-              src="/lovable-uploads/0edb32a5-ef4d-451a-b5dc-ce59d9fbbaca.png" 
+              src="/lovable-uploads/c8c41d47-43d1-4ff8-9931-38d6933001fb.png" 
               alt="Dennis Olele - CEO of Sir Ole VVIP Protocol Ltd" 
               className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 object-cover rounded-full border-4 border-luxury-gold shadow-2xl mx-auto mb-6 animate-scale-in"
             />
