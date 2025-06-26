@@ -11,15 +11,20 @@ const Careers = () => {
     email: '',
     phone: '',
     coverLetter: '',
-    resumeFile: null as File | null
+    resumeFile: null as File | null,
+    photoFile: null as File | null
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fileType: 'resume' | 'photo') => {
     const file = e.target.files?.[0];
     if (file) {
-      setFormData({ ...formData, resumeFile: file });
+      if (fileType === 'resume') {
+        setFormData({ ...formData, resumeFile: file });
+      } else {
+        setFormData({ ...formData, photoFile: file });
+      }
     }
   };
 
@@ -34,7 +39,14 @@ const Careers = () => {
         description: "Thank you for your interest. We'll review your application and get back to you.",
       });
 
-      setFormData({ fullName: '', email: '', phone: '', coverLetter: '', resumeFile: null });
+      setFormData({ 
+        fullName: '', 
+        email: '', 
+        phone: '', 
+        coverLetter: '', 
+        resumeFile: null, 
+        photoFile: null 
+      });
       setIsLoading(false);
     }, 1000);
   };
@@ -118,10 +130,19 @@ const Careers = () => {
                     <Input
                       type="file"
                       accept=".pdf,.doc,.docx"
-                      onChange={handleFileChange}
+                      onChange={(e) => handleFileChange(e, 'resume')}
                       className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                     />
                     <p className="text-sm text-luxury-black/60 mt-1">Upload your resume (PDF, DOC, DOCX)</p>
+                  </div>
+                  <div>
+                    <Input
+                      type="file"
+                      accept=".jpg,.jpeg,.png,.webp"
+                      onChange={(e) => handleFileChange(e, 'photo')}
+                      className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
+                    />
+                    <p className="text-sm text-luxury-black/60 mt-1">Upload your professional photo (JPG, PNG, WEBP)</p>
                   </div>
                   <Textarea
                     placeholder="Cover Letter - Tell us why you want to join our team..."
