@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -17,172 +17,94 @@ interface PortfolioGalleryProps {
 }
 
 const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<Photo | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [filteredPhotos, setFilteredPhotos] = useState<Photo[]>([]);
 
-  // All photos - showing 8 on homepage, all on gallery page
-  const photos: Photo[] = [
+  // Static photos for homepage - only 8 photos
+  const homepagePhotos: Photo[] = [
     {
-      id: '7',
+      id: '1',
       src: '/lovable-uploads/aac3f7a9-ba36-4ed8-a16e-ace88dc00a86.png',
       alt_text: 'Professional consultation meeting with protocol officers reviewing event plans',
       category: 'corporate'
     },
     {
-      id: '8',
+      id: '2',
       src: '/lovable-uploads/b9ba68f8-b176-49d5-a8ff-c9f8318086aa.png',
       alt_text: 'Professional protocol team in navy suits at corporate health event',
       category: 'corporate'
     },
     {
-      id: '9',
+      id: '3',
       src: '/lovable-uploads/a986df73-48b9-47e1-9217-a017116e525b.png',
       alt_text: 'Distinguished VIP protocol team at health junction corporate event',
       category: 'corporate'
     },
     {
-      id: '10',
+      id: '4',
       src: '/lovable-uploads/106281aa-04c2-4533-92e5-e1044566520f.png',
       alt_text: 'VIP protocol officers with guests at luxury corporate reception',
       category: 'private'
     },
     {
-      id: '11',
+      id: '5',
       src: '/lovable-uploads/b7c270ed-d140-46b1-adc8-3123807ffd1a.png',
       alt_text: 'Professional team in traditional orange attire for cultural ceremony',
       category: 'cultural'
     },
     {
-      id: '12',
+      id: '6',
       src: '/lovable-uploads/9adfbdd8-7ff7-41c3-8228-65e5803640f3.png',
       alt_text: 'Elegant bridal party in matching orange gowns for traditional wedding ceremony',
       category: 'wedding'
     },
     {
-      id: '13',
+      id: '7',
       src: '/lovable-uploads/016009e8-2075-462b-bfa8-f2fe1a37581c.png',
       alt_text: 'Professional protocol officers at corporate registration desk',
       category: 'corporate'
     },
     {
-      id: '14',
+      id: '8',
       src: '/lovable-uploads/2417aefe-5fed-43f0-b77b-4c8ee078ddcb.png',
       alt_text: 'VIP protocol team with distinguished guests at welcome reception',
       category: 'diplomatic'
-    },
-    // Additional photos for gallery page only
+    }
+  ];
+
+  // All photos for gallery page
+  const allPhotos: Photo[] = [
+    ...homepagePhotos,
     {
-      id: '15',
+      id: '9',
       src: '/lovable-uploads/b69edc0b-0e29-4f2d-ab0d-abd974ef5133.png',
       alt_text: 'Professional protocol team with security personnel at VIP event',
       category: 'government'
     },
     {
-      id: '16',
+      id: '10',
       src: '/lovable-uploads/c8c41d47-43d1-4ff8-9931-38d6933001fb.png',
       alt_text: 'Cultural protocol team in traditional African attire for special ceremony',
       category: 'cultural'
     },
-    // New photos from uploads
     {
-      id: '17',
+      id: '11',
       src: '/lovable-uploads/f0a0780f-b1f0-4d8a-b394-db906dc05116.png',
       alt_text: 'Professional VIP protocol officers conducting ceremonial presentation at luxury event',
       category: 'corporate'
     },
     {
-      id: '18',
+      id: '12',
       src: '/lovable-uploads/9ec281e9-4c07-4198-89a1-573dbc8e61de.png',
       alt_text: 'Elegant protocol team in white and gold uniforms with luxury throne setup',
       category: 'private'
-    },
-    {
-      id: '19',
-      src: '/lovable-uploads/ccf892db-d8ea-4189-ae45-50344ced9a88.png',
-      alt_text: 'VIP protocol team with client in white attire at birthday celebration event',
-      category: 'private'
-    },
-    {
-      id: '20',
-      src: '/lovable-uploads/c7d19e2e-f161-4be2-a50d-1c6a85320e6b.png',
-      alt_text: 'Professional wedding protocol team accompanying bride and groom in elegant ceremony',
-      category: 'wedding'
-    },
-    {
-      id: '21',
-      src: '/lovable-uploads/432f85c5-49c0-4dd6-81f9-8d6d6fbf2bbe.png',
-      alt_text: 'VIP protocol officers leading red carpet entrance at premium event venue',
-      category: 'corporate'
-    },
-    {
-      id: '22',
-      src: '/lovable-uploads/ddf4396c-ee99-4aef-be02-86b8d78d6d86.png',
-      alt_text: 'Protocol team presenting award recognition at distinguished corporate ceremony',
-      category: 'corporate'
-    },
-    {
-      id: '23',
-      src: '/lovable-uploads/bbbd1877-da98-4cfc-be25-35dc5bd41a96.png',
-      alt_text: 'Professional protocol officers with ceremonial presentations at special event',
-      category: 'corporate'
-    },
-    {
-      id: '24',
-      src: '/lovable-uploads/307ff290-d4b5-4d20-9cd2-1784dc0e3bf9.png',
-      alt_text: 'VIP protocol team with government officials at formal red carpet ceremony',
-      category: 'government'
-    },
-    {
-      id: '25',
-      src: '/lovable-uploads/e6684cf4-f8ff-4d1a-bd1e-961f57426619.png',
-      alt_text: 'Professional protocol team in black and gold attire at corporate gathering',
-      category: 'corporate'
     }
   ];
 
-  const categories = [
-    { id: 'all', name: 'All Events', count: photos.length },
-    { id: 'corporate', name: 'Corporate', count: photos.filter(p => p.category === 'corporate').length },
-    { id: 'diplomatic', name: 'Diplomatic', count: photos.filter(p => p.category === 'diplomatic').length },
-    { id: 'wedding', name: 'Weddings', count: photos.filter(p => p.category === 'wedding').length },
-    { id: 'government', name: 'Government', count: photos.filter(p => p.category === 'government').length },
-    { id: 'private', name: 'Private Events', count: photos.filter(p => p.category === 'private').length },
-    { id: 'cultural', name: 'Cultural', count: photos.filter(p => p.category === 'cultural').length }
-  ];
-
-  // Filter photos with smooth transition
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      const filtered = selectedCategory === 'all' 
-        ? photos 
-        : photos.filter(photo => photo.category === selectedCategory);
-      setFilteredPhotos(filtered);
-      setIsLoading(false);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [selectedCategory]);
-
-  // For homepage: show only first 8 photos
-  const homepagePhotos = photos.slice(0, 8);
-  const photosPerSlide = 4;
-  const totalSlides = Math.ceil(homepagePhotos.length / photosPerSlide);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
+  const displayPhotos = isHomepage ? homepagePhotos : allPhotos;
 
   const openImageModal = (photo: Photo) => {
     setSelectedImage(photo);
-    const displayPhotos = isHomepage ? homepagePhotos : filteredPhotos;
     setCurrentImageIndex(displayPhotos.findIndex(p => p.id === photo.id));
   };
 
@@ -191,7 +113,6 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   };
 
   const navigateImage = (direction: 'prev' | 'next') => {
-    const displayPhotos = isHomepage ? homepagePhotos : filteredPhotos;
     let newIndex;
     if (direction === 'next') {
       newIndex = (currentImageIndex + 1) % displayPhotos.length;
@@ -234,7 +155,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
             </p>
           </div>
 
-          {/* Professional Image Grid */}
+          {/* Professional Image Grid - Only 8 photos */}
           <div className="max-w-7xl mx-auto mb-20">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {homepagePhotos.map((photo, index) => (
@@ -317,7 +238,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
                   </Button>
                 </Link>
                 <p className="text-luxury-black/50 text-lg mt-6 font-medium">
-                  {photos.length} Professional Events • Premium Portfolio
+                  Professional Portfolio • Premium Events
                 </p>
               </div>
             </div>
@@ -387,78 +308,40 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     );
   }
 
-  // Gallery page layout with all photos including new ones
+  // Gallery page layout - no category filters, just show all photos
   return (
     <section className="py-24 bg-luxury-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Category Filter */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-bold text-luxury-black mb-8 text-center">Filter by Category</h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`group relative px-8 py-4 rounded-full font-semibold transition-all duration-500 transform hover:scale-105 ${
-                  selectedCategory === category.id
-                    ? 'bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-luxury-black shadow-xl scale-105 border-2 border-luxury-gold-dark'
-                    : 'bg-luxury-black/10 text-luxury-black hover:bg-luxury-gold/20 hover:shadow-lg border-2 border-transparent hover:border-luxury-gold/30'
-                }`}
-              >
-                <span className="relative z-10 flex items-center">
-                  {category.name}
-                  <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
-                    selectedCategory === category.id 
-                      ? 'bg-luxury-black/20 text-luxury-black' 
-                      : 'bg-luxury-gold/20 text-luxury-gold'
-                  }`}>
-                    {category.count}
-                  </span>
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Grid with Loading State */}
-        <div className="relative">
-          {isLoading && (
-            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-luxury-gold border-t-transparent"></div>
-            </div>
-          )}
-          
-          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 transition-all duration-500 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
-            {filteredPhotos.map((photo, index) => (
-              <div
-                key={photo.id}
-                className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-700 bg-white transform hover:-translate-y-3 cursor-pointer border-2 border-luxury-gold/20 hover:border-luxury-gold"
-                onClick={() => openImageModal(photo)}
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <img
-                    src={photo.src}
-                    alt={photo.alt_text}
-                    className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-1000"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex items-end">
-                    <div className="p-6 text-white transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
-                      <div className="flex items-center space-x-2 text-luxury-gold text-xs mb-2">
-                        <Tag size={12} />
-                        <span className="font-bold uppercase tracking-wider">{photo.category}</span>
-                      </div>
-                      <p className="text-sm font-medium leading-relaxed">{photo.alt_text}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {allPhotos.map((photo, index) => (
+            <div
+              key={photo.id}
+              className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-700 bg-white transform hover:-translate-y-3 cursor-pointer border-2 border-luxury-gold/20 hover:border-luxury-gold"
+              onClick={() => openImageModal(photo)}
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <div className="aspect-[4/3] overflow-hidden relative">
+                <img
+                  src={photo.src}
+                  alt={photo.alt_text}
+                  className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-1000"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex items-end">
+                  <div className="p-6 text-white transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
+                    <div className="flex items-center space-x-2 text-luxury-gold text-xs mb-2">
+                      <Tag size={12} />
+                      <span className="font-bold uppercase tracking-wider">{photo.category}</span>
                     </div>
-                  </div>
-                  <div className="absolute top-4 right-4 bg-luxury-gold/90 text-luxury-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100">
-                    <ZoomIn size={16} />
+                    <p className="text-sm font-medium leading-relaxed">{photo.alt_text}</p>
                   </div>
                 </div>
+                <div className="absolute top-4 right-4 bg-luxury-gold/90 text-luxury-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100">
+                  <ZoomIn size={16} />
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         {/* Image Modal for Gallery Page */}
@@ -496,7 +379,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
                       className="w-full h-auto max-h-[75vh] object-contain rounded-t-lg"
                     />
                     <div className="absolute bottom-4 left-4 bg-luxury-gold/90 text-luxury-black px-4 py-2 rounded-full text-sm font-bold">
-                      {currentImageIndex + 1} of {filteredPhotos.length}
+                      {currentImageIndex + 1} of {allPhotos.length}
                     </div>
                   </div>
                   <div className="p-8 bg-gradient-to-r from-luxury-black to-luxury-black/90">
