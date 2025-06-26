@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const BookMeeting = () => {
   const [formData, setFormData] = useState({
@@ -25,41 +26,36 @@ const BookMeeting = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/send-notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'meeting',
-          fullName: formData.fullName,
+      const { error } = await supabase
+        .from('meeting_requests')
+        .insert([{
+          full_name: formData.fullName,
           email: formData.email,
           phone: formData.phone,
-          eventType: formData.eventType,
-          eventDate: formData.eventDate,
-          location: formData.location,
-          protocolOfficers: formData.protocolOfficers,
-          vision: formData.vision
-        }),
-      });
+          event_type: formData.eventType || null,
+          event_date: formData.eventDate || null,
+          location: formData.location || null,
+          protocol_officers: formData.protocolOfficers || null,
+          vision: formData.vision || null
+        }]);
 
-      if (response.ok) {
-        toast({
-          title: "Meeting request submitted!",
-          description: "Thank you for your request. We'll contact you within 24 hours.",
-        });
-        setFormData({
-          fullName: '', email: '', phone: '', eventDate: '', 
-          eventType: '', location: '', protocolOfficers: '', vision: ''
-        });
-      } else {
-        throw new Error('Failed to submit meeting request');
+      if (error) {
+        throw error;
       }
-    } catch (error) {
+
+      toast({
+        title: "Meeting request submitted!",
+        description: "Thank you for your request. We'll contact you within 24 hours.",
+      });
+      setFormData({
+        fullName: '', email: '', phone: '', eventDate: '', 
+        eventType: '', location: '', protocolOfficers: '', vision: ''
+      });
+    } catch (error: any) {
       console.error('Error submitting meeting request:', error);
       toast({
         title: "Error submitting request",
-        description: "Please try again or contact us directly.",
+        description: error.message || "Please try again or contact us directly.",
         variant: "destructive",
       });
     } finally {
@@ -108,6 +104,7 @@ const BookMeeting = () => {
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required
                   className="border-luxury-black/20 focus:border-luxury-gold focus:ring-luxury-gold"
                 />
                 <Input

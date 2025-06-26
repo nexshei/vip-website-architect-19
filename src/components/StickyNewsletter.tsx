@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const StickyNewsletter = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -18,32 +19,25 @@ const StickyNewsletter = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/send-notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'newsletter',
-          email: email
-        }),
-      });
+      const { error } = await supabase
+        .from('newsletter_subscriptions')
+        .insert([{ email, source: 'sticky_newsletter' }]);
 
-      if (response.ok) {
-        toast({
-          title: "Successfully subscribed!",
-          description: "Thank you for subscribing to our newsletter.",
-        });
-        setEmail('');
-        setIsVisible(false);
-      } else {
-        throw new Error('Failed to subscribe');
+      if (error) {
+        throw error;
       }
-    } catch (error) {
+
+      toast({
+        title: "Successfully subscribed!",
+        description: "Thank you for subscribing to our newsletter.",
+      });
+      setEmail('');
+      setIsVisible(false);
+    } catch (error: any) {
       console.error('Error subscribing to newsletter:', error);
       toast({
         title: "Error subscribing",
-        description: "Please try again or contact us directly.",
+        description: error.message || "Please try again or contact us directly.",
         variant: "destructive",
       });
     } finally {

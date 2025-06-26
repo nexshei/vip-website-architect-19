@@ -1,8 +1,10 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Careers = () => {
   const [formData, setFormData] = useState({
@@ -32,43 +34,39 @@ const Careers = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/send-notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'career',
-          fullName: formData.fullName,
+      const { error } = await supabase
+        .from('career_applications')
+        .insert([{
+          full_name: formData.fullName,
           email: formData.email,
-          phone: formData.phone,
-          coverLetter: formData.coverLetter,
-          hasResume: !!formData.resumeFile,
-          hasPhoto: !!formData.photoFile
-        }),
-      });
+          phone: formData.phone || null,
+          cover_letter: formData.coverLetter || null,
+          // Note: File uploads would need storage bucket setup - for now just noting files exist
+          cv_url: formData.resumeFile ? `pending_upload_${formData.resumeFile.name}` : null,
+          professional_photo_url: formData.photoFile ? `pending_upload_${formData.photoFile.name}` : null
+        }]);
 
-      if (response.ok) {
-        toast({
-          title: "Application submitted successfully!",
-          description: "Thank you for your interest. We'll review your application and get back to you.",
-        });
-        setFormData({ 
-          fullName: '', 
-          email: '', 
-          phone: '', 
-          coverLetter: '', 
-          resumeFile: null, 
-          photoFile: null 
-        });
-      } else {
-        throw new Error('Failed to submit application');
+      if (error) {
+        throw error;
       }
-    } catch (error) {
+
+      toast({
+        title: "Application submitted successfully!",
+        description: "Thank you for your interest. We'll review your application and get back to you.",
+      });
+      setFormData({ 
+        fullName: '', 
+        email: '', 
+        phone: '', 
+        coverLetter: '', 
+        resumeFile: null, 
+        photoFile: null 
+      });
+    } catch (error: any) {
       console.error('Error submitting application:', error);
       toast({
         title: "Error submitting application",
-        description: "Please try again or contact us directly.",
+        description: error.message || "Please try again or contact us directly.",
         variant: "destructive",
       });
     } finally {

@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   validateTextField,
   validateEmail,
@@ -79,40 +80,35 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/send-notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'vvip',
-          fullName: state.fullName,
+      const { error } = await supabase
+        .from('vvip_service_requests')
+        .insert([{
+          full_name: state.fullName,
           email: state.email,
           phone: state.phone,
-          eventDate: state.eventDate,
-          eventType: state.eventType,
-          serviceType: state.serviceType,
-          location: state.location,
-          protocolOfficers: state.protocolOfficers,
-          requirements: state.requirements
-        }),
-      });
+          event_date: state.eventDate || null,
+          event_type: state.eventType || null,
+          service_type: state.serviceType || null,
+          location: state.location || null,
+          protocol_officers: state.protocolOfficers || null,
+          requirements: state.requirements || null
+        }]);
 
-      if (response.ok) {
-        toast({
-          title: "Service Request Submitted!",
-          description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
-        });
-        setIsOpen(false);
-        resetForm();
-      } else {
-        throw new Error('Failed to submit VVIP service request');
+      if (error) {
+        throw error;
       }
-    } catch (error) {
+
+      toast({
+        title: "Service Request Submitted!",
+        description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",
+      });
+      setIsOpen(false);
+      resetForm();
+    } catch (error: any) {
       console.error('Error submitting VVIP service request:', error);
       toast({
         title: "Error submitting request",
-        description: "Please try again or contact us directly.",
+        description: error.message || "Please try again or contact us directly.",
         variant: "destructive",
       });
     } finally {

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -42,33 +43,28 @@ const Contact = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/send-notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'contact',
-          name: formData.fullName,
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([{
+          full_name: formData.fullName,
           email: formData.email,
           message: formData.message
-        }),
-      });
+        }]);
 
-      if (response.ok) {
-        toast({
-          title: "Message sent successfully!",
-          description: "Thank you for contacting us. We'll get back to you soon.",
-        });
-        setFormData({ fullName: '', email: '', message: '' });
-      } else {
-        throw new Error('Failed to send message');
+      if (error) {
+        throw error;
       }
-    } catch (error) {
+
+      toast({
+        title: "Message sent successfully!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+      setFormData({ fullName: '', email: '', message: '' });
+    } catch (error: any) {
       console.error('Error sending message:', error);
       toast({
         title: "Error sending message",
-        description: "Please try again or contact us directly.",
+        description: error.message || "Please try again or contact us directly.",
         variant: "destructive",
       });
     } finally {
