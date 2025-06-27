@@ -49,7 +49,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     }
   ];
 
-  // All photos for gallery page - excluding the 4 newly uploaded photos
+  // All photos for gallery page - including the new photos
   const allPhotos: Photo[] = [
     ...homepagePhotos,
     {
@@ -99,6 +99,67 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
       src: '/lovable-uploads/9ec281e9-4c07-4198-89a1-573dbc8e61de.png',
       alt_text: 'Elegant protocol team in white and gold uniforms with luxury throne setup',
       category: 'private'
+    },
+    // New photos added to gallery only
+    {
+      id: '13',
+      src: '/lovable-uploads/94161276-0f23-4661-9625-dad844e5169d.png',
+      alt_text: 'Professional protocol team with VIP guests at corporate welcome event',
+      category: 'corporate'
+    },
+    {
+      id: '14',
+      src: '/lovable-uploads/69047a0e-a94f-4b79-8dcb-d8c39b3a47de.png',
+      alt_text: 'Military band performance at formal ceremonial reception',
+      category: 'ceremonial'
+    },
+    {
+      id: '15',
+      src: '/lovable-uploads/c4164ef2-3039-4da8-8866-b724c7d21d05.png',
+      alt_text: 'VIP protocol escort service with distinguished guests at reception venue',
+      category: 'corporate'
+    },
+    {
+      id: '16',
+      src: '/lovable-uploads/34645696-b6c3-487f-acfc-dbc784f9eb91.png',
+      alt_text: 'Formal military band ceremony with protocol team at luxury venue',
+      category: 'ceremonial'
+    },
+    {
+      id: '17',
+      src: '/lovable-uploads/7612939b-9657-4ab6-b9e7-65f3226318f9.png',
+      alt_text: 'High-level diplomatic protocol service with government officials',
+      category: 'diplomatic'
+    },
+    {
+      id: '18',
+      src: '/lovable-uploads/2eb1e521-d5a0-4428-a32a-0bb8f75f2dd8.png',
+      alt_text: 'Professional VIP escort and protocol service at outdoor diplomatic event',
+      category: 'diplomatic'
+    },
+    {
+      id: '19',
+      src: '/lovable-uploads/96b60c50-86cb-4c65-85ed-65523427bc36.png',
+      alt_text: 'Luxury hospitality team in white formal attire at premium venue',
+      category: 'hospitality'
+    },
+    {
+      id: '20',
+      src: '/lovable-uploads/d66da462-e2b0-4555-b4e8-4173dfbcff0e.png',
+      alt_text: 'Professional VIP welcome and handshake protocol service',
+      category: 'corporate'
+    },
+    {
+      id: '21',
+      src: '/lovable-uploads/791306ad-d3b3-447c-adcb-85dd9d0a1e61.png',
+      alt_text: 'Executive protocol team facilitating high-level business meetings',
+      category: 'corporate'
+    },
+    {
+      id: '22',
+      src: '/lovable-uploads/0ebcc6c9-d405-4bc8-8f70-51fe000c78de.png',
+      alt_text: 'Distinguished protocol officers in formal attire at executive event',
+      category: 'corporate'
     }
   ];
 
