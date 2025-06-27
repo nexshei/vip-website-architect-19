@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -68,30 +67,46 @@ const Careers = () => {
     
     console.log(`Attempting to upload file to ${bucket}/${fileName}`);
     
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(fileName, file, {
-        cacheControl: '3600',
-        upsert: false
-      });
+    try {
+      const { data, error } = await supabase.storage
+        .from(bucket)
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
-    if (error) {
-      console.error(`Upload error for ${fileName}:`, error);
-      throw new Error(`Failed to upload ${file.name}: ${error.message}`);
+      if (error) {
+        console.error(`Upload error for ${fileName}:`, error);
+        throw new Error(`Failed to upload ${file.name}: ${error.message}`);
+      }
+
+      console.log(`Successfully uploaded file:`, data);
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(fileName);
+
+      console.log(`Generated public URL:`, urlData.publicUrl);
+      return urlData.publicUrl;
+    } catch (uploadError) {
+      console.error(`File upload failed:`, uploadError);
+      throw uploadError;
     }
-
-    console.log(`Successfully uploaded file:`, data);
-
-    // Get public URL
-    const { data: urlData } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(fileName);
-
-    return urlData.publicUrl;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.fullName || !formData.email || !formData.coverLetter) {
+      toast({
+        title: "Required fields missing",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -114,16 +129,20 @@ const Careers = () => {
 
       // Insert career application data
       console.log('Inserting career application data...');
+      const applicationData = {
+        full_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone || null,
+        cover_letter: formData.coverLetter,
+        cv_url: resumeUrl,
+        professional_photo_url: photoUrl
+      };
+      
+      console.log('Application data to insert:', applicationData);
+      
       const { error } = await supabase
         .from('career_applications')
-        .insert({
-          full_name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone || null,
-          cover_letter: formData.coverLetter || null,
-          cv_url: resumeUrl,
-          professional_photo_url: photoUrl
-        });
+        .insert(applicationData);
 
       if (error) {
         console.error('Database insert error:', error);
@@ -216,7 +235,7 @@ const Careers = () => {
                 <h2 className="text-3xl font-playfair font-bold text-luxury-black mb-6">Apply Now</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <Input
-                    placeholder="Full Name"
+                    placeholder="Full Name *"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     required
@@ -224,7 +243,7 @@ const Careers = () => {
                   />
                   <Input
                     type="email"
-                    placeholder="Email Address"
+                    placeholder="Email Address *"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
@@ -262,7 +281,7 @@ const Careers = () => {
                     </p>
                   </div>
                   <Textarea
-                    placeholder="Cover Letter - Tell us why you want to join our team..."
+                    placeholder="Cover Letter * - Tell us why you want to join our team..."
                     rows={6}
                     value={formData.coverLetter}
                     onChange={(e) => setFormData({ ...formData, coverLetter: e.target.value })}
