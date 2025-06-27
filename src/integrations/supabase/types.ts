@@ -87,6 +87,48 @@ export type Database = {
         }
         Relationships: []
       }
+      clients: {
+        Row: {
+          address: string | null
+          client_type: string | null
+          company: string | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          notes: string | null
+          phone: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string | null
+          client_type?: string | null
+          company?: string | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          client_type?: string | null
+          company?: string | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           admin_notes: string | null
@@ -156,6 +198,96 @@ export type Database = {
           sent_at?: string | null
           status?: string | null
           subject?: string
+        }
+        Relationships: []
+      }
+      inventory_items: {
+        Row: {
+          category: string
+          condition: string | null
+          created_at: string | null
+          id: string
+          last_checked: string | null
+          location: string | null
+          name: string
+          notes: string | null
+          quantity: number | null
+          supplier: string | null
+          unit_price: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          category: string
+          condition?: string | null
+          created_at?: string | null
+          id?: string
+          last_checked?: string | null
+          location?: string | null
+          name: string
+          notes?: string | null
+          quantity?: number | null
+          supplier?: string | null
+          unit_price?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          condition?: string | null
+          created_at?: string | null
+          id?: string
+          last_checked?: string | null
+          location?: string | null
+          name?: string
+          notes?: string | null
+          quantity?: number | null
+          supplier?: string | null
+          unit_price?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      job_postings: {
+        Row: {
+          application_deadline: string | null
+          created_at: string | null
+          department: string | null
+          description: string | null
+          employment_type: string | null
+          id: string
+          location: string | null
+          requirements: string[] | null
+          salary_range: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          application_deadline?: string | null
+          created_at?: string | null
+          department?: string | null
+          description?: string | null
+          employment_type?: string | null
+          id?: string
+          location?: string | null
+          requirements?: string[] | null
+          salary_range?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          application_deadline?: string | null
+          created_at?: string | null
+          department?: string | null
+          description?: string | null
+          employment_type?: string | null
+          id?: string
+          location?: string | null
+          requirements?: string[] | null
+          salary_range?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -240,6 +372,54 @@ export type Database = {
           source?: string | null
           subscribed_at?: string | null
           unsubscribed_at?: string | null
+        }
+        Relationships: []
+      }
+      staff_members: {
+        Row: {
+          bio: string | null
+          created_at: string | null
+          department: string | null
+          email: string
+          full_name: string
+          hire_date: string | null
+          id: string
+          phone: string | null
+          position: string
+          profile_image_url: string | null
+          salary: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string | null
+          department?: string | null
+          email: string
+          full_name: string
+          hire_date?: string | null
+          id?: string
+          phone?: string | null
+          position: string
+          profile_image_url?: string | null
+          salary?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string | null
+          department?: string | null
+          email?: string
+          full_name?: string
+          hire_date?: string | null
+          id?: string
+          phone?: string | null
+          position?: string
+          profile_image_url?: string | null
+          salary?: number | null
+          status?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }

@@ -146,12 +146,12 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
             </p>
           </div>
           
-          {/* Gallery Grid - EXACTLY 4 PHOTOS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {/* Gallery Grid - SINGLE ROW */}
+          <div className="flex flex-wrap justify-center gap-8 mb-16">
             {homepagePhotos.map((photo, index) => (
               <div
                 key={photo.id}
-                className="group relative overflow-hidden rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-6 cursor-pointer bg-white border border-luxury-gold/20 hover:border-luxury-gold/60"
+                className="group relative overflow-hidden rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-6 cursor-pointer bg-white border border-luxury-gold/20 hover:border-luxury-gold/60 w-72"
                 onClick={() => openImageModal(photo)}
                 style={{ animationDelay: `${index * 150}ms` }}
               >
