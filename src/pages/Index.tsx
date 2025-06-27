@@ -1,6 +1,7 @@
 
 import SEO from '../components/SEO';
 import HeroSection from '../components/HeroSection';
+import PortfolioGallery from '../components/PortfolioGallery';
 import WhyChooseUsSection from '../components/WhyChooseUsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import NewsletterSection from '../components/NewsletterSection';
@@ -43,6 +44,7 @@ const Index = () => {
       />
       <div className="pt-20">
         <HeroSection />
+        <PortfolioGallery isHomepage={true} />
         <WhyChooseUsSection />
         <TestimonialsSection />
         <NewsletterSection />
