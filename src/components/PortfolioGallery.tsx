@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import ImageGrid from './portfolio/ImageGrid';
 import ImageModal from './portfolio/ImageModal';
@@ -50,7 +49,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
     }
   ];
 
-  // All photos for gallery page - including new uploaded photos
+  // All photos for gallery page - excluding the 4 newly uploaded photos
   const allPhotos: Photo[] = [
     ...homepagePhotos,
     {
@@ -99,31 +98,6 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
       id: '12',
       src: '/lovable-uploads/9ec281e9-4c07-4198-89a1-573dbc8e61de.png',
       alt_text: 'Elegant protocol team in white and gold uniforms with luxury throne setup',
-      category: 'private'
-    },
-    // New uploaded photos
-    {
-      id: '13',
-      src: '/lovable-uploads/3b703316-e029-43ff-b60e-fe597b5b7635.png',
-      alt_text: 'Professional VIP protocol team with distinguished guest at special ceremony',
-      category: 'corporate'
-    },
-    {
-      id: '14',
-      src: '/lovable-uploads/ce270219-704d-4f79-8172-0d0039c4414b.png',
-      alt_text: 'Elegant dining setup with luxury table arrangements and red napkin details',
-      category: 'private'
-    },
-    {
-      id: '15',
-      src: '/lovable-uploads/fe884492-664b-4874-86c4-5a7eaee9525c.png',
-      alt_text: 'Professional protocol team in white double-breasted uniforms for VIP service',
-      category: 'diplomatic'
-    },
-    {
-      id: '16',
-      src: '/lovable-uploads/e8bbdad8-b720-4295-adda-a7c5d53b44da.png',
-      alt_text: 'Luxury dining place setting with elegant red napkin and gold dinnerware',
       category: 'private'
     }
   ];
