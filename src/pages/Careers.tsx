@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -59,14 +60,27 @@ const Careers = () => {
   };
 
   const uploadFile = async (file: File, bucket: string, folder: string) => {
-    const fileName = `${folder}/${Date.now()}_${file.name}`;
+    // Generate a unique filename to avoid conflicts
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 15);
+    const fileExtension = file.name.split('.').pop();
+    const fileName = `${folder}/${timestamp}_${randomString}.${fileExtension}`;
+    
+    console.log(`Attempting to upload file to ${bucket}/${fileName}`);
+    
     const { data, error } = await supabase.storage
       .from(bucket)
-      .upload(fileName, file);
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
 
     if (error) {
+      console.error(`Upload error for ${fileName}:`, error);
       throw new Error(`Failed to upload ${file.name}: ${error.message}`);
     }
+
+    console.log(`Successfully uploaded file:`, data);
 
     // Get public URL
     const { data: urlData } = supabase.storage
@@ -86,15 +100,20 @@ const Careers = () => {
 
       // Upload resume file if provided
       if (formData.resumeFile) {
+        console.log('Uploading resume file...');
         resumeUrl = await uploadFile(formData.resumeFile, 'documents', 'career_applications');
+        console.log('Resume uploaded successfully:', resumeUrl);
       }
 
-      // Upload photo file if provided
+      // Upload photo file if provided  
       if (formData.photoFile) {
+        console.log('Uploading photo file...');
         photoUrl = await uploadFile(formData.photoFile, 'photos', 'career_applications');
+        console.log('Photo uploaded successfully:', photoUrl);
       }
 
       // Insert career application data
+      console.log('Inserting career application data...');
       const { error } = await supabase
         .from('career_applications')
         .insert({
@@ -107,9 +126,11 @@ const Careers = () => {
         });
 
       if (error) {
+        console.error('Database insert error:', error);
         throw error;
       }
 
+      console.log('Career application submitted successfully');
       toast({
         title: "Application submitted successfully!",
         description: "Thank you for your interest. We'll review your application and get back to you.",
