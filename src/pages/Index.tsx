@@ -44,7 +44,9 @@ const Index = () => {
       />
       <div className="pt-20">
         <HeroSection />
-        <PortfolioGallery isHomepage={true} />
+        <div id="portfolio">
+          <PortfolioGallery isHomepage={true} />
+        </div>
         <WhyChooseUsSection />
         <TestimonialsSection />
         <NewsletterSection />
