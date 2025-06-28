@@ -98,6 +98,30 @@ export function useVipConciergeForm(setIsOpen: (open: boolean) => void) {
         throw error;
       }
 
+      // Send email notification
+      try {
+        const { error: emailError } = await supabase.functions.invoke('send-notifications', {
+          body: {
+            type: 'vvip',
+            fullName: state.fullName,
+            email: state.email,
+            phone: state.phone,
+            eventDate: state.eventDate,
+            eventType: state.eventType,
+            serviceType: state.serviceType,
+            location: state.location,
+            protocolOfficers: state.protocolOfficers,
+            requirements: state.requirements
+          }
+        });
+
+        if (emailError) {
+          console.error('Email notification error:', emailError);
+        }
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
+      }
+
       toast({
         title: "Service Request Submitted!",
         description: "Thank you for your request. Our team will contact you within 24 hours to discuss your requirements.",

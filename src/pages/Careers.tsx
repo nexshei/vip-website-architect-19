@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -147,6 +148,27 @@ const Careers = () => {
       if (error) {
         console.error('Database insert error:', error);
         throw error;
+      }
+
+      // Send email notification
+      try {
+        const { error: emailError } = await supabase.functions.invoke('send-notifications', {
+          body: {
+            type: 'career',
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            coverLetter: formData.coverLetter,
+            hasResume: !!formData.resumeFile,
+            hasPhoto: !!formData.photoFile
+          }
+        });
+
+        if (emailError) {
+          console.error('Email notification error:', emailError);
+        }
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
       }
 
       console.log('Career application submitted successfully');

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,6 +41,29 @@ const BookMeeting = () => {
 
       if (error) {
         throw error;
+      }
+
+      // Send email notification
+      try {
+        const { error: emailError } = await supabase.functions.invoke('send-notifications', {
+          body: {
+            type: 'meeting',
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            eventType: formData.eventType,
+            eventDate: formData.eventDate,
+            location: formData.location,
+            protocolOfficers: formData.protocolOfficers,
+            vision: formData.vision
+          }
+        });
+
+        if (emailError) {
+          console.error('Email notification error:', emailError);
+        }
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
       }
 
       toast({
