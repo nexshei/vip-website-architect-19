@@ -1,8 +1,15 @@
+
+User-agent: *
+Allow: /
+
+# Specific crawlers
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -10,5 +17,8 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+# Sitemap location
+Sitemap: https://sirolevvipprotocol.com/sitemap.xml
+
+# Host specification
+Host: https://sirolevvipprotocol.com

@@ -1,12 +1,8 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.0';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -62,12 +58,15 @@ interface NewsletterNotification {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  console.log("Send notifications function called");
+  
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const notification: ContactNotification | MeetingNotification | CareerNotification | VvipNotification | NewsletterNotification = await req.json();
+    console.log("Received notification:", notification);
     
     let emailContent = '';
     let emailSubject = '';
@@ -138,6 +137,8 @@ const handler = async (req: Request): Promise<Response> => {
         <p><em>This subscription was made through the Sir Ole VVIP Protocol website.</em></p>
       `;
     }
+
+    console.log("Sending email with subject:", emailSubject);
 
     const emailResponse = await resend.emails.send({
       from: "Sir Ole VVIP Protocol <onboarding@resend.dev>",
