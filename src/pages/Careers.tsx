@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import JobPostings from '@/components/careers/JobPostings';
 
 const Careers = () => {
   const [formData, setFormData] = useState({
@@ -218,7 +219,10 @@ const Careers = () => {
 
       <div className="py-20 bg-luxury-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
+            {/* Job Postings Section */}
+            <JobPostings />
+            
             <div className="grid md:grid-cols-2 gap-12">
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-luxury-black mb-6">Why Work With Us?</h2>
@@ -253,7 +257,7 @@ const Careers = () => {
                 </div>
               </div>
 
-              <div>
+              <div id="application-form">
                 <h2 className="text-3xl font-playfair font-bold text-luxury-black mb-6">Apply Now</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <Input
