@@ -1,24 +1,55 @@
 
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
-# Specific crawlers
+# Specific crawlers with optimized settings
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
+Crawl-delay: 0.5
 
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
-User-agent: Twitterbot
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Disallow admin and internal paths
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /api/
+Disallow: /*?*utm_*
+Disallow: /*?*ref=*
 
 # Sitemap location
 Sitemap: https://sirolevvipprotocol.com/sitemap.xml
 
 # Host specification
 Host: https://sirolevvipprotocol.com
+
+# Additional optimization
+Request-rate: 1/5
+Visit-time: 0600-2300
