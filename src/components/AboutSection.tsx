@@ -86,7 +86,7 @@ const AboutSection = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto">
             {/* Cabinet Member 1 */}
             <div className="group text-center">
               <div className="relative mb-6">
@@ -121,11 +121,32 @@ const AboutSection = () => {
                 </div>
               </div>
               <h4 className="text-xl font-playfair font-bold text-luxury-black mb-2">
-                Strategic Advisor
+                Master of Ceremonies
+              </h4>
+              <p className="text-luxury-gold font-semibold mb-3">MC</p>
+              <p className="text-sm text-luxury-black/70 leading-relaxed">
+                Expert in diplomatic protocol and corporate event management, ensuring seamless execution of high-profile occasions.
+              </p>
+            </div>
+
+            {/* Cabinet Member 3 - New Addition */}
+            <div className="group text-center">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/30 to-luxury-gold-light/30 rounded-2xl blur-xl transform group-hover:scale-110 transition-transform duration-300"></div>
+                <div className="relative bg-gradient-to-br from-luxury-white to-luxury-gold/5 p-1 rounded-2xl shadow-xl">
+                  <img 
+                    src="/lovable-uploads/a424ff8a-15ff-4c76-9e44-fdfa05ac9655.png" 
+                    alt="Protocol Specialist" 
+                    className="w-full h-96 object-cover object-[center_15%] rounded-xl transform group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-bold text-luxury-black mb-2">
+                Protocol Specialist
               </h4>
               <p className="text-luxury-gold font-semibold mb-3">Senior Cabinet Member</p>
               <p className="text-sm text-luxury-black/70 leading-relaxed">
-                Expert in diplomatic protocol and corporate event management, ensuring seamless execution of high-profile occasions.
+                Dedicated professional specializing in VIP protocol services and luxury event coordination with exceptional attention to detail.
               </p>
             </div>
           </div>

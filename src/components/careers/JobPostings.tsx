@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
-import { MapPin, Calendar, DollarSign, Users, Clock } from 'lucide-react';
+import { MapPin, Calendar, Users, Clock } from 'lucide-react';
 
 interface JobPosting {
   id: string;
@@ -136,13 +136,6 @@ const JobPostings = () => {
                   </div>
                 )}
                 
-                {job.salary_range && (
-                  <div className="flex items-center gap-2 text-luxury-black/70">
-                    <DollarSign className="w-4 h-4" />
-                    <span className="text-sm">{job.salary_range}</span>
-                  </div>
-                )}
-                
                 {job.application_deadline && (
                   <div className="flex items-center gap-2 text-luxury-black/70">
                     <Calendar className="w-4 h-4" />
@@ -189,13 +182,6 @@ const JobPostings = () => {
                         <div className="flex items-center gap-2">
                           <MapPin className="w-5 h-5 text-luxury-gold" />
                           <span className="text-luxury-black">{job.location}</span>
-                        </div>
-                      )}
-                      
-                      {job.salary_range && (
-                        <div className="flex items-center gap-2">
-                          <DollarSign className="w-5 h-5 text-luxury-gold" />
-                          <span className="text-luxury-black">{job.salary_range}</span>
                         </div>
                       )}
                       
