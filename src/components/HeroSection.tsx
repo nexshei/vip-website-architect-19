@@ -1,157 +1,82 @@
 
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
+import { ArrowRight, Shield, Package } from 'lucide-react';
 
 const HeroSection = () => {
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-
-  const heroTexts = [
-    "New Standard of Sophistication",
-    "Pinnacle of Excellence",
-    "Legacy of Distinction"
-  ];
-
-  // Updated hero photos with only the new visible images
-  const heroPhotos = [
-    "/lovable-uploads/aac3f7a9-ba36-4ed8-a16e-ace88dc00a86.png",
-    "/lovable-uploads/b9ba68f8-b176-49d5-a8ff-c9f8318086aa.png",
-    "/lovable-uploads/a986df73-48b9-47e1-9217-a017116e525b.png",
-    "/lovable-uploads/106281aa-04c2-4533-92e5-e1044566520f.png",
-    "/lovable-uploads/b7c270ed-d140-46b1-adc8-3123807ffd1a.png",
-    "/lovable-uploads/9adfbdd8-7ff7-41c3-8228-65e5803640f3.png",
-    "/lovable-uploads/016009e8-2075-462b-bfa8-f2fe1a37581c.png",
-    "/lovable-uploads/2417aefe-5fed-43f0-b77b-4c8ee078ddcb.png",
-    "/lovable-uploads/b69edc0b-0e29-4f2d-ab0d-abd974ef5133.png",
-    "/lovable-uploads/c8c41d47-43d1-4ff8-9931-38d6933001fb.png"
-  ];
-
-  const scrollToPortfolio = () => {
-    const portfolioSection = document.getElementById('portfolio');
-    if (portfolioSection) {
-      portfolioSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTextIndex((prev) => (prev + 1) % heroTexts.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [heroTexts.length]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [heroPhotos.length]);
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-luxury overflow-hidden">
-      {/* Enhanced Sliding Photo Background with Ken Burns effect */}
-      <div className="absolute inset-0 z-0">
-        {heroPhotos.map((photo, index) => (
-          <div
-            key={photo}
-            className={`absolute inset-0 transition-all duration-2000 ease-in-out ${
-              index === currentPhotoIndex 
-                ? 'opacity-70 scale-105' 
-                : 'opacity-0 scale-100'
-            }`}
-          >
-            <img
-              src={photo}
-              alt="VIP Protocol Service Excellence"
-              className="w-full h-full object-cover object-center transition-transform duration-2000"
-              style={{
-                filter: 'brightness(0.6) contrast(1.2) saturate(1.1)',
-              }}
+    <section className="relative min-h-screen flex items-center bg-gradient-to-r from-luxury-black via-luxury-black/95 to-luxury-black/90 overflow-hidden">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+        style={{
+          backgroundImage: `url('/lovable-uploads/569bcb82-cebd-48f6-9d3b-7a1d0c566fd4.png')`
+        }}
+      />
+      
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/80 via-luxury-black/60 to-luxury-black/40" />
+      
+      {/* Content Container */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Logo */}
+          <div className="mb-8 animate-fade-in">
+            <img 
+              src="/lovable-uploads/128c46de-f529-4c6d-9c43-0e87592a70ba.png" 
+              alt="Sir Ole VVIP Protocol Ltd" 
+              className="h-20 sm:h-24 lg:h-28 mx-auto drop-shadow-2xl"
             />
           </div>
-        ))}
-      </div>
 
-      {/* Enhanced Dark Overlay with Professional Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-luxury-black/70 via-luxury-black/50 to-luxury-black/80 z-1"></div>
-      
-      {/* Subtle Pattern Overlay for Premium Feel */}
-      <div className="absolute inset-0 opacity-10 z-2" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.3'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-      }}></div>
-
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-5xl mx-auto animate-fade-in">
-          {/* Main Headline with Enhanced Typography */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-playfair font-bold text-luxury-white mb-4 sm:mb-6 leading-tight px-2">
-            <span className="block mb-2 sm:mb-4 drop-shadow-2xl">The Power for Your Event</span>
-            <span className="text-gradient-gold block mt-2 transition-all duration-1000 ease-in-out transform text-2xl sm:text-3xl md:text-4xl lg:text-5xl drop-shadow-2xl animate-pulse">
-              {heroTexts[currentTextIndex]}
-            </span>
+          {/* Main Heading */}
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-playfair font-bold text-luxury-white mb-6 animate-fade-in-up">
+            Excellence in <span className="text-gradient-gold">Protocol</span>
           </h1>
-
-          {/* Enhanced Subheadline */}
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-luxury-white/95 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed animate-fade-in delay-300 px-4 drop-shadow-lg font-light">
-            Where luxury meets logistics. Experience flawless VVIP service that transforms every occasion into an unforgettable moment of excellence.
+          
+          {/* Subheading */}
+          <p className="text-xl sm:text-2xl lg:text-3xl text-luxury-gold mb-8 font-light animate-fade-in-up animation-delay-200">
+            Defining Sophistication Through Impeccable Service
           </p>
-
-          {/* Enhanced CTA Buttons */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:gap-6 justify-center items-center mb-8 sm:mb-12 animate-fade-in delay-500 px-4">
-            <Link to="/book-meeting" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto group bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-bold px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-luxury-gold/50 relative overflow-hidden rounded-full">
-                <span className="relative z-10">Book VVIP Consultation</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              </Button>
+          
+          {/* Description */}
+          <p className="text-lg sm:text-xl text-luxury-white/90 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-400">
+            Sir Ole VVIP Protocol Ltd delivers world-class protocol services, executive protection, 
+            and luxury event management with unparalleled attention to detail and sophistication.
+          </p>
+          
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up animation-delay-600">
+            <Link 
+              to="/book-meeting"
+              className="group bg-gradient-luxury hover:opacity-90 text-luxury-white px-8 py-4 rounded-full text-lg font-semibold shadow-2xl hover:shadow-luxury-gold/20 transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+            >
+              Book Consultation
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              onClick={scrollToPortfolio}
-              className="w-full sm:w-auto border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg transition-all duration-300 hover:scale-105 backdrop-blur-sm rounded-full font-semibold"
+            
+            <Link 
+              to="/book-items"
+              className="group border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-8 py-4 rounded-full text-lg font-semibold shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
             >
-              Discover Excellence
-            </Button>
-          </div>
-
-          {/* Enhanced Trust Indicators */}
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-6 sm:gap-10 mb-8 sm:mb-12 animate-fade-in delay-700 px-4">
-            <div className="flex items-center justify-center space-x-3 text-luxury-white/95 group hover:text-luxury-gold transition-colors duration-300">
-              <div className="w-3 h-3 bg-luxury-gold rounded-full flex-shrink-0 group-hover:animate-pulse"></div>
-              <span className="text-sm font-semibold drop-shadow-sm">5+ Years Excellence</span>
-            </div>
-            <div className="flex items-center justify-center space-x-3 text-luxury-white/95 group hover:text-luxury-gold transition-colors duration-300">
-              <div className="w-3 h-3 bg-luxury-gold rounded-full flex-shrink-0 group-hover:animate-pulse"></div>
-              <span className="text-sm font-semibold drop-shadow-sm">24/7 Premium Support</span>
-            </div>
-            <div className="flex items-center justify-center space-x-3 text-luxury-white/95 group hover:text-luxury-gold transition-colors duration-300">
-              <div className="w-3 h-3 bg-luxury-gold rounded-full flex-shrink-0 group-hover:animate-pulse"></div>
-              <span className="text-sm font-semibold drop-shadow-sm">500+ VVIP Events</span>
-            </div>
-          </div>
-
-          {/* Enhanced Scroll Indicator */}
-          <div className="animate-bounce">
-            <button 
-              onClick={scrollToPortfolio}
-              className="inline-flex flex-col items-center text-luxury-white/80 hover:text-luxury-gold transition-all duration-300 group"
+              Book Event Items
+              <Package className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            
+            <Link 
+              to="/services"
+              className="group border-2 border-luxury-white/30 text-luxury-white hover:bg-luxury-white hover:text-luxury-black px-8 py-4 rounded-full text-lg font-semibold backdrop-blur-sm transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
             >
-              <span className="text-xs sm:text-sm font-semibold mb-3 group-hover:scale-110 transition-transform drop-shadow-sm">Discover Excellence</span>
-              <div className="relative">
-                <ChevronDown size={24} className="sm:w-7 sm:h-7 animate-pulse" />
-                <div className="absolute inset-0 bg-luxury-gold/40 rounded-full scale-0 group-hover:scale-150 transition-transform duration-700"></div>
-              </div>
-            </button>
+              Our Services
+              <Shield className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Enhanced decorative elements */}
-      <div className="hidden lg:block absolute top-20 left-10 w-40 h-40 border-2 border-luxury-gold/30 rounded-full animate-pulse"></div>
-      <div className="hidden lg:block absolute bottom-32 right-10 w-32 h-32 border-2 border-luxury-gold/40 rounded-full animate-pulse delay-1000"></div>
-      <div className="hidden lg:block absolute top-1/2 left-20 w-6 h-6 bg-luxury-gold/20 rounded-full animate-float"></div>
-      <div className="hidden lg:block absolute bottom-1/4 right-32 w-4 h-4 bg-luxury-gold/30 rounded-full animate-float delay-500"></div>
+      {/* Decorative Elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 border border-luxury-gold/20 rounded-full animate-pulse"></div>
+      <div className="absolute bottom-32 right-16 w-16 h-16 bg-luxury-gold/10 rounded-full animate-bounce animation-delay-1000"></div>
+      <div className="absolute top-1/2 right-20 w-12 h-12 border border-luxury-gold/30 rotate-45 animate-spin-slow"></div>
     </section>
   );
 };

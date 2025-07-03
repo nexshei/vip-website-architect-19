@@ -14,6 +14,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Gallery from "./pages/Gallery";
 import BookMeeting from "./pages/BookMeeting";
+import BookItems from "./pages/BookItems";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
@@ -44,6 +45,7 @@ const App = () => {
                 <Route path="/services" element={<Services />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/book-meeting" element={<BookMeeting />} />
+                <Route path="/book-items" element={<BookItems />} />
                 <Route path="/careers" element={<Careers />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/terms" element={<Terms />} />

@@ -1,123 +1,132 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, Home, X } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const isActive = (path: string) => location.pathname === path;
+
   const navItems = [
-    { name: 'Home', path: '/', icon: Home },
-    { name: 'Services', path: '/services' },
-    { name: 'About', path: '/about' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'Careers', path: '/careers' }
+    { path: '/', label: 'Home' },
+    { path: '/about', label: 'About' },
+    { path: '/services', label: 'Services' },
+    { path: '/gallery', label: 'Gallery' },
+    { path: '/careers', label: 'Careers' },
+    { path: '/contact', label: 'Contact' },
   ];
 
-  const isActive = (path: string) => {
-    return location.pathname === path;
-  };
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-luxury-black/90 backdrop-blur-xl border-b border-luxury-gold/30 shadow-2xl">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-luxury-white/95 backdrop-blur-md shadow-xl border-b border-luxury-gold/20' 
+        : 'bg-transparent'
+    }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
-          {/* Mobile-Optimized Logo */}
-          <Link to="/" className="flex items-center space-x-2 sm:space-x-4 hover:opacity-90 transition-all duration-300 group flex-shrink-0">
-            <div className="relative">
-              <img 
-                src="/lovable-uploads/128c46de-f529-4c6d-9c43-0e87592a70ba.png" 
-                alt="Sir Ole VVIP Protocol Ltd" 
-                className="h-10 sm:h-12 lg:h-14 w-auto transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-luxury-gold/20 rounded-full scale-0 group-hover:scale-110 transition-transform duration-500"></div>
-            </div>
-            <div className="hidden xs:block sm:block">
-              <h1 className="text-luxury-gold font-playfair font-bold text-lg sm:text-xl lg:text-2xl tracking-wide relative">
-                Sir Ole
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gold group-hover:w-full transition-all duration-500"></div>
-              </h1>
-              <p className="text-luxury-white text-xs tracking-[0.1em] sm:tracking-[0.2em] uppercase font-medium opacity-80">
-                VVIP PROTOCOL
-              </p>
-            </div>
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-3 group">
+            <img 
+              src="/lovable-uploads/128c46de-f529-4c6d-9c43-0e87592a70ba.png" 
+              alt="Sir Ole VVIP Protocol Ltd" 
+              className="h-12 w-auto transform group-hover:scale-105 transition-transform duration-300"
+            />
           </Link>
 
-          {/* Desktop Navigation - Hidden on mobile */}
-          <nav className="hidden lg:flex items-center space-x-2">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
-                key={item.name}
+                key={item.path}
                 to={item.path}
-                className={`relative px-3 xl:px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group hover:bg-luxury-gold/10 ${
-                  isActive(item.path) 
-                    ? 'text-luxury-gold bg-luxury-gold/10' 
-                    : 'text-luxury-white hover:text-luxury-gold'
-                }`}
+                className={`relative font-medium transition-colors duration-300 hover:text-luxury-gold ${
+                  isActive(item.path)
+                    ? 'text-luxury-gold'
+                    : isScrolled 
+                      ? 'text-luxury-black' 
+                      : 'text-luxury-white'
+                } group`}
               >
-                <span className="relative z-10">{item.name}</span>
-                <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-luxury-gold transition-all duration-300 ${
-                  isActive(item.path) ? 'w-3/4' : 'group-hover:w-3/4'
-                }`}></div>
-                <div className="absolute inset-0 bg-luxury-gold/5 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+                {item.label}
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gold transition-all duration-300 group-hover:w-full ${
+                  isActive(item.path) ? 'w-full' : ''
+                }`}></span>
               </Link>
             ))}
           </nav>
 
-          {/* Desktop CTA Section - Hidden on small screens */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to="/book-meeting">
-              <Button className="relative bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold px-4 lg:px-8 py-2 lg:py-3 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-luxury-gold/40 group overflow-hidden">
-                <span className="relative z-10 text-sm tracking-wide">Book Meeting</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-              </Button>
+          {/* CTA Buttons */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <Link 
+              to="/book-meeting"
+              className="bg-gradient-luxury hover:opacity-90 text-luxury-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Book Meeting
+            </Link>
+            <Link 
+              to="/book-items"
+              className="border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-6 py-2 rounded-full text-sm font-semibold transform hover:scale-105 transition-all duration-300"
+            >
+              Book Items
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button */}
           <button
+            className="lg:hidden p-2 rounded-md"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden relative p-2 sm:p-3 text-luxury-white hover:text-luxury-gold transition-all duration-300 group hover:bg-luxury-gold/10 rounded-lg"
+            aria-label="Toggle menu"
           >
-            <div className="relative">
-              {isMenuOpen ? (
-                <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
-              ) : (
-                <Menu size={24} className="transition-transform duration-300 group-hover:scale-110" />
-              )}
-            </div>
+            {isMenuOpen ? (
+              <X className={`h-6 w-6 ${isScrolled ? 'text-luxury-black' : 'text-luxury-white'}`} />
+            ) : (
+              <Menu className={`h-6 w-6 ${isScrolled ? 'text-luxury-black' : 'text-luxury-white'}`} />
+            )}
           </button>
         </div>
 
-        {/* Mobile Menu - Full width and responsive */}
+        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-luxury-black/95 backdrop-blur-xl border-t border-luxury-gold/30 shadow-2xl animate-fade-in">
-            <div className="container mx-auto px-4 py-4 sm:py-6">
-              {navItems.map((item, index) => (
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-luxury-white/95 backdrop-blur-md shadow-xl border-t border-luxury-gold/20">
+            <div className="py-4 space-y-2">
+              {navItems.map((item) => (
                 <Link
-                  key={item.name}
+                  key={item.path}
                   to={item.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block px-4 sm:px-6 py-3 sm:py-4 text-base font-medium transition-all duration-300 rounded-lg mb-2 hover:bg-luxury-gold/10 hover:translate-x-2 ${
-                    isActive(item.path) 
-                      ? 'text-luxury-gold bg-luxury-gold/10 border-l-4 border-luxury-gold' 
-                      : 'text-luxury-white hover:text-luxury-gold'
+                  className={`block px-6 py-3 text-luxury-black hover:text-luxury-gold hover:bg-luxury-gold/10 transition-colors duration-300 ${
+                    isActive(item.path) ? 'text-luxury-gold bg-luxury-gold/10' : ''
                   }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  <div className="flex items-center space-x-3">
-                    {item.icon && <item.icon size={18} />}
-                    <span>{item.name}</span>
-                  </div>
+                  {item.label}
                 </Link>
               ))}
-              <div className="px-4 sm:px-6 pt-4 sm:pt-6 border-t border-luxury-gold/20 mt-4 sm:mt-6">
-                <Link to="/book-meeting" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="w-full bg-gradient-to-r from-luxury-gold to-luxury-gold-light hover:from-luxury-gold-dark hover:to-luxury-gold text-luxury-black font-bold py-3 sm:py-4 text-base">
-                    Book Meeting
-                  </Button>
+              <div className="px-6 py-3 space-y-3">
+                <Link 
+                  to="/book-meeting"
+                  className="block w-full bg-gradient-luxury hover:opacity-90 text-luxury-white px-4 py-2 rounded-full text-sm font-semibold text-center shadow-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Book Meeting
+                </Link>
+                <Link 
+                  to="/book-items"
+                  className="block w-full border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-4 py-2 rounded-full text-sm font-semibold text-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Book Items
                 </Link>
               </div>
             </div>
