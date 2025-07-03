@@ -85,7 +85,7 @@ const ItemBookingForm = () => {
     try {
       const { error } = await supabase
         .from('item_bookings')
-        .insert([data]);
+        .insert(data);
 
       if (error) throw error;
 
@@ -227,7 +227,7 @@ const ItemBookingForm = () => {
                             type="number"
                             min="0"
                             placeholder="0"
-                            {...field}
+                            value={field.value as number}
                             onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
                           />
                         </FormControl>
