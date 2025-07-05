@@ -86,7 +86,7 @@ const AboutSection = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 max-w-7xl mx-auto">
             {/* Cabinet Member 1 */}
             <div className="group text-center">
               <div className="relative mb-6">
@@ -129,7 +129,7 @@ const AboutSection = () => {
               </p>
             </div>
 
-            {/* Cabinet Member 3 - New Addition */}
+            {/* Cabinet Member 3 */}
             <div className="group text-center">
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/30 to-luxury-gold-light/30 rounded-2xl blur-xl transform group-hover:scale-110 transition-transform duration-300"></div>
@@ -147,6 +147,27 @@ const AboutSection = () => {
               <p className="text-luxury-gold font-semibold mb-3">Senior Cabinet Member</p>
               <p className="text-sm text-luxury-black/70 leading-relaxed">
                 Dedicated professional specializing in VIP protocol services and luxury event coordination with exceptional attention to detail.
+              </p>
+            </div>
+
+            {/* Cabinet Member 4 - Geoffrey Njoroge */}
+            <div className="group text-center">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/30 to-luxury-gold-light/30 rounded-2xl blur-xl transform group-hover:scale-110 transition-transform duration-300"></div>
+                <div className="relative bg-gradient-to-br from-luxury-white to-luxury-gold/5 p-1 rounded-2xl shadow-xl">
+                  <img 
+                    src="/lovable-uploads/bf7d08f5-f1f7-44af-a022-ca29ca823fe9.png" 
+                    alt="Geoffrey Njoroge - Logistics & IT Manager" 
+                    className="w-full h-96 object-cover object-[center_20%] rounded-xl transform group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-bold text-luxury-black mb-2">
+                Geoffrey Njoroge
+              </h4>
+              <p className="text-luxury-gold font-semibold mb-3">Logistics & IT Manager</p>
+              <p className="text-sm text-luxury-black/70 leading-relaxed">
+                Expert in logistics coordination and IT systems management, ensuring seamless technical operations and efficient event logistics for all VIP protocol services.
               </p>
             </div>
           </div>

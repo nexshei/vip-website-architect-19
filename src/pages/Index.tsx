@@ -1,6 +1,5 @@
-
 import SEO from '../components/SEO';
-import HeroSection from '../components/HeroSection';
+import HeroSlider from '../components/HeroSlider';
 import PortfolioGallery from '../components/PortfolioGallery';
 import WhyChooseUsSection from '../components/WhyChooseUsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -207,7 +206,7 @@ const Index = () => {
         schemaData={homeSchemaData}
       />
       <div className="pt-20">
-        <HeroSection />
+        <HeroSlider />
         <div id="portfolio">
           <PortfolioGallery isHomepage={true} />
         </div>
