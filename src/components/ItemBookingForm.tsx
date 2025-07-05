@@ -50,13 +50,13 @@ const itemBookingSchema = z.object({
   path: ["email"]
 });
 
-type ItemBookingForm = z.infer<typeof itemBookingSchema>;
+type ItemBookingFormData = z.infer<typeof itemBookingSchema>;
 
 const ItemBookingForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const form = useForm<ItemBookingForm>({
+  const form = useForm<ItemBookingFormData>({
     resolver: zodResolver(itemBookingSchema),
     defaultValues: {
       full_name: '',
@@ -80,12 +80,34 @@ const ItemBookingForm = () => {
     }
   });
 
-  const onSubmit = async (data: ItemBookingForm) => {
+  const onSubmit = async (data: ItemBookingFormData) => {
     setIsSubmitting(true);
     try {
+      // Transform the data to match database expectations
+      const bookingData = {
+        full_name: data.full_name,
+        email: data.email || null,
+        phone: data.phone || null,
+        event_date: data.event_date,
+        chairs: data.chairs,
+        tables: data.tables,
+        tents: data.tents,
+        plates: data.plates,
+        cups: data.cups,
+        forks_spoons: data.forks_spoons,
+        sound_system: data.sound_system,
+        lighting_equipment: data.lighting_equipment,
+        extension_cables: data.extension_cables,
+        water_dispensers: data.water_dispensers,
+        tablecloths: data.tablecloths,
+        decoration_items: data.decoration_items,
+        additional_notes: data.additional_notes || null,
+        terms_agreed: data.terms_agreed
+      };
+
       const { error } = await supabase
         .from('item_bookings')
-        .insert(data);
+        .insert(bookingData);
 
       if (error) throw error;
 
@@ -215,7 +237,7 @@ const ItemBookingForm = () => {
                   <FormField
                     key={item.name}
                     control={form.control}
-                    name={item.name as keyof ItemBookingForm}
+                    name={item.name as keyof ItemBookingFormData}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center gap-2">
