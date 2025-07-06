@@ -27,12 +27,6 @@ const HeroSlider = () => {
     },
     {
       id: '4',
-      src: '/lovable-uploads/106281aa-04c2-4533-92e5-e1044566520f.png',
-      title: 'Luxury Reception Services',
-      description: 'Creating extraordinary experiences with precision and elegance'
-    },
-    {
-      id: '5',
       src: '/lovable-uploads/f0a0780f-b1f0-4d8a-b394-db906dc05116.png',
       title: 'Ceremonial Protocol',
       description: 'Masterful execution of high-profile ceremonial events'
@@ -64,42 +58,42 @@ const HeroSlider = () => {
             <img
               src={photo.src}
               alt={photo.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/80 via-luxury-black/60 to-luxury-black/40"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/80 via-luxury-black/60 to-luxury-black/40 sm:bg-gradient-to-r sm:from-luxury-black/70 sm:via-luxury-black/50 sm:to-luxury-black/30"></div>
           </div>
         ))}
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Logo */}
-          <div className="mb-8 animate-fade-in">
+          <div className="mb-6 sm:mb-8 animate-fade-in">
             <img 
               src="/lovable-uploads/128c46de-f529-4c6d-9c43-0e87592a70ba.png" 
               alt="Sir Ole VVIP Protocol Ltd" 
-              className="h-20 sm:h-24 lg:h-28 mx-auto drop-shadow-2xl"
+              className="h-16 sm:h-20 md:h-24 lg:h-28 mx-auto drop-shadow-2xl"
             />
           </div>
 
           {/* Dynamic Content */}
-          <div className="animate-fade-in">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-playfair font-bold text-luxury-white mb-6">
+          <div className="animate-fade-in px-2 sm:px-0">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-playfair font-bold text-luxury-white mb-4 sm:mb-6 leading-tight">
               {heroPhotos[currentSlide].title}
             </h1>
-            <p className="text-xl sm:text-2xl lg:text-3xl text-luxury-gold mb-8 font-light">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-luxury-gold mb-6 sm:mb-8 font-light leading-relaxed px-2 sm:px-0">
               {heroPhotos[currentSlide].description}
             </p>
           </div>
           
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up animation-delay-600">
-            <button className="group bg-gradient-luxury hover:opacity-90 text-luxury-white px-8 py-4 rounded-full text-lg font-semibold shadow-2xl hover:shadow-luxury-gold/20 transform hover:scale-105 transition-all duration-300 flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center animate-fade-in-up animation-delay-600 px-4 sm:px-0">
+            <button className="w-full sm:w-auto group bg-gradient-luxury hover:opacity-90 text-luxury-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold shadow-2xl hover:shadow-luxury-gold/20 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 min-h-[48px]">
               Book Consultation
             </button>
             
-            <button className="group border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-8 py-4 rounded-full text-lg font-semibold shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3">
+            <button className="w-full sm:w-auto group border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 min-h-[48px]">
               Our Services
             </button>
           </div>
@@ -107,12 +101,12 @@ const HeroSlider = () => {
       </div>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20">
         {heroPhotos.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-4 h-4 rounded-full transition-all duration-300 ${
+            className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-300 touch-target ${
               index === currentSlide 
                 ? 'bg-luxury-gold scale-125' 
                 : 'bg-white/50 hover:bg-white/80'
