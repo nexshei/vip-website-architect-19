@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -48,14 +47,6 @@ const HeroSlider = () => {
       return () => clearInterval(interval);
     }
   }, [isAutoPlay, heroPhotos.length]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroPhotos.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroPhotos.length) % heroPhotos.length);
-  };
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -114,28 +105,6 @@ const HeroSlider = () => {
           </div>
         </div>
       </div>
-
-      {/* Navigation Controls */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-8 top-1/2 -translate-y-1/2 bg-luxury-gold/30 hover:bg-luxury-gold/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 z-20"
-      >
-        <ChevronLeft size={28} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-8 top-1/2 -translate-y-1/2 bg-luxury-gold/30 hover:bg-luxury-gold/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 z-20"
-      >
-        <ChevronRight size={28} />
-      </button>
-
-      {/* Auto-play Control */}
-      <button
-        onClick={() => setIsAutoPlay(!isAutoPlay)}
-        className="absolute top-8 right-8 bg-luxury-gold/30 hover:bg-luxury-gold/50 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 z-20"
-      >
-        {isAutoPlay ? <Pause size={20} /> : <Play size={20} />}
-      </button>
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
