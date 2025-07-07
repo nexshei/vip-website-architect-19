@@ -38,17 +38,19 @@ const JobPostings = () => {
       const { error: error1 } = await supabase
         .from('job_postings')
         .update({
-          title: 'VIP Protocol Officer',
-          description: 'We are seeking a dedicated VIP Protocol Officer to join our team in managing high-profile events and providing exceptional protocol services to distinguished clients. This role requires attention to detail, professional demeanor, and expertise in diplomatic and corporate protocol procedures.',
+          title: 'VVIP Protocol Officer',
+          description: 'We are seeking a dedicated VVIP Protocol Officer to join our elite team in managing high-profile events and providing exceptional protocol services to distinguished clients, government officials, and VVIPs. This role requires attention to detail, professional demeanor, and expertise in diplomatic and corporate protocol procedures.',
           requirements: [
             'Bachelor\'s degree in International Relations, Hospitality Management, or related field',
-            'Minimum 2 years experience in protocol services or luxury hospitality',
+            'Minimum 3 years experience in protocol services or luxury hospitality',
             'Excellent communication and interpersonal skills',
-            'Professional appearance and demeanor',
+            'Professional appearance and impeccable demeanor',
             'Knowledge of diplomatic and corporate protocol procedures',
             'Fluency in English and Swahili; additional languages preferred',
             'Flexibility to work evenings, weekends, and travel as required',
-            'Strong organizational and time management skills'
+            'Strong organizational and time management skills',
+            'Experience with high-profile clients and VVIPs',
+            'Discretion and confidentiality in all professional interactions'
           ]
         })
         .eq('title', 'lkjhgf');
@@ -57,19 +59,19 @@ const JobPostings = () => {
       const { error: error2 } = await supabase
         .from('job_postings')
         .update({
-          title: 'Executive Event Planner',
-          description: 'Join our elite team as an Executive Event Planner where you will orchestrate luxury events for high-profile clients, government officials, and corporate executives. This role demands creativity, precision, and the ability to execute flawless events that exceed client expectations while maintaining the highest standards of professionalism.',
+          title: 'Senior Event Coordinator',
+          description: 'Join our dynamic team as a Senior Event Coordinator where you will be responsible for planning, coordinating, and executing high-end events for corporate clients, government institutions, and private parties. This role requires exceptional organizational skills, creativity, and the ability to manage multiple projects simultaneously while maintaining our company\'s reputation for excellence.',
           requirements: [
-            'Bachelor\'s degree in Event Management, Public Relations, or Hospitality Management',
-            'Minimum 3 years experience in luxury event planning or high-end hospitality',
-            'Proven track record of managing events with budgets exceeding KSh 1M',
-            'Strong vendor management and negotiation skills',
-            'Excellent project management and multitasking abilities',
-            'Knowledge of Kenyan cultural protocols and international etiquette',
+            'Bachelor\'s degree in Event Management, Hospitality, or related field',
+            'Minimum 2-3 years experience in event planning and coordination',
+            'Strong project management and organizational skills',
+            'Excellent vendor management and negotiation abilities',
             'Proficiency in event planning software and MS Office Suite',
-            'Strong leadership skills and ability to manage event teams',
-            'Flexibility to work irregular hours and travel as needed',
-            'Discretion and confidentiality when handling sensitive client information'
+            'Outstanding communication and client relationship skills',
+            'Knowledge of Kenyan event venues and service providers',
+            'Ability to work under pressure and meet tight deadlines',
+            'Creative problem-solving skills and attention to detail',
+            'Willingness to work flexible hours including evenings and weekends'
           ]
         })
         .eq('title', 'Testing');
