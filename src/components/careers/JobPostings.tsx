@@ -25,6 +25,7 @@ const JobPostings = () => {
   const [jobPostings, setJobPostings] = useState<JobPosting[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     fetchJobPostings();
@@ -52,21 +53,22 @@ const JobPostings = () => {
         })
         .eq('title', 'lkjhgf');
 
-      // Update the second job posting
+      // Update the second job posting with better content
       const { error: error2 } = await supabase
         .from('job_postings')
         .update({
-          title: 'Event Coordinator',
-          description: 'Join our dynamic team as an Event Coordinator where you will be responsible for planning, coordinating, and executing luxury events and VIP services. This position offers the opportunity to work with high-profile clients and create memorable experiences.',
+          title: 'Protocol Services Coordinator',
+          description: 'Join our prestigious team as a Protocol Services Coordinator where you will be responsible for coordinating VIP services, managing client relationships, and ensuring seamless execution of high-profile events. This role offers the opportunity to work with distinguished clients and government officials while maintaining the highest standards of professional protocol.',
           requirements: [
-            'Diploma or degree in Event Management, Hospitality, or related field',
-            'Minimum 1-2 years experience in event planning or coordination',
-            'Strong project management and organizational skills',
-            'Excellent verbal and written communication abilities',
-            'Proficiency in event management software and MS Office Suite',
-            'Creative problem-solving skills and attention to detail',
-            'Ability to work under pressure and meet tight deadlines',
-            'Professional network within the events and hospitality industry preferred'
+            'Diploma or degree in Public Relations, Communications, or related field',
+            'Minimum 1-2 years experience in customer service or hospitality industry',
+            'Strong organizational and multitasking abilities',
+            'Excellent verbal and written communication skills in English and Swahili',
+            'Professional appearance and excellent interpersonal skills',
+            'Knowledge of Kenyan cultural etiquette and protocol procedures',
+            'Proficiency in MS Office Suite and basic computer skills',
+            'Ability to work flexible hours including evenings and weekends',
+            'Discretion and confidentiality when handling sensitive information'
           ]
         })
         .eq('title', 'Testing');
@@ -125,6 +127,16 @@ const JobPostings = () => {
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';
     }
+  };
+
+  const handleApplyNow = () => {
+    setOpenDialog(false);
+    setTimeout(() => {
+      const applicationSection = document.getElementById('application-form');
+      if (applicationSection) {
+        applicationSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   if (isLoading) {
@@ -202,11 +214,14 @@ const JobPostings = () => {
                 </p>
               )}
 
-              <Dialog>
+              <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                 <DialogTrigger asChild>
                   <Button 
                     className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold transition-all duration-300"
-                    onClick={() => setSelectedJob(job)}
+                    onClick={() => {
+                      setSelectedJob(job);
+                      setOpenDialog(true);
+                    }}
                   >
                     View Details
                   </Button>
@@ -214,15 +229,15 @@ const JobPostings = () => {
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
                     <DialogTitle className="text-2xl font-playfair text-luxury-black">
-                      {job.title}
+                      {selectedJob?.title}
                     </DialogTitle>
                     <DialogDescription className="flex flex-wrap gap-2 mt-2">
-                      <Badge className={`${getEmploymentTypeColor(job.employment_type)} border`}>
-                        {job.employment_type}
+                      <Badge className={`${getEmploymentTypeColor(selectedJob?.employment_type || '')} border`}>
+                        {selectedJob?.employment_type}
                       </Badge>
-                      {job.department && (
+                      {selectedJob?.department && (
                         <Badge variant="outline" className="border-luxury-gold/30">
-                          {job.department}
+                          {selectedJob.department}
                         </Badge>
                       )}
                     </DialogDescription>
@@ -230,40 +245,40 @@ const JobPostings = () => {
                   
                   <div className="space-y-6 mt-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {job.location && (
+                      {selectedJob?.location && (
                         <div className="flex items-center gap-2">
                           <MapPin className="w-5 h-5 text-luxury-gold" />
-                          <span className="text-luxury-black">{job.location}</span>
+                          <span className="text-luxury-black">{selectedJob.location}</span>
                         </div>
                       )}
                       
-                      {job.application_deadline && (
+                      {selectedJob?.application_deadline && (
                         <div className="flex items-center gap-2">
                           <Calendar className="w-5 h-5 text-luxury-gold" />
-                          <span className="text-luxury-black">Apply by {formatDate(job.application_deadline)}</span>
+                          <span className="text-luxury-black">Apply by {formatDate(selectedJob.application_deadline)}</span>
                         </div>
                       )}
                       
                       <div className="flex items-center gap-2">
                         <Clock className="w-5 h-5 text-luxury-gold" />
-                        <span className="text-luxury-black">Posted {formatDate(job.created_at)}</span>
+                        <span className="text-luxury-black">Posted {formatDate(selectedJob?.created_at || '')}</span>
                       </div>
                     </div>
 
                     <Separator />
 
-                    {job.description && (
+                    {selectedJob?.description && (
                       <div>
                         <h4 className="font-semibold text-luxury-black mb-2">Job Description</h4>
-                        <p className="text-luxury-black/80 whitespace-pre-line">{job.description}</p>
+                        <p className="text-luxury-black/80 whitespace-pre-line">{selectedJob.description}</p>
                       </div>
                     )}
 
-                    {job.requirements && job.requirements.length > 0 && (
+                    {selectedJob?.requirements && selectedJob.requirements.length > 0 && (
                       <div>
                         <h4 className="font-semibold text-luxury-black mb-2">Requirements</h4>
                         <ul className="space-y-1">
-                          {job.requirements.map((requirement, index) => (
+                          {selectedJob.requirements.map((requirement, index) => (
                             <li key={index} className="flex items-start gap-2 text-luxury-black/80">
                               <span className="text-luxury-gold mt-1">•</span>
                               <span>{requirement}</span>
@@ -279,12 +294,7 @@ const JobPostings = () => {
                       </p>
                       <Button 
                         className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-black font-semibold"
-                        onClick={() => {
-                          const applicationSection = document.getElementById('application-form');
-                          if (applicationSection) {
-                            applicationSection.scrollIntoView({ behavior: 'smooth' });
-                          }
-                        }}
+                        onClick={handleApplyNow}
                       >
                         Apply Now
                       </Button>
