@@ -24,12 +24,6 @@ const HeroSlider = () => {
       src: '/lovable-uploads/a986df73-48b9-47e1-9217-a017116e525b.png',
       title: 'VIP Protocol Team',
       description: 'Professional team delivering unparalleled luxury protocol services'
-    },
-    {
-      id: '4',
-      src: '/lovable-uploads/f0a0780f-b1f0-4d8a-b394-db906dc05116.png',
-      title: 'Ceremonial Protocol',
-      description: 'Masterful execution of high-profile ceremonial events'
     }
   ];
 
@@ -98,21 +92,6 @@ const HeroSlider = () => {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Slide Indicators */}
-      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20">
-        {heroPhotos.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-300 touch-target ${
-              index === currentSlide 
-                ? 'bg-luxury-gold scale-125' 
-                : 'bg-white/50 hover:bg-white/80'
-            }`}
-          />
-        ))}
       </div>
     </section>
   );
