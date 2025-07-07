@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,7 +28,60 @@ const JobPostings = () => {
 
   useEffect(() => {
     fetchJobPostings();
+    updateJobPostings();
   }, []);
+
+  const updateJobPostings = async () => {
+    try {
+      // Update the first job posting
+      const { error: error1 } = await supabase
+        .from('job_postings')
+        .update({
+          title: 'VIP Protocol Officer',
+          description: 'We are seeking a dedicated VIP Protocol Officer to join our team in managing high-profile events and providing exceptional protocol services to distinguished clients. This role requires attention to detail, professional demeanor, and expertise in diplomatic and corporate protocol procedures.',
+          requirements: [
+            'Bachelor\'s degree in International Relations, Hospitality Management, or related field',
+            'Minimum 2 years experience in protocol services or luxury hospitality',
+            'Excellent communication and interpersonal skills',
+            'Professional appearance and demeanor',
+            'Knowledge of diplomatic and corporate protocol procedures',
+            'Fluency in English and Swahili; additional languages preferred',
+            'Flexibility to work evenings, weekends, and travel as required',
+            'Strong organizational and time management skills'
+          ]
+        })
+        .eq('title', 'lkjhgf');
+
+      // Update the second job posting
+      const { error: error2 } = await supabase
+        .from('job_postings')
+        .update({
+          title: 'Event Coordinator',
+          description: 'Join our dynamic team as an Event Coordinator where you will be responsible for planning, coordinating, and executing luxury events and VIP services. This position offers the opportunity to work with high-profile clients and create memorable experiences.',
+          requirements: [
+            'Diploma or degree in Event Management, Hospitality, or related field',
+            'Minimum 1-2 years experience in event planning or coordination',
+            'Strong project management and organizational skills',
+            'Excellent verbal and written communication abilities',
+            'Proficiency in event management software and MS Office Suite',
+            'Creative problem-solving skills and attention to detail',
+            'Ability to work under pressure and meet tight deadlines',
+            'Professional network within the events and hospitality industry preferred'
+          ]
+        })
+        .eq('title', 'Testing');
+
+      if (error1) console.error('Error updating first job:', error1);
+      if (error2) console.error('Error updating second job:', error2);
+      
+      // Refresh the job postings after update
+      setTimeout(() => {
+        fetchJobPostings();
+      }, 1000);
+    } catch (error) {
+      console.error('Error updating job postings:', error);
+    }
+  };
 
   const fetchJobPostings = async () => {
     try {
