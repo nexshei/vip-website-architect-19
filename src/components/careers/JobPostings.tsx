@@ -57,18 +57,19 @@ const JobPostings = () => {
       const { error: error2 } = await supabase
         .from('job_postings')
         .update({
-          title: 'Protocol Services Coordinator',
-          description: 'Join our prestigious team as a Protocol Services Coordinator where you will be responsible for coordinating VIP services, managing client relationships, and ensuring seamless execution of high-profile events. This role offers the opportunity to work with distinguished clients and government officials while maintaining the highest standards of professional protocol.',
+          title: 'Executive Event Planner',
+          description: 'Join our elite team as an Executive Event Planner where you will orchestrate luxury events for high-profile clients, government officials, and corporate executives. This role demands creativity, precision, and the ability to execute flawless events that exceed client expectations while maintaining the highest standards of professionalism.',
           requirements: [
-            'Diploma or degree in Public Relations, Communications, or related field',
-            'Minimum 1-2 years experience in customer service or hospitality industry',
-            'Strong organizational and multitasking abilities',
-            'Excellent verbal and written communication skills in English and Swahili',
-            'Professional appearance and excellent interpersonal skills',
-            'Knowledge of Kenyan cultural etiquette and protocol procedures',
-            'Proficiency in MS Office Suite and basic computer skills',
-            'Ability to work flexible hours including evenings and weekends',
-            'Discretion and confidentiality when handling sensitive information'
+            'Bachelor\'s degree in Event Management, Public Relations, or Hospitality Management',
+            'Minimum 3 years experience in luxury event planning or high-end hospitality',
+            'Proven track record of managing events with budgets exceeding KSh 1M',
+            'Strong vendor management and negotiation skills',
+            'Excellent project management and multitasking abilities',
+            'Knowledge of Kenyan cultural protocols and international etiquette',
+            'Proficiency in event planning software and MS Office Suite',
+            'Strong leadership skills and ability to manage event teams',
+            'Flexibility to work irregular hours and travel as needed',
+            'Discretion and confidentiality when handling sensitive client information'
           ]
         })
         .eq('title', 'Testing');
