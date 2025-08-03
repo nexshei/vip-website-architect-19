@@ -21,7 +21,7 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<Photo | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Static photos for homepage - EXACTLY 4 photos
+  // Static photos for homepage - EXACTLY 3 photos
   const homepagePhotos: Photo[] = [
     {
       id: '1',
@@ -40,12 +40,6 @@ const PortfolioGallery = ({ isHomepage = false }: PortfolioGalleryProps) => {
       src: '/lovable-uploads/a986df73-48b9-47e1-9217-a017116e525b.png',
       alt_text: 'Distinguished VIP protocol team at health junction corporate event',
       category: 'corporate'
-    },
-    {
-      id: '4',
-      src: '/lovable-uploads/106281aa-04c2-4533-92e5-e1044566520f.png',
-      alt_text: 'VIP protocol officers with guests at luxury corporate reception',
-      category: 'private'
     }
   ];
 
